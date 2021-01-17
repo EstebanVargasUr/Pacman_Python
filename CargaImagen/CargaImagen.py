@@ -1,4 +1,5 @@
 import pygame
+import CreaNivel.MapRand as nivel
 
 class CargaImagen(pygame.sprite.Sprite):
     def __init__(self, direccion , anchura, altura, pos_x , pos_y, ajustar):
@@ -96,4 +97,21 @@ ImgGroupSelecNivel.add(btnSelecNiv8)
 ImgGroupSelecNivel.add(btnSelecNiv9)
 ImgGroupSelecNivel.add(btnSelecNiv10)
 
+ImgGroupNivel1 = pygame.sprite.Group()
 # CARGA ELEMENTOS DEL NIVEL 1
+def CargaNivel(NumNivel):
+    x = 0
+    y = 0
+
+    matriz = nivel.niveles[NumNivel-1]
+
+    for i in range(25):
+        x = 0
+        for j in range(25):
+            
+            if matriz[i][j] == '█':
+                print("Pared")
+                MuroNiv1 = CargaImagen("imagenes/SelectorNiv2.png",30,30,x,y,True)
+                ImgGroupNivel1.add(MuroNiv1)
+            x += 30
+        y += 30

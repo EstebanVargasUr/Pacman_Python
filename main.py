@@ -33,7 +33,6 @@ while True:
             if pygame.mouse.get_pressed()[0]: #SI PRESIONA CLICK IZQUIERDO
                 if Escena == "MenuPrincipal":
                     if Imagen.btnJugar.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                        
                         Escena = "SelectorPartida" 
                     if Imagen.btnJugador.rect.collidepoint(pygame.mouse.get_pos()):
                         Escena = "Jugador"
@@ -56,6 +55,10 @@ while True:
                         active = False
                         # Change the current color of the input box.
                         color = color_active if active else color_inactive
+                elif Escena == "SelectorNivel":
+                    if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                        Escena = "Nivel1"
+                        Imagen.CargaNivel(1)
         if event.type == pygame.KEYDOWN: # EVENTOS DE TECLADO
             if Escena == "RegistraNombre":
                 if active:
@@ -88,6 +91,7 @@ while True:
         Imagen.ImgGroupSelecNivel.draw(ventana) # DIBUJA TODOS LOS SPRITES
     if Escena == "Nivel1":
         ventana.blit(Imagen.ImgFondoNivel1,[0,0]) # PARA EL FONDO    
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES
     if Escena == "Nivel2":
         ventana.blit(Imagen.ImgFondoNivel2,[0,0]) # PARA EL FONDO    
     if Escena == "Nivel3":

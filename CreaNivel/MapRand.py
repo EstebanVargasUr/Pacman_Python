@@ -9,6 +9,8 @@ import random
 from random import shuffle, randint     # Números pseudoaleatorios
 from itertools import product           # Producto cartesiano
 
+niveles = list()
+
 def laberinto(m, n):
     def vecinos(i, j):                  # Conjunto de celdas aledañas a (i, j)
         if 0 < i: yield i - 1, j
@@ -30,19 +32,14 @@ def laberinto(m, n):
     X = set()                           # Conjunto de celdas visitadas
     visitar(randint(0, m - 1), randint(0, n - 1))  # Inicio en celda aleatoria
 
- 
-    for i in range(m*2):
-        for h in range(n*2):
-            
-                A[i][24-h] = A[i][h]
-
     caminos = 0
-
+    filaLlena = True
     for i in range(m*2):
         caminos = 0
+        filaLlena = True
         for h in range(n*2):
             
-            if h+1 != 24 and h+1 != 0 and A[i][h+1] == '█' and A[i][h+2] == ' ':
+            if h+1 != 24 and h+1 != 0 and A[i][h+1] == '█' and A[i][h+2] == ' ' and A[i][h+3] == ' ':
                 A[i][h+1] = ' '
                 
             caminos = 0
@@ -65,9 +62,10 @@ def laberinto(m, n):
                         A[i][h+1] = ' '
                     if A[i][h-1] == '█' and h-1 != 24 and h-1 != 0:
                         A[i][h-1] = ' '
-
-
-    
+            if i == 0 or i == 24 or A[i][h] == ' ':
+                filaLlena = False
+            if filaLlena:
+                A[i][1] = ' '
     A[9][8] = ' '
     A[15][8] = ' '
     A[9][16] = ' '
@@ -85,16 +83,15 @@ def laberinto(m, n):
     for i in range(10,15):
         A[i][9] = '█'
         A[i][8] = ' '
-    for i in range(10,15):
-        A[i][15] = '█'
-        A[i][16] = ' '
+        if A[i][7] == ' ' and A[i][6] == '█':
+            A[i][7] = '█'
 
     for i in range(11,14):
         for j in range(10,15):
             A[i][j] = ' '
 
     bandera = False
-    numero = 1 
+    numero = 0
     while bandera == False:
         numero = random.randint(1, 23) #Toma un numero al azar (1 , 2 o 3) 
         if A[numero][1] == ' ':
@@ -103,6 +100,9 @@ def laberinto(m, n):
     A[numero][0] = ' '
     A[numero][24] = ' '
 
-    return('\n'.join(''.join(fila) for fila in A))  # Unir símbolos en un str
+    for i in range(m*2):
+        for h in range(n*2):
+            A[i][24-h] = A[i][h]
 
-#print(laberinto(12, 12))
+    niveles.append(A)
+    return A
