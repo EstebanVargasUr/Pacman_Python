@@ -100,18 +100,17 @@ ImgGroupSelecNivel.add(btnSelecNiv10)
 ImgGroupNivel1 = pygame.sprite.Group()
 # CARGA ELEMENTOS DEL NIVEL 1
 def CargaNivel(NumNivel):
-    x = 0
-    y = 0
+    x = 20
+    y = 10
 
     matriz = nivel.niveles[NumNivel-1]
 
     for i in range(25):
-        x = 0
+        x = 20
         for j in range(25):
             
             if matriz[i][j] == '█':
-                print("Pared")
-                MuroNiv1 = CargaImagen("imagenes/SelectorNiv2.png",30,30,x,y,True)
+                MuroNiv1 = CargaImagen("imagenes/ImgNiveles/Muro1.png",28,28,x,y,True)
                 ImgGroupNivel1.add(MuroNiv1)
-            x += 30
-        y += 30
+            x += 28
+        y += 28

@@ -93,23 +93,32 @@ while True:
         ventana.blit(Imagen.ImgFondoNivel1,[0,0]) # PARA EL FONDO    
         Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES
     if Escena == "Nivel2":
-        ventana.blit(Imagen.ImgFondoNivel2,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel2,[0,0]) # PARA EL FONDO   
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES 
     if Escena == "Nivel3":
-        ventana.blit(Imagen.ImgFondoNivel3,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel3,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel4":
-        ventana.blit(Imagen.ImgFondoNivel4,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel4,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel5":
-        ventana.blit(Imagen.ImgFondoNivel5,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel5,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel6":
-        ventana.blit(Imagen.ImgFondoNivel6,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel6,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel7":
-        ventana.blit(Imagen.ImgFondoNivel7,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel7,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel8":
-        ventana.blit(Imagen.ImgFondoNivel8,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel8,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel9":
-        ventana.blit(Imagen.ImgFondoNivel9,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel9,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
     if Escena == "Nivel10":
-        ventana.blit(Imagen.ImgFondoNivel10,[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.ImgFondoNivel10,[0,0]) # PARA EL FONDO
+        Imagen.ImgGroupNivel1.draw(ventana) # DIBUJA TODOS LOS SPRITES    
 
     if Escena == "Salir":
         sys.exit()
