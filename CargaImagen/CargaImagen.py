@@ -13,11 +13,61 @@ class CargaImagen(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
+class pacman(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        super().__init__()
+        self.spritesDerecha=[]
+        self.spritesIzquierda=[]
+        self.spritesFrente=[]
+        self.spritesAtras=[]
+        self.is_animating=False
+        self.spritesDerecha.append(pygame.image.load('imagenes/derecha1.png'))
+        self.spritesDerecha.append(pygame.image.load('imagenes/derecha2.png'))
 
+        self.spritesIzquierda.append(pygame.image.load('imagenes/izquierda1.png'))
+        self.spritesIzquierda.append(pygame.image.load('imagenes/izquierda2.png'))
+
+        self.spritesFrente.append(pygame.image.load('imagenes/frente1.png'))
+        self.spritesFrente.append(pygame.image.load('imagenes/frente2.png'))
+
+        self.spritesAtras.append(pygame.image.load('imagenes/atras1.png'))
+        self.spritesAtras.append(pygame.image.load('imagenes/atras2.png'))
+        self.spriteActual=0
+
+        self.image= self.spritesDerecha[self.spriteActual]
+        self.image = pygame.transform.scale(self.image, (35, 35))
+        self.rect= self.image.get_rect()
+        self.rect.topleft= [pos_x, pos_y]
+        
+    def animate(self):
+        self.is_animating=True
+    def update(self, speed, direccion):
+        if self.is_animating==True:
+            self.spriteActual+=speed
+            if direccion=="derecha":
+                if self.spriteActual>=len(self.spritesDerecha):
+                    self.spriteActual=0
+                self.image=self.spritesDerecha[int(self.spriteActual)]
+                self.image = pygame.transform.scale(self.image, (35, 35))
+            if direccion=="izquierda":
+                if self.spriteActual>=len(self.spritesIzquierda):
+                    self.spriteActual=0
+                self.image=self.spritesIzquierda[int(self.spriteActual)]
+                self.image = pygame.transform.scale(self.image, (35, 35))
+            if direccion=="frente":
+                if self.spriteActual>=len(self.spritesFrente):
+                    self.spriteActual=0
+                self.image=self.spritesFrente[int(self.spriteActual)]
+                self.image = pygame.transform.scale(self.image, (35, 35))
+            if direccion=="atras":
+                if self.spriteActual>=len(self.spritesAtras):
+                    self.spriteActual=0
+                self.image=self.spritesAtras[int(self.spriteActual)]
+                self.image = pygame.transform.scale(self.image, (35, 35))
+            
 icono_ventana = pygame.image.load("imagenes/icono_ventana.png")
 ImgFondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")  
 ImgFondoMenu = pygame.transform.scale(ImgFondoMenu, (1200, 720))
-
 btnAtras = CargaImagen("imagenes/btnDevolver.png",100,40,1080,670,True)
 
 # MENU PRINCIPAL
@@ -88,15 +138,16 @@ def CargaFondoNivel(Direccion):
     return ImgFondoNivel
 
 ImgGroupNivel = pygame.sprite.Group()
-
-
+ImgGroupPuntos = pygame.sprite.Group()
+#CARGA PERSONAJES
+mover= pygame.sprite.Group()
+jugador=pacman(120,120)
 def CargaNivel(NumNivel,Direccion):
     ImgGroupNivel.empty()
     ImgGroupNivel.add(btnAtras)
     x = 15
     y = 15
     matriz = nivel.niveles[NumNivel-1]
-
     for i in range(21):
         x = 15
         for j in range(21):
@@ -106,3 +157,34 @@ def CargaNivel(NumNivel,Direccion):
                 ImgGroupNivel.add(MuroNiv)
             x += 33
         y += 33
+def CargaPuntos(NumNivel,Direccion1,Direccion2):
+    ImgGroupPuntos.empty()
+    x = 27
+    y = 27
+    matriz = nivel.niveles[NumNivel-1]
+    for i in range(21):
+        x = 27
+        for j in range(21):
+            if matriz[i][j] == '.':
+                PuntoNiv = CargaImagen(Direccion1,33,33,x,y,False)
+                ImgGroupPuntos.add(PuntoNiv)
+            if matriz[i][j] == 'O':
+                PuntoNiv = CargaImagen(Direccion2,33,33,x-5,y-5,False)
+                ImgGroupPuntos.add(PuntoNiv)
+            x += 33
+        y += 33
+def moverPacMan(NumNivel):
+    jugador= None
+    mover.empty() 
+    x = 15
+    y = 15
+    matriz = nivel.niveles[NumNivel-1]
+    for i in range(21):
+        x = 15
+        for j in range(21):
+            if matriz[i][j] == '$':
+                jugador= pacman(x,y)
+                mover.add(jugador)
+            x += 33
+        y += 33
+    jugador.animate()

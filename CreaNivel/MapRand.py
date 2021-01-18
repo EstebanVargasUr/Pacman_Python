@@ -99,10 +99,21 @@ def laberinto(m, n):
 
     A[numero][0] = ' '
     A[numero][20] = ' '
-
     for i in range(m*2):
         for h in range(n*2):
             A[i][20-h] = A[i][h]
-
+    A[13][10]='$'
+    A[1][1]='O'
+    A[19][1]='O'
+    A[1][19]='O'
+    A[19][19]='O'
+    for i in range(21):
+        for j in range(21):
+            if j >= 15 or j <= 5:
+                if A[i][j]==" ":
+                    A[i][j]="."
+            if i >= 14 or i <= 6:
+                if A[i][j]==" ":
+                    A[i][j]="."
     niveles.append(A)
     return A

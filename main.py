@@ -20,7 +20,6 @@ color = color_inactive
 active = False
 NombreJugador = ''
 font = pygame.font.Font(None, 42)
-
 while True:
 
     ventana.fill((0,0,0)) # LIMPIA PANTALLA
@@ -60,33 +59,53 @@ while True:
                     if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel1"
                         Imagen.CargaNivel(1,"imagenes/ImgNiveles/Muro1.png")
+                        Imagen.CargaPuntos(1,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(1)
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
                         Imagen.CargaNivel(2,"imagenes/ImgNiveles/Muro2.png")
+                        Imagen.CargaPuntos(2,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(2)
                     if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel3"
                         Imagen.CargaNivel(3,"imagenes/ImgNiveles/Muro3.png")
+                        Imagen.CargaPuntos(3,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(3)
                     if Imagen.btnSelecNiv4.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel4"
                         Imagen.CargaNivel(4,"imagenes/ImgNiveles/Muro4.png")
+                        Imagen.CargaPuntos(4,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(4)
                     if Imagen.btnSelecNiv5.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel5"
                         Imagen.CargaNivel(5,"imagenes/ImgNiveles/Muro5.png")
+                        Imagen.CargaPuntos(5,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(5)
                     if Imagen.btnSelecNiv6.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel6"
                         Imagen.CargaNivel(6,"imagenes/ImgNiveles/Muro6.png")
+                        Imagen.CargaPuntos(6,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(6)
                     if Imagen.btnSelecNiv7.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel7"
                         Imagen.CargaNivel(7,"imagenes/ImgNiveles/Muro7.png")
+                        Imagen.CargaPuntos(7,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(7)
                     if Imagen.btnSelecNiv8.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel8"
                         Imagen.CargaNivel(8,"imagenes/ImgNiveles/Muro8.png")
+                        Imagen.CargaPuntos(8,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(8)
                     if Imagen.btnSelecNiv9.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel9"
                         Imagen.CargaNivel(9,"imagenes/ImgNiveles/Muro9.png")
+                        Imagen.CargaPuntos(9,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(9)
                     if Imagen.btnSelecNiv10.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel10"
                         Imagen.CargaNivel(10,"imagenes/ImgNiveles/Muro10.png")
+                        Imagen.CargaPuntos(10,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
+                        Imagen.moverPacMan(10)
                 elif Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
                     if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "SelectorNivel"
@@ -121,7 +140,7 @@ while True:
         Imagen.ImgGroupSelecNivel.draw(ventana) # DIBUJA TODOS LOS SPRITES
     
     if Escena == "Nivel1":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel1.png"),[0,0]) # PARA EL FONDO    
+        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel1.png"),[0,0]) # PARA EL FONDO   
     if Escena == "Nivel2":
         ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel2.png"),[0,0])
     if Escena == "Nivel3":
@@ -142,8 +161,10 @@ while True:
         ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel10.png"),[0,0])
 
     if Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
+        Imagen.mover.draw(ventana)
+        Imagen.mover.update(0.1,"derecha")
         Imagen.ImgGroupNivel.draw(ventana) # DIBUJA TODOS LOS SPRITES
-        
+        Imagen.ImgGroupPuntos.draw(ventana)
         TituloJugador = font.render("Jugador: ", True, 'white')
         ventana.blit(TituloJugador, (800, 20))
         LblJugador = font.render(NombreJugador, True, 'white')
@@ -156,5 +177,4 @@ while True:
 
     if Escena == "Salir":
         sys.exit()
-    
     pygame.display.flip() 
