@@ -1,4 +1,7 @@
 
+*.pyc
+
+
 CargaImagen/__pycache__/
 
 CreaNivel/__pycache__/
