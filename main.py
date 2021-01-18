@@ -44,7 +44,7 @@ while True:
                     if Imagen.btnNuevaPartida.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "RegistraNombre"
                         for i in range(10):
-                            niveles.append(Nivel.laberinto(12,12))
+                            niveles.append(Nivel.laberinto(10,10))
                         
                 elif Escena == "RegistraNombre":
                      # If the user clicked on the input_box rect.
