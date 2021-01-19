@@ -21,9 +21,23 @@ color = color_inactive
 active = False
 NombreJugador = ''
 font = pygame.font.Font(None, 42)
+
+DireccionPacman = "inicio"
+FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
+ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
+PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
+Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
+NivelSeleccionado = False
+
 while True:
 
     ventana.fill((0,0,0)) # LIMPIA PANTALLA
+    
+    if NivelSeleccionado == True:
+        PosXPacMan = Jugador.rect.x
+        PosYPacMan = Jugador.rect.y
 
     for event in pygame.event.get(): #EVENTOS
         if event.type == pygame.QUIT: #CIERRA VENTANA
@@ -66,54 +80,55 @@ while True:
                         Escena = "MenuPrincipal"
                     if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel1"
-                        Imagen.CargaNivel(1,niveles,"imagenes/ImgNiveles/Muro1.png")
-                        Imagen.CargaPuntos(1,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(1,niveles)
+                        Imagen.CargaNivel(1,niveles)
+                        Imagen.CargaPuntos(1,niveles)
+                        Jugador = Imagen.ColocaPacMan(1,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
-                        Imagen.CargaNivel(2,niveles,"imagenes/ImgNiveles/Muro2.png")
-                        Imagen.CargaPuntos(2,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(2,niveles)
+                        Imagen.CargaNivel(2,niveles)
+                        Imagen.CargaPuntos(2,niveles)
+                        Imagen.ColocaPacMan(2,niveles)
                     if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel3"
-                        Imagen.CargaNivel(3,niveles,"imagenes/ImgNiveles/Muro3.png")
-                        Imagen.CargaPuntos(3,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(3,niveles)
+                        Imagen.CargaNivel(3,niveles)
+                        Imagen.CargaPuntos(3,niveles)
+                        Imagen.ColocaPacMan(3,niveles)
                     if Imagen.btnSelecNiv4.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel4"
-                        Imagen.CargaNivel(4,niveles,"imagenes/ImgNiveles/Muro4.png")
-                        Imagen.CargaPuntos(4,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(4,niveles)
+                        Imagen.CargaNivel(4,niveles)
+                        Imagen.CargaPuntos(4,niveles)
+                        Imagen.ColocaPacMan(4,niveles)
                     if Imagen.btnSelecNiv5.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel5"
-                        Imagen.CargaNivel(5,niveles,"imagenes/ImgNiveles/Muro5.png")
-                        Imagen.CargaPuntos(5,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(5,niveles)
+                        Imagen.CargaNivel(5,niveles)
+                        Imagen.CargaPuntos(5,niveles)
+                        Imagen.ColocaPacMan(5,niveles)
                     if Imagen.btnSelecNiv6.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel6"
-                        Imagen.CargaNivel(6,niveles,"imagenes/ImgNiveles/Muro6.png")
-                        Imagen.CargaPuntos(6,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(6,niveles)
+                        Imagen.CargaNivel(6,niveles)
+                        Imagen.CargaPuntos(6,niveles)
+                        Imagen.ColocaPacMan(6,niveles)
                     if Imagen.btnSelecNiv7.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel7"
-                        Imagen.CargaNivel(7,niveles,"imagenes/ImgNiveles/Muro7.png")
-                        Imagen.CargaPuntos(7,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(7,niveles)
+                        Imagen.CargaNivel(7,niveles)
+                        Imagen.CargaPuntos(7,niveles)
+                        Imagen.ColocaPacMan(7,niveles)
                     if Imagen.btnSelecNiv8.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel8"
-                        Imagen.CargaNivel(8,niveles,"imagenes/ImgNiveles/Muro8.png")
-                        Imagen.CargaPuntos(8,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(8,niveles)
+                        Imagen.CargaNivel(8,niveles)
+                        Imagen.CargaPuntos(8,niveles)
+                        Imagen.ColocaPacMan(8,niveles)
                     if Imagen.btnSelecNiv9.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel9"
-                        Imagen.CargaNivel(9,niveles,"imagenes/ImgNiveles/Muro9.png")
-                        Imagen.CargaPuntos(9,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(9,niveles)
+                        Imagen.CargaNivel(9,niveles)
+                        Imagen.CargaPuntos(9,niveles)
+                        Imagen.ColocaPacMan(9,niveles)
                     if Imagen.btnSelecNiv10.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel10"
-                        Imagen.CargaNivel(10,niveles,"imagenes/ImgNiveles/Muro10.png")
-                        Imagen.CargaPuntos(10,niveles,"imagenes/ImgNiveles/PuntoNivel2.png","imagenes/ImgNiveles/PowerPelletNiv2.png")
-                        Imagen.moverPacMan(10,niveles)
+                        Imagen.CargaNivel(10,niveles)
+                        Imagen.CargaPuntos(10,niveles)
+                        Imagen.ColocaPacMan(10,niveles)
                 elif Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
                     if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "SelectorNivel"
@@ -126,6 +141,66 @@ while True:
                         NombreJugador = NombreJugador[:-1]
                     else:
                         NombreJugador += event.unicode
+            if Escena == "SelectorNivel":
+                if event.key == pygame.K_ESCAPE:
+                    Escena = "MenuPrincipal"
+            if Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
+                if event.key == pygame.K_ESCAPE:
+                    Escena = "SelectorNivel"
+                    
+                NumNivel = Escena[5]
+                if event.key == pygame.K_UP and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_w and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                    if ContCasillas <= 17:
+                        for i in range(ContCasillas):
+                            if DireccionPacman == "derecha":
+                                PosXPacMan -=2
+                            if DireccionPacman == "izquierda":
+                                PosXPacMan +=2
+                            if DireccionPacman == "abajo":
+                                PosYPacMan -=2
+                    if DireccionPacman != "arriba":
+                        DireccionPacman = "arriba"
+                        ContCasillas = 0
+                    
+                if event.key == pygame.K_DOWN and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_s and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                    if ContCasillas <= 17:
+                        for i in range(ContCasillas):
+                            if DireccionPacman == "derecha":
+                                PosXPacMan -=2
+                            if DireccionPacman == "izquierda":
+                                PosXPacMan +=2
+                            if DireccionPacman == "arriba":
+                                PosYPacMan +=2
+                    if DireccionPacman != "abajo":
+                        DireccionPacman = "abajo"
+                        ContCasillas = 0
+
+                if event.key == pygame.K_RIGHT and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_d and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                    if ContCasillas <= 17:
+                        for i in range(ContCasillas):
+                            if DireccionPacman == "arriba":
+                                PosYPacMan +=2
+                            if DireccionPacman == "izquierda":
+                                PosXPacMan +=2
+                            if DireccionPacman == "abajo":
+                                PosYPacMan -=2
+                    if DireccionPacman != "derecha":
+                        DireccionPacman = "derecha"
+                        ContCasillas = 0
+                    
+                if event.key == pygame.K_LEFT and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_a and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                    if ContCasillas <= 17:
+                        for i in range(ContCasillas):
+                            if DireccionPacman == "derecha":
+                                PosXPacMan -=2
+                            if DireccionPacman == "arriba":
+                                PosYPacMan +=2
+                            if DireccionPacman == "abajo":
+                                PosYPacMan -=2
+                    if DireccionPacman != "izquierda":
+                        DireccionPacman = "izquierda"
+                        ContCasillas = 0
+                
 
     if Escena == "MenuPrincipal":
         ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
@@ -148,29 +223,77 @@ while True:
         Imagen.ImgGroupSelecNivel.draw(ventana) # DIBUJA TODOS LOS SPRITES
     
     if Escena == "Nivel1":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel1.png"),[0,0]) # PARA EL FONDO   
+        ventana.blit(Imagen.ImgFondoNivel1, [0,0])
     if Escena == "Nivel2":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel2.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel2, [0,0])
     if Escena == "Nivel3":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel3.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel3, [0,0])
     if Escena == "Nivel4":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel4.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel4, [0,0])
     if Escena == "Nivel5":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel5.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel5, [0,0])
     if Escena == "Nivel6":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel6.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel6, [0,0])
     if Escena == "Nivel7":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel7.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel7, [0,0])
     if Escena == "Nivel8":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel8.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel8, [0,0])
     if Escena == "Nivel9":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel9.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel9, [0,0])
     if Escena == "Nivel10":
-        ventana.blit(Imagen.CargaFondoNivel("imagenes/FondoNivel10.png"),[0,0])
+        ventana.blit(Imagen.ImgFondoNivel10, [0,0])
 
     if Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
+        NumNivel = Escena[5]
+        Matriz = niveles[int(NumNivel)-1]
+        if DireccionPacman == "derecha":
+            if Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+                if ContCasillas == 17:
+                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    ColPacMan+=1
+                    ContCasillas = 0
+                else:
+                    PosXPacMan = PosXPacMan+2
+                    ContCasillas += 1
+            Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
+            Imagen.ActualizaPts(int(NumNivel),niveles)
+        if DireccionPacman == "izquierda":
+            if Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+                if ContCasillas == 17:
+                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    ColPacMan-=1
+                    ContCasillas = 0
+                else:
+                    PosXPacMan = PosXPacMan-2
+                    ContCasillas += 1
+            Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
+            Imagen.ActualizaPts(int(NumNivel),niveles)
+        if DireccionPacman == "arriba":
+            if Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+                if ContCasillas == 17:
+                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    FilaPacMan-=1
+                    ContCasillas = 0
+                else:
+                    PosYPacMan = PosYPacMan-2
+                    ContCasillas += 1
+            Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
+            Imagen.ActualizaPts(int(NumNivel),niveles)
+        if DireccionPacman == "abajo":
+            if Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+                if ContCasillas == 17:
+                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    FilaPacMan+=1
+                    ContCasillas = 0
+                else:
+                    PosYPacMan = PosYPacMan+2
+                    ContCasillas += 1
+            Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
+            Imagen.ActualizaPts(int(NumNivel),niveles)
+            
         Imagen.mover.draw(ventana)
-        Imagen.mover.update(0.1,"derecha")
+        Imagen.mover.update(0.1,DireccionPacman)
+
         Imagen.ImgGroupNivel.draw(ventana) # DIBUJA TODOS LOS SPRITES
         Imagen.ImgGroupPuntos.draw(ventana)
         TituloJugador = font.render("Jugador: ", True, 'white')
@@ -183,6 +306,8 @@ while True:
         LblPuntos = font.render(str(Puntos), True, 'white')
         ventana.blit(LblPuntos, (920, 50))
 
+        
     if Escena == "Salir":
         sys.exit()
+
     pygame.display.flip() 

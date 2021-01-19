@@ -12,6 +12,18 @@ class CargaImagen(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
+class CargaSprite(pygame.sprite.Sprite):
+    def __init__(self, imagen , anchura, altura, pos_x , pos_y, ajustar):
+        super().__init__()
+        
+        self.image = imagen
+        
+        if ajustar == True:
+            self.image = pygame.transform.scale(self.image, (anchura, altura))
+
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
 class pacman(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
@@ -53,12 +65,12 @@ class pacman(pygame.sprite.Sprite):
                     self.spriteActual=0
                 self.image=self.spritesIzquierda[int(self.spriteActual)]
                 self.image = pygame.transform.scale(self.image, (35, 35))
-            if direccion=="frente":
+            if direccion=="arriba":
                 if self.spriteActual>=len(self.spritesFrente):
                     self.spriteActual=0
                 self.image=self.spritesFrente[int(self.spriteActual)]
                 self.image = pygame.transform.scale(self.image, (35, 35))
-            if direccion=="atras":
+            if direccion=="abajo":
                 if self.spriteActual>=len(self.spritesAtras):
                     self.spriteActual=0
                 self.image=self.spritesAtras[int(self.spriteActual)]
@@ -68,7 +80,7 @@ icono_ventana = pygame.image.load("imagenes/icono_ventana.png")
 ImgFondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")  
 ImgFondoMenu = pygame.transform.scale(ImgFondoMenu, (1200, 720))
 btnAtras = CargaImagen("imagenes/btnDevolver.png",100,40,1080,670,True)
-
+Jugador = pacman(0,0)
 # MENU PRINCIPAL
 TituloInicial = CargaImagen("imagenes/tituloPacMan.png",0,0,420,30,False)
 IconoTitulo = CargaImagen("imagenes/iconoTitulo.png",500,500,350,-20,True)
@@ -130,60 +142,112 @@ ImgGroupSelecNivel.add(btnSelecNiv9)
 ImgGroupSelecNivel.add(btnSelecNiv10)
 ImgGroupSelecNivel.add(btnAtras)
 
-def CargaFondoNivel(Direccion):
-    ImgFondoNivel = pygame.image.load(Direccion)  
-# CARGA ELEMENTOS DEL NIVEL 
-    ImgFondoNivel = pygame.transform.scale(ImgFondoNivel, (1200, 720))
-    return ImgFondoNivel
+ImgFondoNivel1 = pygame.image.load("imagenes/FondoNivel1.png")  
+ImgFondoNivel1 = pygame.transform.scale(ImgFondoNivel1, (1200, 720))
+ImgFondoNivel2 = pygame.image.load("imagenes/FondoNivel2.png")  
+ImgFondoNivel2 = pygame.transform.scale(ImgFondoNivel2, (1200, 720))
+ImgFondoNivel3 = pygame.image.load("imagenes/FondoNivel2.png")  
+ImgFondoNivel3 = pygame.transform.scale(ImgFondoNivel3, (1200, 720))
+ImgFondoNivel4 = pygame.image.load("imagenes/FondoNivel4.png")  
+ImgFondoNivel4 = pygame.transform.scale(ImgFondoNivel4, (1200, 720))
+ImgFondoNivel5 = pygame.image.load("imagenes/FondoNivel5.png")  
+ImgFondoNivel5 = pygame.transform.scale(ImgFondoNivel5, (1200, 720))
+ImgFondoNivel6 = pygame.image.load("imagenes/FondoNivel6.png")  
+ImgFondoNivel6 = pygame.transform.scale(ImgFondoNivel6, (1200, 720))
+ImgFondoNivel7 = pygame.image.load("imagenes/FondoNivel7.png")  
+ImgFondoNivel7 = pygame.transform.scale(ImgFondoNivel7, (1200, 720))
+ImgFondoNivel8 = pygame.image.load("imagenes/FondoNivel8.png")  
+ImgFondoNivel8 = pygame.transform.scale(ImgFondoNivel8, (1200, 720))
+ImgFondoNivel9 = pygame.image.load("imagenes/FondoNivel9.png")  
+ImgFondoNivel9 = pygame.transform.scale(ImgFondoNivel9, (1200, 720))
+ImgFondoNivel10 = pygame.image.load("imagenes/FondoNivel10.png")  
+ImgFondoNivel10 = pygame.transform.scale(ImgFondoNivel10, (1200, 720))
+
+ImgPts = pygame.image.load("imagenes/ImgNiveles/PuntoNivel2.png")
+ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
 #CARGA PERSONAJES
 mover= pygame.sprite.Group()
-jugador=pacman(120,120)
-def CargaNivel(NumNivel,nivel,Direccion):
+
+
+
+
+
+def CargaNivel(NumNivel,nivel):
+    ImgMuro = pygame.image.load("imagenes/ImgNiveles/Muro"+str(NumNivel)+".png")
     ImgGroupNivel.empty()
     ImgGroupNivel.add(btnAtras)
+    x = 3
+    y = 3
+    matriz = nivel[NumNivel-1]
+    for i in range(21):
+        x = 3
+        for j in range(21):
+            if matriz[i][j] == '#':
+                MuroNiv = CargaSprite(ImgMuro,34,34,x,y,True)
+                ImgGroupNivel.add(MuroNiv)
+            x += 34
+        y += 34
+
+def CargaPuntos(NumNivel,nivel):
+    ImgGroupPuntos.empty()
     x = 15
     y = 15
     matriz = nivel[NumNivel-1]
     for i in range(21):
         x = 15
-        for j in range(21):
-            
-            if matriz[i][j] == '#':
-                MuroNiv = CargaImagen(Direccion,33,33,x,y,True)
-                ImgGroupNivel.add(MuroNiv)
-            x += 33
-        y += 33
-def CargaPuntos(NumNivel,nivel,Direccion1,Direccion2):
-    ImgGroupPuntos.empty()
-    x = 27
-    y = 27
-    matriz = nivel[NumNivel-1]
-    for i in range(21):
-        x = 27
         for j in range(21):
             if matriz[i][j] == '.':
-                PuntoNiv = CargaImagen(Direccion1,33,33,x,y,False)
+                PuntoNiv = CargaSprite(ImgPts,34,34,x,y,False)
                 ImgGroupPuntos.add(PuntoNiv)
             if matriz[i][j] == 'O':
-                PuntoNiv = CargaImagen(Direccion2,33,33,x-5,y-5,False)
+                PuntoNiv = CargaSprite(ImgPower,34,34,x-5,y-5,False)
                 ImgGroupPuntos.add(PuntoNiv)
-            x += 33
-        y += 33
-def moverPacMan(NumNivel,nivel):
-    jugador= None
+            x += 34
+        y += 34
+
+#Coloca el pacman en posicion inicial
+def ColocaPacMan(NumNivel,nivel):  
     mover.empty() 
+    jugador = None
+    x = 3
+    y = 3
+    matriz = nivel[NumNivel-1]
+    for i in range(21):
+        x = 3
+        for j in range(21):
+            if matriz[i][j] == '$':
+                jugador = pacman(x,y)
+                mover.add(jugador)
+            x += 34
+        y += 34
+    jugador.animate()
+    return jugador
+
+
+#actualiza posicion pacman
+def ActualizaPacMan(jugador,i,j):
+    mover.empty()
+    jugador.rect.x = i
+    jugador.rect.y = j
+    mover.add(jugador)
+    jugador.animate()
+
+def ActualizaPts(NumNivel,nivel):
+    ImgGroupPuntos.empty()
     x = 15
     y = 15
     matriz = nivel[NumNivel-1]
     for i in range(21):
         x = 15
         for j in range(21):
-            if matriz[i][j] == '$':
-                jugador= pacman(x,y)
-                mover.add(jugador)
-            x += 33
-        y += 33
-    jugador.animate()
+            if matriz[i][j] == '.':
+                PuntoNiv0 = CargaSprite(ImgPts,34,34,x,y,False)
+                ImgGroupPuntos.add(PuntoNiv0)
+            if matriz[i][j] == 'O':
+                PuntoNiv0 = CargaSprite(ImgPower,34,34,x-5,y-5,False)
+                ImgGroupPuntos.add(PuntoNiv0)
+            x += 34
+        y += 34
