@@ -9,7 +9,6 @@ import random
 from random import shuffle, randint     # Números pseudoaleatorios
 from itertools import product           # Producto cartesiano
 
-niveles = list()
 
 def laberinto(m, n):
     def vecinos(i, j):                  # Conjunto de celdas aledañas a (i, j)
@@ -26,7 +25,7 @@ def laberinto(m, n):
             A[i + h + 1][j + k + 1] = ' '  # Tumbar el muro que las separa
             visitar(h, k)               # Visitar vecina recursivamente
 
-    A = [['█']*(2*n + 1) for i in range(2*m + 1)]  # Tablero
+    A = [['#']*(2*n + 1) for i in range(2*m + 1)]  # Tablero
     for i, j in product(range(1, 2*m + 1, 2), range(1, 2*n + 1, 2)):
         A[i][j] = ' '                   # Poner celdas blancas
     X = set()                           # Conjunto de celdas visitadas
@@ -39,28 +38,28 @@ def laberinto(m, n):
         filaLlena = True
         for h in range(n*2):
             
-            if h+1 != 20 and h+1 != 0 and A[i][h+1] == '█' and A[i][h+2] == ' ' and A[i][h+3] == ' ':
+            if h+1 != 20 and h+1 != 0 and A[i][h+1] == '#' and A[i][h+2] == ' ' and A[i][h+3] == ' ':
                 A[i][h+1] = ' '
                 
             caminos = 0
             if A[i][h] == ' ':
-                if A[i+1][h] == '█':
+                if A[i+1][h] == '#':
                     caminos += 1
-                if A[i-1][h] == '█':
+                if A[i-1][h] == '#':
                      caminos += 1
-                if A[i][h+1] == '█':
+                if A[i][h+1] == '#':
                     caminos += 1
-                if A[i][h-1] == '█':
+                if A[i][h-1] == '#':
                     caminos += 1
 
                 if caminos > 2:
-                    if A[i+1][h] == '█' and i+1 != 20 and i+1 != 0:
+                    if A[i+1][h] == '#' and i+1 != 20 and i+1 != 0:
                         A[i+1][h] = ' '
-                    if A[i-1][h] == '█' and i-1 != 20 and i-1 != 0:
+                    if A[i-1][h] == '#' and i-1 != 20 and i-1 != 0:
                         A[i-1][h] = ' '
-                    if A[i][h+1] == '█' and h+1 != 20 and h+1 != 0:
+                    if A[i][h+1] == '#' and h+1 != 20 and h+1 != 0:
                         A[i][h+1] = ' '
-                    if A[i][h-1] == '█' and h-1 != 20 and h-1 != 0:
+                    if A[i][h-1] == '#' and h-1 != 20 and h-1 != 0:
                         A[i][h-1] = ' '
             if i == 0 or i == 20 or A[i][h] == ' ':
                 filaLlena = False
@@ -73,18 +72,18 @@ def laberinto(m, n):
 
     for i in range(7,14):
         if i != 10:
-            A[8][i] = '█'
+            A[8][i] = '#'
         else:
             A[8][i] = ' '
         A[7][i] = ' '
     for i in range(7,14):
-        A[12][i] = '█'
+        A[12][i] = '#'
         A[13][i] = ' '
     for i in range(8,13):
-        A[i][7] = '█'
+        A[i][7] = '#'
         A[i][6] = ' '
-        if A[i][5] == ' ' and A[i][4] == '█':
-            A[i][5] = '█'
+        if A[i][5] == ' ' and A[i][4] == '#':
+            A[i][5] = '#'
 
     for i in range(9,12):
         for j in range(8,13):
@@ -115,5 +114,5 @@ def laberinto(m, n):
             if i >= 14 or i <= 6:
                 if A[i][j]==" ":
                     A[i][j]="."
-    niveles.append(A)
+
     return A

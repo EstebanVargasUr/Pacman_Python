@@ -1,5 +1,4 @@
 import pygame
-import CreaNivel.MapRand as nivel
 
 class CargaImagen(pygame.sprite.Sprite):
     def __init__(self, direccion , anchura, altura, pos_x , pos_y, ajustar):
@@ -142,26 +141,26 @@ ImgGroupPuntos = pygame.sprite.Group()
 #CARGA PERSONAJES
 mover= pygame.sprite.Group()
 jugador=pacman(120,120)
-def CargaNivel(NumNivel,Direccion):
+def CargaNivel(NumNivel,nivel,Direccion):
     ImgGroupNivel.empty()
     ImgGroupNivel.add(btnAtras)
     x = 15
     y = 15
-    matriz = nivel.niveles[NumNivel-1]
+    matriz = nivel[NumNivel-1]
     for i in range(21):
         x = 15
         for j in range(21):
             
-            if matriz[i][j] == '█':
+            if matriz[i][j] == '#':
                 MuroNiv = CargaImagen(Direccion,33,33,x,y,True)
                 ImgGroupNivel.add(MuroNiv)
             x += 33
         y += 33
-def CargaPuntos(NumNivel,Direccion1,Direccion2):
+def CargaPuntos(NumNivel,nivel,Direccion1,Direccion2):
     ImgGroupPuntos.empty()
     x = 27
     y = 27
-    matriz = nivel.niveles[NumNivel-1]
+    matriz = nivel[NumNivel-1]
     for i in range(21):
         x = 27
         for j in range(21):
@@ -173,12 +172,12 @@ def CargaPuntos(NumNivel,Direccion1,Direccion2):
                 ImgGroupPuntos.add(PuntoNiv)
             x += 33
         y += 33
-def moverPacMan(NumNivel):
+def moverPacMan(NumNivel,nivel):
     jugador= None
     mover.empty() 
     x = 15
     y = 15
-    matriz = nivel.niveles[NumNivel-1]
+    matriz = nivel[NumNivel-1]
     for i in range(21):
         x = 15
         for j in range(21):
