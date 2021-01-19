@@ -1,6 +1,7 @@
 import pygame, sys
 import CargaImagen.CargaImagen as Imagen
 import CreaNivel.MapRand as Nivel
+import Movimiento.MovPacMan as MovPacMan
 import CreaNivel.LecturaEscritura as RW
 
 pygame.init()
@@ -149,7 +150,7 @@ while True:
                     Escena = "SelectorNivel"
                     
                 NumNivel = Escena[5]
-                if event.key == pygame.K_UP and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_w and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                if event.key == pygame.K_UP and MovPacMan.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_w and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
                     if ContCasillas <= 17:
                         for i in range(ContCasillas):
                             if DireccionPacman == "derecha":
@@ -162,7 +163,7 @@ while True:
                         DireccionPacman = "arriba"
                         ContCasillas = 0
                     
-                if event.key == pygame.K_DOWN and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_s and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                if event.key == pygame.K_DOWN and MovPacMan.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_s and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
                     if ContCasillas <= 17:
                         for i in range(ContCasillas):
                             if DireccionPacman == "derecha":
@@ -175,7 +176,7 @@ while True:
                         DireccionPacman = "abajo"
                         ContCasillas = 0
 
-                if event.key == pygame.K_RIGHT and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_d and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                if event.key == pygame.K_RIGHT and MovPacMan.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_d and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
                     if ContCasillas <= 17:
                         for i in range(ContCasillas):
                             if DireccionPacman == "arriba":
@@ -188,7 +189,7 @@ while True:
                         DireccionPacman = "derecha"
                         ContCasillas = 0
                     
-                if event.key == pygame.K_LEFT and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_a and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                if event.key == pygame.K_LEFT and MovPacMan.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_a and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
                     if ContCasillas <= 17:
                         for i in range(ContCasillas):
                             if DireccionPacman == "derecha":
@@ -247,9 +248,11 @@ while True:
         NumNivel = Escena[5]
         Matriz = niveles[int(NumNivel)-1]
         if DireccionPacman == "derecha":
-            if Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+            if MovPacMan.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
-                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    if Matriz[FilaPacMan][ColPacMan+1]=='.':
+                        Puntos+=1
+                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     ColPacMan+=1
                     ContCasillas = 0
                 else:
@@ -258,9 +261,11 @@ while True:
             Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
             Imagen.ActualizaPts(int(NumNivel),niveles)
         if DireccionPacman == "izquierda":
-            if Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+            if MovPacMan.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
-                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    if Matriz[FilaPacMan][ColPacMan-1]=='.':
+                        Puntos+=1
+                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     ColPacMan-=1
                     ContCasillas = 0
                 else:
@@ -269,9 +274,11 @@ while True:
             Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
             Imagen.ActualizaPts(int(NumNivel),niveles)
         if DireccionPacman == "arriba":
-            if Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+            if MovPacMan.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
-                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    if Matriz[FilaPacMan-1][ColPacMan]=='.':
+                        Puntos+=1
+                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     FilaPacMan-=1
                     ContCasillas = 0
                 else:
@@ -280,9 +287,11 @@ while True:
             Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
             Imagen.ActualizaPts(int(NumNivel),niveles)
         if DireccionPacman == "abajo":
-            if Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+            if MovPacMan.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
-                    Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    if Matriz[FilaPacMan+1][ColPacMan]=='.':
+                        Puntos+=1
+                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     FilaPacMan+=1
                     ContCasillas = 0
                 else:
