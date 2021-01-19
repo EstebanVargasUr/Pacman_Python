@@ -249,6 +249,8 @@ while True:
         if DireccionPacman == "derecha":
             if Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
+                    if Matriz[FilaPacMan][ColPacMan+1]=='.':
+                        Puntos+=1
                     Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     ColPacMan+=1
                     ContCasillas = 0
@@ -260,6 +262,8 @@ while True:
         if DireccionPacman == "izquierda":
             if Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
+                    if Matriz[FilaPacMan][ColPacMan-1]=='.':
+                        Puntos+=1
                     Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     ColPacMan-=1
                     ContCasillas = 0
@@ -271,6 +275,8 @@ while True:
         if DireccionPacman == "arriba":
             if Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
+                    if Matriz[FilaPacMan-1][ColPacMan]=='.':
+                        Puntos+=1
                     Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     FilaPacMan-=1
                     ContCasillas = 0
@@ -282,6 +288,8 @@ while True:
         if DireccionPacman == "abajo":
             if Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
+                    if Matriz[FilaPacMan+1][ColPacMan]=='.':
+                        Puntos+=1
                     Nivel.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
                     FilaPacMan+=1
                     ContCasillas = 0
