@@ -24,6 +24,9 @@ NombreJugador = ''
 font = pygame.font.Font(None, 42)
 
 DireccionPacman = "inicio"
+DireccionPacman2 = ""
+Permitido = False
+
 FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
@@ -150,57 +153,73 @@ while True:
                     Escena = "SelectorNivel"
                     
                 NumNivel = Escena[5]
-                if event.key == pygame.K_UP and MovPacMan.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_w and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
-                    if ContCasillas <= 17:
-                        for i in range(ContCasillas):
-                            if DireccionPacman == "derecha":
-                                PosXPacMan -=2
-                            if DireccionPacman == "izquierda":
-                                PosXPacMan +=2
-                            if DireccionPacman == "abajo":
-                                PosYPacMan -=2
-                    if DireccionPacman != "arriba":
-                        DireccionPacman = "arriba"
-                        ContCasillas = 0
+                if event.key == pygame.K_UP:
+                    if MovPacMan.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_w and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                        if ContCasillas <= 17:
+                            for i in range(ContCasillas):
+                                if DireccionPacman == "derecha":
+                                    PosXPacMan -=2
+                                if DireccionPacman == "izquierda":
+                                    PosXPacMan +=2
+                                if DireccionPacman == "abajo":
+                                    PosYPacMan -=2
+                        if DireccionPacman != "arriba":
+                            DireccionPacman = "arriba"
+                            ContCasillas = 0
+                    else:
+                        DireccionPacman2 = "arriba"
+                        Permitido = True
                     
-                if event.key == pygame.K_DOWN and MovPacMan.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_s and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
-                    if ContCasillas <= 17:
-                        for i in range(ContCasillas):
-                            if DireccionPacman == "derecha":
-                                PosXPacMan -=2
-                            if DireccionPacman == "izquierda":
-                                PosXPacMan +=2
-                            if DireccionPacman == "arriba":
-                                PosYPacMan +=2
-                    if DireccionPacman != "abajo":
-                        DireccionPacman = "abajo"
-                        ContCasillas = 0
+                if event.key == pygame.K_DOWN:
+                    if MovPacMan.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_s and Nivel.VerificaMovimiento("abajo",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                        if ContCasillas <= 17:
+                            for i in range(ContCasillas):
+                                if DireccionPacman == "derecha":
+                                    PosXPacMan -=2
+                                if DireccionPacman == "izquierda":
+                                    PosXPacMan +=2
+                                if DireccionPacman == "arriba":
+                                    PosYPacMan +=2
+                        if DireccionPacman != "abajo":
+                            DireccionPacman = "abajo"
+                            ContCasillas = 0
+                    else:
+                        DireccionPacman2 = "abajo"
+                        Permitido = True
 
-                if event.key == pygame.K_RIGHT and MovPacMan.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_d and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
-                    if ContCasillas <= 17:
-                        for i in range(ContCasillas):
-                            if DireccionPacman == "arriba":
-                                PosYPacMan +=2
-                            if DireccionPacman == "izquierda":
-                                PosXPacMan +=2
-                            if DireccionPacman == "abajo":
-                                PosYPacMan -=2
-                    if DireccionPacman != "derecha":
-                        DireccionPacman = "derecha"
-                        ContCasillas = 0
+                if event.key == pygame.K_RIGHT: 
+                    if MovPacMan.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_d and Nivel.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                        if ContCasillas <= 17:
+                            for i in range(ContCasillas):
+                                if DireccionPacman == "arriba":
+                                    PosYPacMan +=2
+                                if DireccionPacman == "izquierda":
+                                    PosXPacMan +=2
+                                if DireccionPacman == "abajo":
+                                    PosYPacMan -=2
+                        if DireccionPacman != "derecha":
+                            DireccionPacman = "derecha"
+                            ContCasillas = 0
+                    else:
+                        DireccionPacman2 = "derecha"
+                        Permitido = True
                     
-                if event.key == pygame.K_LEFT and MovPacMan.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_a and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
-                    if ContCasillas <= 17:
-                        for i in range(ContCasillas):
-                            if DireccionPacman == "derecha":
-                                PosXPacMan -=2
-                            if DireccionPacman == "arriba":
-                                PosYPacMan +=2
-                            if DireccionPacman == "abajo":
-                                PosYPacMan -=2
-                    if DireccionPacman != "izquierda":
-                        DireccionPacman = "izquierda"
-                        ContCasillas = 0
+                if event.key == pygame.K_LEFT:
+                    if MovPacMan.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_a and Nivel.VerificaMovimiento("izquierda",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
+                        if ContCasillas <= 17:
+                            for i in range(ContCasillas):
+                                if DireccionPacman == "derecha":
+                                    PosXPacMan -=2
+                                if DireccionPacman == "arriba":
+                                    PosYPacMan +=2
+                                if DireccionPacman == "abajo":
+                                    PosYPacMan -=2
+                        if DireccionPacman != "izquierda":
+                            DireccionPacman = "izquierda"
+                            ContCasillas = 0
+                    else:
+                        DireccionPacman2 = "izquierda"
+                        Permitido = True
                 
 
     if Escena == "MenuPrincipal":
@@ -247,6 +266,10 @@ while True:
     if Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
         NumNivel = Escena[5]
         Matriz = niveles[int(NumNivel)-1]
+        if Permitido == True and MovPacMan.VerificaMovimiento(DireccionPacman2,niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
+            DireccionPacman = DireccionPacman2
+            DireccionPacman2 = ""
+            Permitido = False
         if DireccionPacman == "derecha":
             if MovPacMan.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
