@@ -26,7 +26,6 @@ font = pygame.font.Font(None, 42)
 DireccionPacman = "inicio"
 DireccionPacman2 = ""
 Permitido = False
-
 FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
@@ -45,6 +44,9 @@ while True:
 
     for event in pygame.event.get(): #EVENTOS
         if event.type == pygame.QUIT: #CIERRA VENTANA
+            if len(niveles)!=0:
+                for i in range(10):
+                    RW.fileWrite(niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
             sys.exit()
         
         if event.type == pygame.MOUSEBUTTONDOWN: #CLICK
@@ -57,10 +59,16 @@ while True:
                     if Imagen.btnAjustes.rect.collidepoint(pygame.mouse.get_pos()):
                         Escena = "Ajustes"
                     if Imagen.btnSalir.rect.collidepoint(pygame.mouse.get_pos()):
-                        Escena = "Salir"
+                        if len(niveles)!=0:
+                            for i in range(10):
+                                RW.fileWrite(niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
+                        sys.exit()
                 elif Escena == "SelectorPartida":
                     if Imagen.btnNuevaPartida.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "RegistraNombre"
+                        NombreJugador=""
+                        Puntos=0
+                        niveles.clear()
                         for i in range(10):
                             niveles.append(Nivel.laberinto(10,10))
                             RW.fileWrite(niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
@@ -371,9 +379,5 @@ while True:
         ventana.blit(TituloPuntos, (800, 50))
         LblPuntos = font.render(str(Puntos), True, 'white')
         ventana.blit(LblPuntos, (920, 50))
-
-        
-    if Escena == "Salir":
-        sys.exit()
 
     pygame.display.flip() 
