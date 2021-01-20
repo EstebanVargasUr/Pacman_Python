@@ -115,3 +115,40 @@ def laberinto(m, n):
                 if A[i][j]==" ":
                     A[i][j]="."
     return A
+
+def DeterminaVertice(Matriz,Lista): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTICES, ADEMAS, SE PIDE UNA LISTA PARA GUARDAR LAS UBICACIONES DE LOS VERTICES
+    Vertice = False
+    Caminos = 0
+    for i in range(20):
+        Caminos = 0
+        Vertice = False
+        for h in range(20):
+            Caminos = 0
+            Vertice = False
+
+            if Matriz[i][h] == ' '  or  Matriz[i][h] == '.':
+                if Matriz[i+1][h] == ' ' or  Matriz[i+1][h] == '.':
+                    Caminos += 1
+                if Matriz[i-1][h] == ' ' or  Matriz[i-1][h] == '.':
+                        Caminos += 1
+                if Matriz[i][h+1] == ' ' or  Matriz[i][h+1] == '.':
+                    Caminos += 1
+                if Matriz[i][h-1] == ' ' or  Matriz[i][h-1] == '.':
+                    Caminos += 1
+
+                if Caminos > 2:
+                    Vertice = True
+
+                if Matriz[i+1][h] == ' ' and Matriz[i][h+1] == ' ' or Matriz[i+1][h] == '.' and Matriz[i][h+1] == '.':
+                    Vertice = True
+                if Matriz[i+1][h] == ' ' and Matriz[i][h-1] == ' ' or Matriz[i+1][h] == '.' and Matriz[i][h-1] == '.':
+                    Vertice = True
+                if Matriz[i-1][h] == ' ' and Matriz[i][h-1] == ' ' or Matriz[i-1][h] == '.' and Matriz[i][h-1] == '.':
+                    Vertice = True
+                if Matriz[i-1][h] == ' ' and Matriz[i][h+1] == ' ' or  Matriz[i-1][h] == '.' and Matriz[i][h+1] == '.':
+                    Vertice = True
+
+                if Vertice == True:
+                    FilCol = str(i)+str(h)
+                    Lista.append(FilCol)
+    return Lista
