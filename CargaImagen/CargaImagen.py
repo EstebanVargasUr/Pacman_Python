@@ -52,6 +52,8 @@ class pacman(pygame.sprite.Sprite):
         
     def animate(self):
         self.is_animating=True
+    def noanimate(self):
+        self.is_animating=False
     def update(self, speed, direccion):
         if self.is_animating==True:
             self.spriteActual+=speed
@@ -142,25 +144,25 @@ ImgGroupSelecNivel.add(btnSelecNiv9)
 ImgGroupSelecNivel.add(btnSelecNiv10)
 ImgGroupSelecNivel.add(btnAtras)
 
-ImgFondoNivel1 = pygame.image.load("imagenes/FondoNivel1.png")  
+ImgFondoNivel1 = pygame.image.load("imagenes/FondoNivel1.jpg")  
 ImgFondoNivel1 = pygame.transform.scale(ImgFondoNivel1, (1200, 720))
-ImgFondoNivel2 = pygame.image.load("imagenes/FondoNivel2.png")  
+ImgFondoNivel2 = pygame.image.load("imagenes/FondoNivel2.jpg")  
 ImgFondoNivel2 = pygame.transform.scale(ImgFondoNivel2, (1200, 720))
-ImgFondoNivel3 = pygame.image.load("imagenes/FondoNivel2.png")  
+ImgFondoNivel3 = pygame.image.load("imagenes/FondoNivel3.jpg")  
 ImgFondoNivel3 = pygame.transform.scale(ImgFondoNivel3, (1200, 720))
-ImgFondoNivel4 = pygame.image.load("imagenes/FondoNivel4.png")  
+ImgFondoNivel4 = pygame.image.load("imagenes/FondoNivel4.jpg")  
 ImgFondoNivel4 = pygame.transform.scale(ImgFondoNivel4, (1200, 720))
-ImgFondoNivel5 = pygame.image.load("imagenes/FondoNivel5.png")  
+ImgFondoNivel5 = pygame.image.load("imagenes/FondoNivel5.jpg")  
 ImgFondoNivel5 = pygame.transform.scale(ImgFondoNivel5, (1200, 720))
-ImgFondoNivel6 = pygame.image.load("imagenes/FondoNivel6.png")  
+ImgFondoNivel6 = pygame.image.load("imagenes/FondoNivel6.jpg")  
 ImgFondoNivel6 = pygame.transform.scale(ImgFondoNivel6, (1200, 720))
-ImgFondoNivel7 = pygame.image.load("imagenes/FondoNivel7.png")  
+ImgFondoNivel7 = pygame.image.load("imagenes/FondoNivel7.jpg")  
 ImgFondoNivel7 = pygame.transform.scale(ImgFondoNivel7, (1200, 720))
-ImgFondoNivel8 = pygame.image.load("imagenes/FondoNivel8.png")  
+ImgFondoNivel8 = pygame.image.load("imagenes/FondoNivel8.jpg")  
 ImgFondoNivel8 = pygame.transform.scale(ImgFondoNivel8, (1200, 720))
-ImgFondoNivel9 = pygame.image.load("imagenes/FondoNivel9.png")  
+ImgFondoNivel9 = pygame.image.load("imagenes/FondoNivel9.jpg")  
 ImgFondoNivel9 = pygame.transform.scale(ImgFondoNivel9, (1200, 720))
-ImgFondoNivel10 = pygame.image.load("imagenes/FondoNivel10.png")  
+ImgFondoNivel10 = pygame.image.load("imagenes/FondoNivel10.jpg")  
 ImgFondoNivel10 = pygame.transform.scale(ImgFondoNivel10, (1200, 720))
 
 ImgPts = pygame.image.load("imagenes/ImgNiveles/PuntoNivel2.png")
@@ -210,7 +212,7 @@ def CargaPuntos(NumNivel,nivel):
 
 #Coloca el pacman en posicion inicial
 def ColocaPacMan(NumNivel,nivel):  
-    mover.empty() 
+    mover.empty()
     jugador = None
     x = 3
     y = 3
@@ -223,8 +225,16 @@ def ColocaPacMan(NumNivel,nivel):
                 mover.add(jugador)
             x += 34
         y += 34
-    jugador.animate()
     return jugador
+
+def EncontrarPacMan(NumNivel,nivel):  
+    matriz = nivel[NumNivel-1]
+    for i in range(21):
+        for j in range(21):
+            if matriz[i][j] == '$':
+                print(i,j)
+                return i,j
+
 
 
 #actualiza posicion pacman

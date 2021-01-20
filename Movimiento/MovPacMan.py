@@ -1,5 +1,4 @@
-def Movimiento(Direccion,Lista,x,y):
-    Laberinto = Lista[0]
+def Movimiento(Direccion,Laberinto,x,y):
     
     # print("-----------------------------------")
     # for i in range(21):

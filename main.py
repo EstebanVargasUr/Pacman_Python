@@ -84,57 +84,80 @@ while True:
                         Escena = "MenuPrincipal"
                     if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel1"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(1,niveles)
                         Imagen.CargaNivel(1,niveles)
                         Imagen.CargaPuntos(1,niveles)
                         Jugador = Imagen.ColocaPacMan(1,niveles)
                         NivelSeleccionado = True
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(2,niveles)
                         Imagen.CargaNivel(2,niveles)
                         Imagen.CargaPuntos(2,niveles)
-                        Imagen.ColocaPacMan(2,niveles)
+                        Jugador = Imagen.ColocaPacMan(2,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel3"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(3,niveles)
                         Imagen.CargaNivel(3,niveles)
                         Imagen.CargaPuntos(3,niveles)
-                        Imagen.ColocaPacMan(3,niveles)
+                        Jugador = Imagen.ColocaPacMan(3,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv4.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel4"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(4,niveles)
                         Imagen.CargaNivel(4,niveles)
                         Imagen.CargaPuntos(4,niveles)
-                        Imagen.ColocaPacMan(4,niveles)
+                        Jugador = Imagen.ColocaPacMan(4,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv5.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel5"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(5,niveles)
                         Imagen.CargaNivel(5,niveles)
                         Imagen.CargaPuntos(5,niveles)
-                        Imagen.ColocaPacMan(5,niveles)
+                        Jugador = Imagen.ColocaPacMan(5,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv6.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel6"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(6,niveles)
                         Imagen.CargaNivel(6,niveles)
                         Imagen.CargaPuntos(6,niveles)
-                        Imagen.ColocaPacMan(6,niveles)
+                        Jugador = Imagen.ColocaPacMan(6,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv7.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel7"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(7,niveles)
                         Imagen.CargaNivel(7,niveles)
                         Imagen.CargaPuntos(7,niveles)
-                        Imagen.ColocaPacMan(7,niveles)
+                        Jugador = Imagen.ColocaPacMan(7,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv8.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel8"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(8,niveles)
                         Imagen.CargaNivel(8,niveles)
                         Imagen.CargaPuntos(8,niveles)
-                        Imagen.ColocaPacMan(8,niveles)
+                        Jugador = Imagen.ColocaPacMan(8,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv9.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel9"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(9,niveles)
                         Imagen.CargaNivel(9,niveles)
                         Imagen.CargaPuntos(9,niveles)
-                        Imagen.ColocaPacMan(9,niveles)
+                        Jugador = Imagen.ColocaPacMan(9,niveles)
+                        NivelSeleccionado = True
                     if Imagen.btnSelecNiv10.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel10"
+                        FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(10,niveles)
                         Imagen.CargaNivel(10,niveles)
                         Imagen.CargaPuntos(10,niveles)
-                        Imagen.ColocaPacMan(10,niveles)
+                        Jugador = Imagen.ColocaPacMan(10,niveles)
+                        NivelSeleccionado = True
                 elif Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
                     if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                        DireccionPacman = "inicio"
+                        PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+                        PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+                        ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
                         Escena = "SelectorNivel"
         if event.type == pygame.KEYDOWN: # EVENTOS DE TECLADO
             if Escena == "RegistraNombre":
@@ -151,8 +174,16 @@ while True:
             if Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
                 if event.key == pygame.K_ESCAPE:
                     Escena = "SelectorNivel"
-                    
-                NumNivel = Escena[5]
+                    DireccionPacman = "inicio"
+                    FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
+                    ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
+                    PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+                    PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+                    ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
+                if Escena=='Nivel10':
+                    NumNivel='10'
+                else:
+                    NumNivel = Escena[5]
                 if event.key == pygame.K_UP:
                     if MovPacMan.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan) or event.key == pygame.K_w and Nivel.VerificaMovimiento("arriba",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan): 
                         if ContCasillas <= 17:
@@ -264,7 +295,10 @@ while True:
         ventana.blit(Imagen.ImgFondoNivel10, [0,0])
 
     if Escena == "Nivel1" or Escena == "Nivel2" or Escena == "Nivel3" or Escena == "Nivel4" or Escena == "Nivel5" or Escena == "Nivel6" or Escena == "Nivel7" or Escena == "Nivel8" or Escena == "Nivel9" or Escena == "Nivel10":
-        NumNivel = Escena[5]
+        if Escena=='Nivel10':
+            NumNivel='10'
+        else:
+            NumNivel = Escena[5]
         Matriz = niveles[int(NumNivel)-1]
         if Permitido == True and MovPacMan.VerificaMovimiento(DireccionPacman2,niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
             DireccionPacman = DireccionPacman2
@@ -275,7 +309,7 @@ while True:
                 if ContCasillas == 17:
                     if Matriz[FilaPacMan][ColPacMan+1]=='.':
                         Puntos+=1
-                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    MovPacMan.Movimiento(DireccionPacman,niveles[int(NumNivel)-1],FilaPacMan,ColPacMan)
                     ColPacMan+=1
                     ContCasillas = 0
                 else:
@@ -288,7 +322,7 @@ while True:
                 if ContCasillas == 17:
                     if Matriz[FilaPacMan][ColPacMan-1]=='.':
                         Puntos+=1
-                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    MovPacMan.Movimiento(DireccionPacman,niveles[int(NumNivel)-1],FilaPacMan,ColPacMan)
                     ColPacMan-=1
                     ContCasillas = 0
                 else:
@@ -301,7 +335,7 @@ while True:
                 if ContCasillas == 17:
                     if Matriz[FilaPacMan-1][ColPacMan]=='.':
                         Puntos+=1
-                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    MovPacMan.Movimiento(DireccionPacman,niveles[int(NumNivel)-1],FilaPacMan,ColPacMan)
                     FilaPacMan-=1
                     ContCasillas = 0
                 else:
@@ -314,7 +348,7 @@ while True:
                 if ContCasillas == 17:
                     if Matriz[FilaPacMan+1][ColPacMan]=='.':
                         Puntos+=1
-                    MovPacMan.Movimiento(DireccionPacman,niveles,FilaPacMan,ColPacMan)
+                    MovPacMan.Movimiento(DireccionPacman,niveles[int(NumNivel)-1],FilaPacMan,ColPacMan)
                     FilaPacMan+=1
                     ContCasillas = 0
                 else:
