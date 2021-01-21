@@ -314,6 +314,19 @@ while True:
             DireccionPacman = DireccionPacman2
             DireccionPacman2 = ""
             Permitido = False
+        #PARA QUE PACMAN PASE POR LOS TUNELES
+        if Matriz[FilaPacMan][0]=='$':
+            PosXPacMan=683
+            ColPacMan=20
+            Matriz[FilaPacMan][0]=' '
+            Matriz[FilaPacMan][ColPacMan]=='$'
+            Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
+        elif Matriz[FilaPacMan][20]=='$':
+            PosXPacMan=0
+            ColPacMan=0
+            Matriz[FilaPacMan][20]=' '
+            Matriz[FilaPacMan][ColPacMan]=='$'
+            Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
         if DireccionPacman == "derecha":
             if MovPacMan.VerificaMovimiento("derecha",niveles[int(NumNivel)-1],FilaPacMan,ColPacMan):
                 if ContCasillas == 17:
