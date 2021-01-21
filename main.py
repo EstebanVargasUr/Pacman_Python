@@ -13,6 +13,8 @@ pygame.display.set_icon(Imagen.icono_ventana)
 pygame.display.set_caption('PAC-MAN')
 
 niveles = list()
+MatrizVertice = []
+GrafoNivel = GR.Graph() 
 Escena = "MenuPrincipal"
 Puntos = 0
 
@@ -31,6 +33,7 @@ FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
 PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+UltimoVerticePacMan = ""
 ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
 Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
 NivelSeleccionado = False
@@ -98,7 +101,7 @@ while True:
                         Imagen.CargaPuntos(1,niveles)
                         Jugador = Imagen.ColocaPacMan(1,niveles)
                         NivelSeleccionado = True
-                        GR.CreaGrafo(niveles[0])
+                        MatrizVertice,GrafoNivel =  GR.CreaGrafo(niveles[0])
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
                         FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(2,niveles)
@@ -106,7 +109,7 @@ while True:
                         Imagen.CargaPuntos(2,niveles)
                         Jugador = Imagen.ColocaPacMan(2,niveles)
                         NivelSeleccionado = True
-                        GR.CreaGrafo(niveles[1])
+                        MatrizVertice,GrafoNivel = GR.CreaGrafo(niveles[1])
                     if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel3"
                         FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(3,niveles)
@@ -379,7 +382,11 @@ while True:
                     ContCasillas += 1
             Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
             Imagen.ActualizaPts(int(NumNivel),niveles)
-            
+
+        #Actualiza el ultimo vertice que ha visitado el PacMan en el tablero    
+        if MatrizVertice[FilaPacMan][ColPacMan] != "#" or MatrizVertice[FilaPacMan][ColPacMan] != " ":
+            UltimoVerticePacMan = MatrizVertice[FilaPacMan][ColPacMan]
+
         Imagen.mover.draw(ventana)
         Imagen.mover.update(0.1,DireccionPacman)
 
@@ -394,5 +401,9 @@ while True:
         ventana.blit(TituloPuntos, (800, 50))
         LblPuntos = font.render(str(Puntos), True, 'white')
         ventana.blit(LblPuntos, (920, 50))
+
+        #Movimineto del Fantasma
+        if Imagen.ImgBlinky.rect.x > 0:
+            Imagen.ActualizaFantasma(Imagen.ImgBlinky,Imagen.ImgBlinky.rect.x-1,Imagen.ImgBlinky.rect.y)
 
     pygame.display.flip() 

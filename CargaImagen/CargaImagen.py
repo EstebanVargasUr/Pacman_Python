@@ -168,6 +168,9 @@ ImgFondoNivel10 = pygame.transform.scale(ImgFondoNivel10, (1200, 720))
 ImgPts = pygame.image.load("imagenes/ImgNiveles/PuntoNivel2.png")
 ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
+#Fantasmas
+ImgBlinky = CargaImagen("imagenes/BlinkyAbajo.png",35,35,275,309,True)
+
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
 #CARGA PERSONAJES
@@ -181,6 +184,7 @@ def CargaNivel(NumNivel,nivel):
     ImgMuro = pygame.image.load("imagenes/ImgNiveles/Muro"+str(NumNivel)+".png")
     ImgGroupNivel.empty()
     ImgGroupNivel.add(btnAtras)
+    ImgGroupNivel.add(ImgBlinky)
     x = 3
     y = 3
     matriz = nivel[NumNivel-1]
@@ -223,6 +227,7 @@ def ColocaPacMan(NumNivel,nivel):
             if matriz[i][j] == '$':
                 jugador = pacman(x,y)
                 mover.add(jugador)
+                print(x,"",y)
             x += 34
         y += 34
     return jugador
@@ -238,12 +243,16 @@ def EncontrarPacMan(NumNivel,nivel):
 
 
 #actualiza posicion pacman
-def ActualizaPacMan(jugador,i,j):
+def ActualizaPacMan(jugador,x,y):
     mover.empty()
-    jugador.rect.x = i
-    jugador.rect.y = j
+    jugador.rect.x = x
+    jugador.rect.y = y
     mover.add(jugador)
     jugador.animate()
+
+def ActualizaFantasma(Fantasma,x,y):
+    Fantasma.rect.x = x
+    Fantasma.rect.y = y
 
 def ActualizaPts(NumNivel,nivel):
     ImgGroupPuntos.empty()

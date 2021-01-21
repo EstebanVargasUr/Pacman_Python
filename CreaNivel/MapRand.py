@@ -158,5 +158,14 @@ def DeterminaVertice(Matriz): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTI
             if Vertice == True:
                 CantVertices += 1
                 Matriz2[i][h] = str(CantVertices)
+            elif Matriz2[i][h] != "#":   
+                Matriz2[i][h] = " "
+
+    for i in range(21):
+        if Matriz2[i][20] != "#":
+            Matriz2[i][20] = " "
+        # for j in range(21):
+        #     print(Matriz2[i][j] , end = "")
+        # print("")
 
     return Matriz2
