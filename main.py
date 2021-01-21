@@ -3,6 +3,7 @@ import CargaImagen.CargaImagen as Imagen
 import CreaNivel.MapRand as Nivel
 import Movimiento.MovPacMan as MovPacMan
 import CreaNivel.LecturaEscritura as RW
+import Grafo.Grafo as GR
 
 pygame.init()
 tamano_ventana = (1200,720)
@@ -97,6 +98,7 @@ while True:
                         Imagen.CargaPuntos(1,niveles)
                         Jugador = Imagen.ColocaPacMan(1,niveles)
                         NivelSeleccionado = True
+                        GR.CreaGrafo(niveles[0])
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
                         FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(2,niveles)
@@ -104,6 +106,7 @@ while True:
                         Imagen.CargaPuntos(2,niveles)
                         Jugador = Imagen.ColocaPacMan(2,niveles)
                         NivelSeleccionado = True
+                        GR.CreaGrafo(niveles[1])
                     if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel3"
                         FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(3,niveles)
@@ -258,8 +261,7 @@ while True:
                             ContCasillas = 0
                     else:
                         DireccionPacman2 = "izquierda"
-                        Permitido = True
-                
+                        Permitido = True            
 
     if Escena == "MenuPrincipal":
         ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO

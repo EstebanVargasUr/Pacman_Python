@@ -116,15 +116,25 @@ def laberinto(m, n):
                     A[i][j]="."
     return A
 
-def DeterminaVertice(Matriz,Lista): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTICES, ADEMAS, SE PIDE UNA LISTA PARA GUARDAR LAS UBICACIONES DE LOS VERTICES
+def DeterminaVertice(Matriz): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTICES, ADEMAS, SE PIDE UNA LISTA PARA GUARDAR LAS UBICACIONES DE LOS VERTICES
     Vertice = False
     Caminos = 0
+    Matriz2 = Matriz
+    CantVertices = 0
     for i in range(20):
         Caminos = 0
         Vertice = False
         for h in range(20):
             Caminos = 0
             Vertice = False
+            
+            if i == 10 and h == 9 or i == 10 and h == 8 or i == 10 and h == 11 or i == 10 and h == 12:
+                Vertice = True
+            if i == 9 and h == 10 or i == 9 and h == 8 or i == 9 and h == 12:
+                Vertice = True
+
+            if Matriz[i][h] == 'O':
+                    Vertice = True
 
             if Matriz[i][h] == ' '  or  Matriz[i][h] == '.':
                 if Matriz[i+1][h] == ' ' or  Matriz[i+1][h] == '.':
@@ -148,7 +158,17 @@ def DeterminaVertice(Matriz,Lista): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS
                 if Matriz[i-1][h] == ' ' and Matriz[i][h+1] == ' ' or  Matriz[i-1][h] == '.' and Matriz[i][h+1] == '.':
                     Vertice = True
 
-                if Vertice == True:
-                    FilCol = str(i)+str(h)
-                    Lista.append(FilCol)
-    return Lista
+            if Vertice == True:
+                FilCol = str(i)+str(h)
+                #Lista.append(FilCol)
+                CantVertices += 1
+                Matriz2[i][h] = str(CantVertices)
+                
+
+    for i in range(21):
+        for j in range(21):
+            print(Matriz2[i][j] , end = "")
+        print("")
+
+    print("Cant Vertices: " , CantVertices)
+    return Matriz2 , CantVertices
