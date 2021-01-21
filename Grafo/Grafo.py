@@ -112,14 +112,14 @@ def CreaGrafo(MatrizO):
     for i in range(21):
         for j in range(21):
             #SI ES UN VERTICE
-            if MatrizV[i][j] != ' ' and MatrizV[i][j] != '$' and MatrizV[i][j] != '#' and MatrizV[i][j] != '.' and MatrizV[i][j] != 'O':
+            if MatrizV[i][j] != ' ' and MatrizV[i][j] != '#':
                 Aux = 0 
                 Peso = 1
                 # EVALUACION ADYACENTE DERECHA 
                 if MatrizV[i][j+1] != '#':
                     Aux = j+1 
                     while Aux != 21 and MatrizV[i][Aux] != '#':
-                        if MatrizV[i][Aux] != ' ' and MatrizV[i][Aux] != '$' and MatrizV[i][Aux] != '#' and MatrizV[i][Aux] != '.' and MatrizV[i][Aux] != 'O':
+                        if MatrizV[i][Aux] != ' ' and MatrizV[i][Aux] != '#':
                             Grafo.add_edge(MatrizV[i][j], MatrizV[i][Aux], Peso,"izquierda","derecha") # SE INVIERTE PARA APLICAR DE MEJOR MANERA EL RECORRIDO
                             break
                         Peso += 1
@@ -131,14 +131,14 @@ def CreaGrafo(MatrizO):
                 if MatrizV[i+1][j] != '#':
                     Aux = i+1 
                     while Aux != 21 and MatrizV[Aux][j] != '#':
-                        if MatrizV[Aux][j] != ' ' and MatrizV[Aux][j] != '$' and MatrizV[Aux][j] != '#' and MatrizV[Aux][j] != '.' and MatrizV[Aux][j] != 'O':
+                        if MatrizV[Aux][j] != ' ' and MatrizV[Aux][j] != '#':
                             Grafo.add_edge(MatrizV[i][j], MatrizV[Aux][j], Peso,"arriba","abajo")    # SE INVIERTE PARA APLICAR DE MEJOR MANERA EL RECORRIDO
                             break
                         Peso += 1
                         Aux+=1
-
-    print(dijsktra(Grafo, '1', '20'))
-     
+    # for u in range(80):
+    #     print(u,"Vecinos: ",Grafo.edges[str(u)])
+    return MatrizV, Grafo
 
 
 
