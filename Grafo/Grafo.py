@@ -105,44 +105,35 @@ def dijsktra(graph, initial, end):
     return path , direcciones   
 
 def CreaGrafo(MatrizO):
-    ContV = 0 # LLEVA LA CUENTA DE LA CANTIDAD DE VERTICES A LOS QUE SE LES ASIGNARON LOS ADYACENTES
     Grafo = Graph()
-    MatrizV , CantVertices = Nivel.DeterminaVertice(MatrizO) # LA MATRIZ QUE CONTIENE LA UBICACION DE LOS VERTICES Y ADEMAS LA CANTIDAD DE VERTICES
+    MatrizV = Nivel.DeterminaVertice(MatrizO) # LA MATRIZ QUE CONTIENE LA UBICACION DE LOS VERTICES Y ADEMAS LA CANTIDAD DE VERTICES
     Peso = 1
-    Bandera = False
-
-   # for i in range(1,CantVertices+1):
-    #    Grafo.add_vertex(str(i))
     
     for i in range(21):
         for j in range(21):
-            
             #SI ES UN VERTICE
             if MatrizV[i][j] != ' ' and MatrizV[i][j] != '$' and MatrizV[i][j] != '#' and MatrizV[i][j] != '.' and MatrizV[i][j] != 'O':
-                
                 Aux = 0 
                 Peso = 1
-                Bandera = False
                 # EVALUACION ADYACENTE DERECHA 
                 if MatrizV[i][j+1] != '#':
                     Aux = j+1 
-                    while Bandera == False and Aux != 21 and MatrizV[i][Aux] != '#':
+                    while Aux != 21 and MatrizV[i][Aux] != '#':
                         if MatrizV[i][Aux] != ' ' and MatrizV[i][Aux] != '$' and MatrizV[i][Aux] != '#' and MatrizV[i][Aux] != '.' and MatrizV[i][Aux] != 'O':
                             Grafo.add_edge(MatrizV[i][j], MatrizV[i][Aux], Peso,"izquierda","derecha") # SE INVIERTE PARA APLICAR DE MEJOR MANERA EL RECORRIDO
-                            Bandera = True 
+                            break
                         Peso += 1
                         Aux+=1
     
                 Aux = 0 
                 Peso = 1
-                Bandera = False
                 # EVALUACION ADYACENTE ABAJO 
                 if MatrizV[i+1][j] != '#':
                     Aux = i+1 
-                    while Bandera == False and Aux != 21 and MatrizV[Aux][j] != '#':
+                    while Aux != 21 and MatrizV[Aux][j] != '#':
                         if MatrizV[Aux][j] != ' ' and MatrizV[Aux][j] != '$' and MatrizV[Aux][j] != '#' and MatrizV[Aux][j] != '.' and MatrizV[Aux][j] != 'O':
                             Grafo.add_edge(MatrizV[i][j], MatrizV[Aux][j], Peso,"arriba","abajo")    # SE INVIERTE PARA APLICAR DE MEJOR MANERA EL RECORRIDO
-                            Bandera = True 
+                            break
                         Peso += 1
                         Aux+=1
 

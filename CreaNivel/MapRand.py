@@ -1,4 +1,5 @@
 import random
+import copy
 # Crear un laberinto aleatorio en Python3 usando el algoritmo de
 # recorrido en profundidad. El propósito de este programa es mostrar las
 # características del lenguaje.
@@ -119,7 +120,7 @@ def laberinto(m, n):
 def DeterminaVertice(Matriz): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTICES, ADEMAS, SE PIDE UNA LISTA PARA GUARDAR LAS UBICACIONES DE LOS VERTICES
     Vertice = False
     Caminos = 0
-    Matriz2 = Matriz
+    Matriz2 = copy.deepcopy(Matriz)
     CantVertices = 0
     for i in range(20):
         Caminos = 0
@@ -127,48 +128,35 @@ def DeterminaVertice(Matriz): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTI
         for h in range(20):
             Caminos = 0
             Vertice = False
-            
-            if i == 10 and h == 9 or i == 10 and h == 8 or i == 10 and h == 11 or i == 10 and h == 12:
-                Vertice = True
-            if i == 9 and h == 10 or i == 9 and h == 8 or i == 9 and h == 12:
-                Vertice = True
 
-            if Matriz[i][h] == 'O':
-                    Vertice = True
-
-            if Matriz[i][h] == ' '  or  Matriz[i][h] == '.':
-                if Matriz[i+1][h] == ' ' or  Matriz[i+1][h] == '.':
-                    Caminos += 1
-                if Matriz[i-1][h] == ' ' or  Matriz[i-1][h] == '.':
+            if h>12 or h<8 or i<9 or i>11:
+                if Matriz[i][h] != '#':
+                    if Matriz[i+1][h] != '#':
                         Caminos += 1
-                if Matriz[i][h+1] == ' ' or  Matriz[i][h+1] == '.':
-                    Caminos += 1
-                if Matriz[i][h-1] == ' ' or  Matriz[i][h-1] == '.':
-                    Caminos += 1
+                    if Matriz[i-1][h] != '#':
+                            Caminos += 1
+                    if Matriz[i][h+1] != '#':
+                        Caminos += 1
+                    if Matriz[i][h-1] != '#':
+                        Caminos += 1
 
-                if Caminos > 2:
-                    Vertice = True
+                    if Caminos > 2:
+                        Vertice = True
 
-                if Matriz[i+1][h] == ' ' and Matriz[i][h+1] == ' ' or Matriz[i+1][h] == '.' and Matriz[i][h+1] == '.':
-                    Vertice = True
-                if Matriz[i+1][h] == ' ' and Matriz[i][h-1] == ' ' or Matriz[i+1][h] == '.' and Matriz[i][h-1] == '.':
-                    Vertice = True
-                if Matriz[i-1][h] == ' ' and Matriz[i][h-1] == ' ' or Matriz[i-1][h] == '.' and Matriz[i][h-1] == '.':
-                    Vertice = True
-                if Matriz[i-1][h] == ' ' and Matriz[i][h+1] == ' ' or  Matriz[i-1][h] == '.' and Matriz[i][h+1] == '.':
-                    Vertice = True
+                    if Matriz[i+1][h] != '#' and Matriz[i][h+1] != '#':
+                        Vertice = True
+                    if Matriz[i+1][h] != '#' and Matriz[i][h-1] != '#':
+                        Vertice = True
+                    if Matriz[i-1][h] != '#' and Matriz[i][h-1] != '#':
+                        Vertice = True
+                    if Matriz[i-1][h] != '#' and Matriz[i][h+1] != '#':
+                        Vertice = True
+            else:
+                if i == 9 and h == 8 or i == 9 and h == 10 or i == 9 and h == 12 or i == 11 and h == 8 or i == 11 and h == 12:
+                    Vertice = True 
 
             if Vertice == True:
-                FilCol = str(i)+str(h)
-                #Lista.append(FilCol)
                 CantVertices += 1
                 Matriz2[i][h] = str(CantVertices)
-                
 
-    for i in range(21):
-        for j in range(21):
-            print(Matriz2[i][j] , end = "")
-        print("")
-
-    print("Cant Vertices: " , CantVertices)
-    return Matriz2 , CantVertices
+    return Matriz2
