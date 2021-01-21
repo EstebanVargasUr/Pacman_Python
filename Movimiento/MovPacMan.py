@@ -1,3 +1,5 @@
+import Grafo.Grafo as GR
+import CargaImagen.CargaImagen as Imagen
 def Movimiento(Direccion,Laberinto,x,y):
     
     # print("-----------------------------------")
@@ -50,3 +52,34 @@ def VerificaMovimiento(Direccion,Laberinto,x,y):
         if Laberinto[x][y-1] == ' ' or Laberinto[x][y-1] == "." or Laberinto[x][y-1] == "O":
             return True
         else: return False
+
+def MovimientoFantasma(ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,VerticeFantasma,GrafoNivel,Recorrido,SumaX, SumaY):
+    if ContCasillas == 34:
+        
+        if SumaX == 1:
+            Columna += 1
+        if SumaX == -1:
+            Columna-=1
+        if SumaY == 1:
+            Fila +=1
+        if SumaY == -1:
+            Fila -=1
+
+        if MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
+            VerticeFantasma = MatrizV[Fila][Columna]
+            Recorrido = DeterminaAlgoritmo("DijsktraCorto",GrafoNivel,VerticeFantasma,UltimoVerticePacMan)
+           
+        ContCasillas = 0           
+    else:
+        ContCasillas+=1
+    Imagen.ActualizaFantasma(Imagen.ImgBlinky,Imagen.ImgBlinky.rect.x+SumaX,Imagen.ImgBlinky.rect.y+SumaY)
+    return Recorrido, ContCasillas, Fila , Columna , VerticeFantasma
+
+def DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltVertPacMan):
+    if Algoritmo == "DijsktraCorto":
+        Recorrido = GR.DijsktraCorto(GrafoNivel,VerticeFantasma,UltVertPacMan)
+        return Recorrido
+    elif Algoritmo == "DijsktraLargo":
+        print()
+    elif Algoritmo == "Floyd":
+        print()

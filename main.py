@@ -33,11 +33,16 @@ FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
 PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
-UltimoVerticePacMan = ""
+UltimoVerticePacMan = "50"
 ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
 Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
 NivelSeleccionado = False
 
+RecorridoBlinky = []
+ContCasillasBlinky = 0
+VerticeBlinky = '31'
+FilaBlinky = 9
+ColBlinky = 8
 while True:
 
     ventana.fill((0,0,0)) # LIMPIA PANTALLA
@@ -102,6 +107,7 @@ while True:
                         Jugador = Imagen.ColocaPacMan(1,niveles)
                         NivelSeleccionado = True
                         MatrizVertice,GrafoNivel =  GR.CreaGrafo(niveles[0])
+                        RecorridoBlinky = GR.DijsktraCorto(GrafoNivel,'31',UltimoVerticePacMan)
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
                         FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(2,niveles)
@@ -384,7 +390,7 @@ while True:
             Imagen.ActualizaPts(int(NumNivel),niveles)
 
         #Actualiza el ultimo vertice que ha visitado el PacMan en el tablero    
-        if MatrizVertice[FilaPacMan][ColPacMan] != "#" or MatrizVertice[FilaPacMan][ColPacMan] != " ":
+        if MatrizVertice[FilaPacMan][ColPacMan] != "#" and MatrizVertice[FilaPacMan][ColPacMan] != " ":
             UltimoVerticePacMan = MatrizVertice[FilaPacMan][ColPacMan]
 
         Imagen.mover.draw(ventana)
@@ -403,7 +409,16 @@ while True:
         ventana.blit(LblPuntos, (920, 50))
 
         #Movimineto del Fantasma
-        if Imagen.ImgBlinky.rect.x > 0:
-            Imagen.ActualizaFantasma(Imagen.ImgBlinky,Imagen.ImgBlinky.rect.x-1,Imagen.ImgBlinky.rect.y)
+        if VerticeBlinky != UltimoVerticePacMan:
+            if len(RecorridoBlinky) == 0:
+                RecorridoBlinky = MovPacMan.DeterminaAlgoritmo("DijsktraCorto",GrafoNivel,VerticeBlinky,UltimoVerticePacMan)
+            if RecorridoBlinky[0] == 'derecha':
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,1,0)
+            elif RecorridoBlinky[0] == 'izquierda':
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,-1,0)
+            elif RecorridoBlinky[0] == 'abajo':
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,0,1)
+            elif RecorridoBlinky[0] == 'arriba':
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,0,-1)
 
     pygame.display.flip() 

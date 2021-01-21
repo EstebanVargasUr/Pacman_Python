@@ -165,7 +165,7 @@ def DeterminaVertice(Matriz): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTI
         if Matriz2[i][20] != "#":
             Matriz2[i][20] = " "
         # for j in range(21):
-        #     print(Matriz2[i][j] , end = "")
+        #     print(Matriz2[i][j] , end = "  ")
         # print("")
 
     return Matriz2

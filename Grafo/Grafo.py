@@ -23,7 +23,7 @@ class Graph():
         self.direcciones[(from_node, to_node)] = direccion
         self.direcciones[(to_node, from_node)] = direccion2
 
-def dijsktra(graph, initial, end):
+def DijsktraLargo(graph, initial, end):
     # shortest paths is a dict of nodes
     # whose value is a tuple of (previous node, weight)
     shortest_paths = {initial: (None, 0)}
@@ -41,7 +41,7 @@ def dijsktra(graph, initial, end):
                 shortest_paths[next_node] = (current_node, weight)
             else:
                 current_shortest_weight = shortest_paths[next_node][1]
-                if current_shortest_weight > weight:
+                if current_shortest_weight < weight:
                     shortest_paths[next_node] = (current_node, weight)
         
         next_destinations = {node: shortest_paths[node] for node in shortest_paths if node not in visited}
@@ -60,7 +60,7 @@ def dijsktra(graph, initial, end):
     path = path[::-1]
     return path
 
-def dijsktra(graph, initial, end):
+def DijsktraCorto(graph, initial, end):
     # shortest paths is a dict of nodes
     # whose value is a tuple of (previous node, weight)
     shortest_paths = {initial: (None, 0)}
@@ -101,8 +101,9 @@ def dijsktra(graph, initial, end):
     path = path[::-1]
     direcciones = direcciones[::-1]
 
-    print("Costo: " , current_shortest_weight)
-    return path , direcciones   
+    # print("Costo: " , current_shortest_weight)
+    # print("Direccion: " , direcciones)
+    return direcciones   
 
 def CreaGrafo(MatrizO):
     Grafo = Graph()
