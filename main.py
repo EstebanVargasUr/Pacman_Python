@@ -388,7 +388,6 @@ while True:
                     ContCasillas += 1
             Imagen.ActualizaPacMan(Jugador,PosXPacMan,PosYPacMan)
             Imagen.ActualizaPts(int(NumNivel),niveles)
-
         #Actualiza el ultimo vertice que ha visitado el PacMan en el tablero    
         if MatrizVertice[FilaPacMan][ColPacMan] != "#" and MatrizVertice[FilaPacMan][ColPacMan] != " ":
             UltimoVerticePacMan = MatrizVertice[FilaPacMan][ColPacMan]
@@ -398,6 +397,7 @@ while True:
 
         Imagen.ImgGroupNivel.draw(ventana) # DIBUJA TODOS LOS SPRITES
         Imagen.ImgGroupPuntos.draw(ventana)
+        Imagen.ImgGroupFantasmas.draw(ventana)
         TituloJugador = font.render("Jugador: ", True, 'white')
         ventana.blit(TituloJugador, (800, 20))
         LblJugador = font.render(NombreJugador, True, 'white')

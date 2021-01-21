@@ -169,8 +169,9 @@ ImgPts = pygame.image.load("imagenes/ImgNiveles/PuntoNivel2.png")
 ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
 #Fantasmas
+ImgGroupFantasmas=pygame.sprite.Group()
 ImgBlinky = CargaImagen("imagenes/BlinkyAbajo.png",35,35,275,309,True)
-
+ImgGroupFantasmas.add(ImgBlinky)
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
 #CARGA PERSONAJES
@@ -184,7 +185,6 @@ def CargaNivel(NumNivel,nivel):
     ImgMuro = pygame.image.load("imagenes/ImgNiveles/Muro"+str(NumNivel)+".png")
     ImgGroupNivel.empty()
     ImgGroupNivel.add(btnAtras)
-    ImgGroupNivel.add(ImgBlinky)
     x = 3
     y = 3
     matriz = nivel[NumNivel-1]

@@ -44,17 +44,17 @@ def VerificaMovimiento(Direccion,Laberinto,x,y):
         if Laberinto[x+1][y] == " " or Laberinto[x+1][y] == "." or Laberinto[x+1][y] == "O":
             return True
         else: return False
-    if Direccion == "derecha":
+    if Direccion == "derecha" and y+1<21:
         if Laberinto[x][y+1] == ' ' or Laberinto[x][y+1] == '.' or Laberinto[x][y+1] == 'O':
             return True
         else: return False
-    if Direccion == "izquierda":
+    if Direccion == "izquierda" and y-1>=0:
         if Laberinto[x][y-1] == ' ' or Laberinto[x][y-1] == "." or Laberinto[x][y-1] == "O":
             return True
         else: return False
 
 def MovimientoFantasma(ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,VerticeFantasma,GrafoNivel,Recorrido,SumaX, SumaY):
-    if ContCasillas == 34:
+    if ContCasillas == 33:
         
         if SumaX == 1:
             Columna += 1
