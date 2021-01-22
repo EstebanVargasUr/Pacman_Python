@@ -46,7 +46,7 @@ class pacman(pygame.sprite.Sprite):
         self.spriteActual=0
 
         self.image= self.spritesDerecha[self.spriteActual]
-        self.image = pygame.transform.scale(self.image, (35, 35))
+        self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect= self.image.get_rect()
         self.rect.topleft= [pos_x, pos_y]
         
@@ -61,22 +61,22 @@ class pacman(pygame.sprite.Sprite):
                 if self.spriteActual>=len(self.spritesDerecha):
                     self.spriteActual=0
                 self.image=self.spritesDerecha[int(self.spriteActual)]
-                self.image = pygame.transform.scale(self.image, (35, 35))
+                self.image = pygame.transform.scale(self.image, (30, 30))
             if direccion=="izquierda":
                 if self.spriteActual>=len(self.spritesIzquierda):
                     self.spriteActual=0
                 self.image=self.spritesIzquierda[int(self.spriteActual)]
-                self.image = pygame.transform.scale(self.image, (35, 35))
+                self.image = pygame.transform.scale(self.image, (30, 30))
             if direccion=="arriba":
                 if self.spriteActual>=len(self.spritesFrente):
                     self.spriteActual=0
                 self.image=self.spritesFrente[int(self.spriteActual)]
-                self.image = pygame.transform.scale(self.image, (35, 35))
+                self.image = pygame.transform.scale(self.image, (30, 30))
             if direccion=="abajo":
                 if self.spriteActual>=len(self.spritesAtras):
                     self.spriteActual=0
                 self.image=self.spritesAtras[int(self.spriteActual)]
-                self.image = pygame.transform.scale(self.image, (35, 35))
+                self.image = pygame.transform.scale(self.image, (30, 30))
 class Fantasma(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y,rutaAbajo,rutaArriba,rutaIzquierda,rutaDerecha):
         super().__init__()
@@ -86,22 +86,22 @@ class Fantasma(pygame.sprite.Sprite):
         self.sprites.append(pygame.image.load(rutaIzquierda))
         self.sprites.append(pygame.image.load(rutaDerecha))
         self.image= self.sprites[0]
-        self.image = pygame.transform.scale(self.image, (35, 35))
+        self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect= self.image.get_rect()
         self.rect.topleft= [pos_x, pos_y]
     def update(self, direccion):
         if direccion=="derecha":
             self.image=self.sprites[3]
-            self.image = pygame.transform.scale(self.image, (35, 35))
+            self.image = pygame.transform.scale(self.image, (30, 30))
         if direccion=="izquierda":
             self.image=self.sprites[2]
-            self.image = pygame.transform.scale(self.image, (35, 35))
+            self.image = pygame.transform.scale(self.image, (30, 30))
         if direccion=="arriba":
             self.image=self.sprites[1]
-            self.image = pygame.transform.scale(self.image, (35, 35))
+            self.image = pygame.transform.scale(self.image, (30, 30))
         if direccion=="abajo":
             self.image=self.sprites[0]
-            self.image = pygame.transform.scale(self.image, (35, 35))
+            self.image = pygame.transform.scale(self.image, (30, 30))
 
 icono_ventana = pygame.image.load("imagenes/icono_ventana.png")
 ImgFondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")  
@@ -195,7 +195,7 @@ ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
 #Fantasmas
 ImgGroupFantasmas=pygame.sprite.Group()
-ImgBlinky = Fantasma(275,309,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png' )
+ImgBlinky = Fantasma(277,311,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png' )
 ImgGroupFantasmas.add(ImgBlinky)
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
