@@ -33,14 +33,14 @@ FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
 PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
 PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
-UltimoVerticePacMan = "50"
+UltimoVerticePacMan = ''
 ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
 Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
 NivelSeleccionado = False
 
 RecorridoBlinky = []
 ContCasillasBlinky = 0
-VerticeBlinky = '31'
+VerticeBlinky = ''
 FilaBlinky = 9
 ColBlinky = 8
 while True:
@@ -107,7 +107,14 @@ while True:
                         Jugador = Imagen.ColocaPacMan(1,niveles)
                         NivelSeleccionado = True
                         MatrizVertice,GrafoNivel =  GR.CreaGrafo(niveles[0])
-                        RecorridoBlinky = GR.DijsktraCorto(GrafoNivel,'31',UltimoVerticePacMan)
+
+                        VerticeBlinky = MatrizVertice[9][8]
+                        for i in range(10, 20):
+                            if MatrizVertice[13][i] != " " and MatrizVertice[13][i] != "#":
+                                UltimoVerticePacMan = MatrizVertice[13][i]
+                                break
+                        print(UltimoVerticePacMan, VerticeBlinky)
+                        RecorridoBlinky = GR.DijsktraCorto(GrafoNivel,VerticeBlinky,UltimoVerticePacMan)
                     if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                         Escena = "Nivel2"
                         FilaPacMan, ColPacMan =Imagen.EncontrarPacMan(2,niveles)
