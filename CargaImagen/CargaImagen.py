@@ -77,14 +77,14 @@ class pacman(pygame.sprite.Sprite):
                     self.spriteActual=0
                 self.image=self.spritesAtras[int(self.spriteActual)]
                 self.image = pygame.transform.scale(self.image, (35, 35))
-class Blinky(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
+class Fantasma(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y,rutaAbajo,rutaArriba,rutaIzquierda,rutaDerecha):
         super().__init__()
         self.sprites=[]
-        self.sprites.append(pygame.image.load('imagenes/BlinkyAbajo.png'))
-        self.sprites.append(pygame.image.load('imagenes/BlinkyArriba.png'))
-        self.sprites.append(pygame.image.load('imagenes/BlinkyIzquierda.png'))
-        self.sprites.append(pygame.image.load('imagenes/BlinkyDerecha.png'))
+        self.sprites.append(pygame.image.load(rutaAbajo))
+        self.sprites.append(pygame.image.load(rutaArriba))
+        self.sprites.append(pygame.image.load(rutaIzquierda))
+        self.sprites.append(pygame.image.load(rutaDerecha))
         self.image= self.sprites[0]
         self.image = pygame.transform.scale(self.image, (35, 35))
         self.rect= self.image.get_rect()
@@ -195,7 +195,7 @@ ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
 #Fantasmas
 ImgGroupFantasmas=pygame.sprite.Group()
-ImgBlinky = Blinky(275,309)
+ImgBlinky = Fantasma(275,309,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png' )
 ImgGroupFantasmas.add(ImgBlinky)
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
