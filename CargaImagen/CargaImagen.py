@@ -196,15 +196,16 @@ ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 #Fantasmas
 ImgGroupFantasmas=pygame.sprite.Group()
 ImgBlinky = Fantasma(277,311,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png' )
+ImgPinky = Fantasma(413,311,'imagenes/PinkyAbajo.png','imagenes/PinkyArriba.png','imagenes/PinkyIzquierda.png', 'imagenes/PinkyDerecha.png' )
+ImgClyde = Fantasma(413,379,'imagenes/ClydeAbajo.png','imagenes/ClydeArriba.png','imagenes/ClydeIzquierda.png', 'imagenes/ClydeDerecha.png' )
+
 ImgGroupFantasmas.add(ImgBlinky)
+ImgGroupFantasmas.add(ImgPinky)
+ImgGroupFantasmas.add(ImgClyde)
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
 #CARGA PERSONAJES
 mover= pygame.sprite.Group()
-
-
-
-
 
 def CargaNivel(NumNivel,nivel):
     ImgMuro = pygame.image.load("imagenes/ImgNiveles/Muro"+str(NumNivel)+".png")
@@ -252,7 +253,6 @@ def ColocaPacMan(NumNivel,nivel):
             if matriz[i][j] == '$':
                 jugador = pacman(x,y)
                 mover.add(jugador)
-                print(x,"",y)
             x += 34
         y += 34
     return jugador
@@ -262,7 +262,6 @@ def EncontrarPacMan(NumNivel,nivel):
     for i in range(21):
         for j in range(21):
             if matriz[i][j] == '$':
-                print(i,j)
                 return i,j
 
 
@@ -277,10 +276,24 @@ def ActualizaPacMan(jugador,x,y):
 
 def ActualizaFantasma(Fantasma,x,y,direccion):
     ImgGroupFantasmas.empty()
-    Fantasma.rect.x = x
-    Fantasma.rect.y = y
-    ImgGroupFantasmas.add(Fantasma)
-    Fantasma.update(direccion)
+    
+    if Fantasma == "Blinky":
+        ImgBlinky.rect.x = x
+        ImgBlinky.rect.y = y
+        ImgBlinky.update(direccion)
+    if Fantasma == "Pinky":
+        ImgPinky.rect.x = x
+        ImgPinky.rect.y = y
+        ImgPinky.update(direccion)
+    if Fantasma == "Clyde":
+        ImgClyde.rect.x = x
+        ImgClyde.rect.y = y
+        ImgClyde.update(direccion)
+
+    ImgGroupFantasmas.add(ImgBlinky)
+    ImgGroupFantasmas.add(ImgPinky)
+    ImgGroupFantasmas.add(ImgClyde)
+    
 
 def ActualizaPts(NumNivel,nivel):
     ImgGroupPuntos.empty()
