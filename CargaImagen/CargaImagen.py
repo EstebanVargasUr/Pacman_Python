@@ -77,7 +77,32 @@ class pacman(pygame.sprite.Sprite):
                     self.spriteActual=0
                 self.image=self.spritesAtras[int(self.spriteActual)]
                 self.image = pygame.transform.scale(self.image, (35, 35))
-            
+class Blinky(pygame.sprite.Sprite):
+    def __init__(self, pos_x, pos_y):
+        super().__init__()
+        self.sprites=[]
+        self.sprites.append(pygame.image.load('imagenes/BlinkyAbajo.png'))
+        self.sprites.append(pygame.image.load('imagenes/BlinkyArriba.png'))
+        self.sprites.append(pygame.image.load('imagenes/BlinkyIzquierda.png'))
+        self.sprites.append(pygame.image.load('imagenes/BlinkyDerecha.png'))
+        self.image= self.sprites[0]
+        self.image = pygame.transform.scale(self.image, (35, 35))
+        self.rect= self.image.get_rect()
+        self.rect.topleft= [pos_x, pos_y]
+    def update(self, direccion):
+        if direccion=="derecha":
+            self.image=self.sprites[3]
+            self.image = pygame.transform.scale(self.image, (35, 35))
+        if direccion=="izquierda":
+            self.image=self.sprites[2]
+            self.image = pygame.transform.scale(self.image, (35, 35))
+        if direccion=="arriba":
+            self.image=self.sprites[1]
+            self.image = pygame.transform.scale(self.image, (35, 35))
+        if direccion=="abajo":
+            self.image=self.sprites[0]
+            self.image = pygame.transform.scale(self.image, (35, 35))
+
 icono_ventana = pygame.image.load("imagenes/icono_ventana.png")
 ImgFondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")  
 ImgFondoMenu = pygame.transform.scale(ImgFondoMenu, (1200, 720))
@@ -170,7 +195,7 @@ ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
 #Fantasmas
 ImgGroupFantasmas=pygame.sprite.Group()
-ImgBlinky = CargaImagen("imagenes/BlinkyAbajo.png",35,35,275,309,True)
+ImgBlinky = Blinky(275,309)
 ImgGroupFantasmas.add(ImgBlinky)
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
@@ -250,9 +275,12 @@ def ActualizaPacMan(jugador,x,y):
     mover.add(jugador)
     jugador.animate()
 
-def ActualizaFantasma(Fantasma,x,y):
+def ActualizaFantasma(Fantasma,x,y,direccion):
+    ImgGroupFantasmas.empty()
     Fantasma.rect.x = x
     Fantasma.rect.y = y
+    ImgGroupFantasmas.add(Fantasma)
+    Fantasma.update(direccion)
 
 def ActualizaPts(NumNivel,nivel):
     ImgGroupPuntos.empty()

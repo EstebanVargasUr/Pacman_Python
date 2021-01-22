@@ -420,12 +420,12 @@ while True:
             if len(RecorridoBlinky) == 0:
                 RecorridoBlinky = MovPacMan.DeterminaAlgoritmo("DijsktraCorto",GrafoNivel,VerticeBlinky,UltimoVerticePacMan)
             if RecorridoBlinky[0] == 'derecha':
-                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,1,0)
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,1,0,"derecha")
             elif RecorridoBlinky[0] == 'izquierda':
-                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,-1,0)
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,-1,0,"izquierda")
             elif RecorridoBlinky[0] == 'abajo':
-                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,0,1)
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,0,1,"abajo")
             elif RecorridoBlinky[0] == 'arriba':
-                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,0,-1)
+                RecorridoBlinky, ContCasillasBlinky , FilaBlinky , ColBlinky , VerticeBlinky = MovPacMan.MovimientoFantasma(ContCasillasBlinky,FilaBlinky,ColBlinky,MatrizVertice,UltimoVerticePacMan,VerticeBlinky,GrafoNivel,RecorridoBlinky,0,-1,"arriba")
 
     pygame.display.flip() 

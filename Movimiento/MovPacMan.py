@@ -53,7 +53,7 @@ def VerificaMovimiento(Direccion,Laberinto,x,y):
             return True
         else: return False
 
-def MovimientoFantasma(ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,VerticeFantasma,GrafoNivel,Recorrido,SumaX, SumaY):
+def MovimientoFantasma(ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,VerticeFantasma,GrafoNivel,Recorrido,SumaX, SumaY,direccion):
     if ContCasillas == 33:
         
         if SumaX == 1:
@@ -72,7 +72,7 @@ def MovimientoFantasma(ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,Ver
         ContCasillas = 0           
     else:
         ContCasillas+=1
-    Imagen.ActualizaFantasma(Imagen.ImgBlinky,Imagen.ImgBlinky.rect.x+SumaX,Imagen.ImgBlinky.rect.y+SumaY)
+    Imagen.ActualizaFantasma(Imagen.ImgBlinky,Imagen.ImgBlinky.rect.x+SumaX,Imagen.ImgBlinky.rect.y+SumaY,direccion)
     return Recorrido, ContCasillas, Fila , Columna , VerticeFantasma
 
 def DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltVertPacMan):
