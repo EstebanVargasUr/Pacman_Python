@@ -152,7 +152,7 @@ def DeterminaVertice(Matriz): # SE LE MANDA UNA MATRIZ PARA DETERMINAR SUS VERTI
                     if Matriz[i-1][h] != '#' and Matriz[i][h+1] != '#':
                         Vertice = True
             else:
-                if i == 9 and h == 8 or i == 9 and h == 10 or i == 9 and h == 12 or i == 11 and h == 8 or i == 11 and h == 12:
+                if i == 9 and h == 8 or i == 9 and h == 10 or i == 9 and h == 12 or i == 11 and h == 10 or i == 11 and h == 8 or i == 11 and h == 12:
                     Vertice = True 
 
             if Vertice == True:

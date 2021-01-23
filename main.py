@@ -44,6 +44,7 @@ class Juego():
         self.PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
         self.PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
         self.UltimoVerticePacMan = ''
+        self.SigVerticePacMan = ''
         self.ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
         self.Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
         self.NivelSeleccionado = False
@@ -127,6 +128,7 @@ class Juego():
         self.PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
         self.PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
         self.UltimoVerticePacMan = ''
+        self.SigVerticePacMan = ''
         self.ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
         self.Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
         self.NivelSeleccionado = False
@@ -292,9 +294,9 @@ class Juego():
                 if self.Escena == "SelectorNivel":
                     if event.key == pygame.K_ESCAPE:
                         self.Escena = "MenuPrincipal"
-                        self.LimpiarNivel()
                 if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
                     if event.key == pygame.K_ESCAPE:
+                        self.LimpiarNivel()
                         self.Escena = "SelectorNivel"
                         self.DireccionPacman = "inicio"
                         self.FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
@@ -393,9 +395,9 @@ class Juego():
             self.VerticePinky = self.MatrizVertice[9][12]
             for i in range(10, 20):
                 if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
-                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
+                    self.SigVerticePacMan = self.MatrizVertice[13][i]
                     break
-            self.RecorridoPinky = GR.Dijsktra(self.GrafoNivel,self.VerticePinky,self.UltimoVerticePacMan)
+            self.RecorridoPinky = GR.Dijsktra(self.GrafoNivel,self.VerticePinky,self.SigVerticePacMan)
 
             #Inky
             self.VerticeInky = self.MatrizVertice[11][8]
@@ -455,6 +457,32 @@ class Juego():
             self.ventana.blit(Imagen.ImgFondoNivel10, [0,0])
 
 
+    def CalcualarSigVerticePacMan(self):
+        if self.DireccionPacman == "arriba":
+            for i in reversed(range(self.FilaPacMan)):
+                if self.MatrizVertice[i][self.ColPacMan] != " " and self.MatrizVertice[i][self.ColPacMan] != "#":
+                    self.SigVerticePacMan = self.MatrizVertice[i][self.ColPacMan]
+                    return True
+        elif self.DireccionPacman == "abajo":
+            for i in range(self.FilaPacMan+1,20):
+                if self.MatrizVertice[i][self.ColPacMan] != " " and self.MatrizVertice[i][self.ColPacMan] != "#":
+                    self.SigVerticePacMan = self.MatrizVertice[i][self.ColPacMan]
+                    return True
+
+        elif self.DireccionPacman == "derecha":
+            for i in range(self.ColPacMan+1,20):
+                if self.MatrizVertice[self.FilaPacMan][i] != " " and self.MatrizVertice[self.FilaPacMan][i] != "#":
+                    self.SigVerticePacMan = self.MatrizVertice[self.FilaPacMan][i]
+                    return True
+
+        elif self.DireccionPacman == "izquierda":
+            for i in reversed(range(self.ColPacMan)):
+                if self.MatrizVertice[self.FilaPacMan][i] != " " and self.MatrizVertice[self.FilaPacMan][i] != "#":
+                    self.SigVerticePacMan = self.MatrizVertice[self.FilaPacMan][i]
+                    return True
+        self.SigVerticePacMan = self.UltimoVerticePacMan
+        return False        
+     
 
     def Movimientos(self):
         if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
@@ -528,6 +556,7 @@ class Juego():
                         MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.FilaPacMan+=1
                         self.ContCasillas = 0
+                        
                     else:
                         self.PosYPacMan = self.PosYPacMan+2
                         self.ContCasillas += 1
@@ -536,6 +565,7 @@ class Juego():
             #Actualiza el ultimo vertice que ha visitado el PacMan en el tablero    
             if self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != "#" and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " ":
                 self.UltimoVerticePacMan = self.MatrizVertice[self.FilaPacMan][self.ColPacMan]
+                self.CalcualarSigVerticePacMan()
 
             Imagen.mover.draw(self.ventana)
             Imagen.mover.update(0.1,self.DireccionPacman)
@@ -568,18 +598,18 @@ class Juego():
                 self.RecorridoBlinky, self.ContCasillasBlinky , self.FilaBlinky , self.ColBlinky , self.VerticeBlinky = MovPacMan.MovimientoFantasma(Imagen.ImgBlinky,"Blinky","Dijsktra",self.ContCasillasBlinky,self.FilaBlinky,self.ColBlinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticeBlinky,self.GrafoNivel,self.RecorridoBlinky,0,-1,"arriba")
     
         #Pinky
-        if self.VerticePinky != self.UltimoVerticePacMan:
+        if self.VerticePinky != self.SigVerticePacMan:
             if len(self.RecorridoPinky) == 0:
-                self.RecorridoPinky = MovPacMan.DeterminaAlgoritmo("Dijsktra",self.GrafoNivel,self.VerticePinky,self.UltimoVerticePacMan)
+                self.RecorridoPinky = MovPacMan.DeterminaAlgoritmo("Dijsktra",self.GrafoNivel,self.VerticePinky,self.SigVerticePacMan)
             if self.RecorridoPinky[0] == 'derecha':
-                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,1,0,"derecha")
+                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.SigVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,1,0,"derecha")
             elif self.RecorridoPinky[0] == 'izquierda':
-                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,-1,0,"izquierda")
+                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.SigVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,-1,0,"izquierda")
             elif self.RecorridoPinky[0] == 'abajo':
-                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,1,"abajo")
+                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.SigVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,1,"abajo")
             elif self.RecorridoPinky[0] == 'arriba':
-                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,-1,"arriba")
-       
+                self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.SigVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,-1,"arriba")
+        
         #Clyde
         if self.VerticeClyde != self.UltimoVerticePacMan:
             if len(self.RecorridoClyde) == 0:
