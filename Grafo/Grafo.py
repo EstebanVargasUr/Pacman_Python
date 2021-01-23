@@ -1,4 +1,5 @@
 import CreaNivel.MapRand as Nivel
+import random
 from collections import defaultdict
 
 class Graph():
@@ -110,7 +111,7 @@ def camino(P, u, v):                        #Camino u⤳v dado por Floyd-Warshal
     lista.reverse()                         #Enlistamos el recorrido en reversa
     return lista
 
-def floyd_warshall(G):
+def floyd_warshall(G,inicial):
     D, P = dict(), dict()                   #Matrices de distancias y caminos
     for u in G.nodes:                             #Inicializar caminos
         for v in G.nodes:
@@ -127,19 +128,26 @@ def floyd_warshall(G):
                     D[u, v] = atajo         #Actualizar distancias
                     P[u, v] = P[k, v]       #Actualizar caminos
     
-    # for u in G.nodes:
-    #     for v in G.nodes:
-    #         if u != v and D[u, v] < float('inf'):
-    #             lista = camino(P, v, u)
-    #             for i in range(len(lista)):
-    #                 if i+1 < len(lista):
-    #                     print(G.direcciones[(lista[i],lista[i+1])],end='─►') 
-    #             print("|",end="")
-    #             print('─►'.join(camino(P, u, v)), ':', D[u, v])
-    #             print()
-    #     print("\n")
+    Recorrido = list()
+    Destino = random.randint(1, len(G.nodes))
 
-    return D, P
+    for u in G.nodes:
+        for v in G.nodes:
+            if u != v and D[u, v] < float('inf'):
+                lista = camino(P, v, u)
+                if str(lista[len(lista)-1]) == str(inicial) and str(lista[0]) == str(Destino):
+                    for i in range(len(lista)):
+                        #print(lista[i],end=" ")
+                        if i+1 <len(lista):
+                            Recorrido.append(G.direcciones[(lista[i],lista[i+1])])
+                    return Recorrido
+                #     if i+1 < len(lista):
+                #         print(G.direcciones[(lista[i],lista[i+1])],end='─►')
+                #         #return G.direcciones[(lista[i],lista[i+1])]
+                # print("|",end="")
+                # print()
+                # print('─►'.join(camino(P, u, v)), ':', D[u, v])
+                #print()
 
 def CreaGrafo(MatrizO):
     Grafo = Graph()
@@ -152,6 +160,10 @@ def CreaGrafo(MatrizO):
             if MatrizV[i][j] != ' ' and MatrizV[i][j] != '#':
                 Aux = 0 
                 Peso = 1
+
+                if MatrizV[i][j+1] == '#' and MatrizV[i][j-1] ==' ' and MatrizV[i+1][j] == '#' and MatrizV[i-1][j] == ' ':
+                    Grafo.nodes[MatrizV[i][j]].append(MatrizV[i][j])
+
                 # EVALUACION ADYACENTE DERECHA 
                 if MatrizV[i][j+1] != '#':
                     Aux = j+1 
@@ -161,7 +173,7 @@ def CreaGrafo(MatrizO):
                             break
                         Peso += 1
                         Aux+=1
-    
+
                 Aux = 0 
                 Peso = 1
                 # EVALUACION ADYACENTE ABAJO 
@@ -176,8 +188,6 @@ def CreaGrafo(MatrizO):
                         
     # for u in range(80):
     #     print(u,"Vecinos: ",Grafo.edges[str(u)])
-
-    floyd_warshall(Grafo)
 
     return MatrizV, Grafo
 

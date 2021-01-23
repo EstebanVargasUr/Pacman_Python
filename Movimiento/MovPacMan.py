@@ -64,9 +64,13 @@ def MovimientoFantasma(ImagenF,Fantasma,Algoritmo,ContCasillas,Fila,Columna,Matr
         if SumaY == -1:
             Fila -=1
 
-        if MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
+        if Fantasma != "Clyde" or Fantasma == "Clyde" and len(Recorrido)==0:
+            if MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
+                VerticeFantasma = MatrizV[Fila][Columna]
+                Recorrido = DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltimoVerticePacMan)
+        elif MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
+            Recorrido.pop(len(Recorrido)-1)
             VerticeFantasma = MatrizV[Fila][Columna]
-            Recorrido = DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltimoVerticePacMan)
            
         ContCasillas = 0           
     else:
@@ -78,5 +82,6 @@ def DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltVertPacMan):
     if Algoritmo == "Dijsktra":
         Recorrido = GR.Dijsktra(GrafoNivel,VerticeFantasma,UltVertPacMan)
         return Recorrido
-    elif Algoritmo == "Floyd":
-        print()
+    if Algoritmo == "Floyd":
+        Recorrido = GR.floyd_warshall(GrafoNivel,VerticeFantasma)
+        return Recorrido
