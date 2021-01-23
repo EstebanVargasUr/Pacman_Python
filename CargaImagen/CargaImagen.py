@@ -197,10 +197,12 @@ ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 ImgGroupFantasmas=pygame.sprite.Group()
 ImgBlinky = Fantasma(277,311,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png' )
 ImgPinky = Fantasma(413,311,'imagenes/PinkyAbajo.png','imagenes/PinkyArriba.png','imagenes/PinkyIzquierda.png', 'imagenes/PinkyDerecha.png' )
+ImgInky = Fantasma(277,379,'imagenes/InkyAbajo.png','imagenes/InkyArriba.png','imagenes/InkyIzquierda.png', 'imagenes/InkyDerecha.png' )
 ImgClyde = Fantasma(413,379,'imagenes/ClydeAbajo.png','imagenes/ClydeArriba.png','imagenes/ClydeIzquierda.png', 'imagenes/ClydeDerecha.png' )
 
 ImgGroupFantasmas.add(ImgBlinky)
 ImgGroupFantasmas.add(ImgPinky)
+ImgGroupFantasmas.add(ImgInky)
 ImgGroupFantasmas.add(ImgClyde)
 ImgGroupNivel = pygame.sprite.Group()
 ImgGroupPuntos = pygame.sprite.Group()
@@ -285,6 +287,10 @@ def ActualizaFantasma(Fantasma,x,y,direccion):
         ImgPinky.rect.x = x
         ImgPinky.rect.y = y
         ImgPinky.update(direccion)
+    if Fantasma == "Inky":
+        ImgInky.rect.x = x
+        ImgInky.rect.y = y
+        ImgInky.update(direccion)
     if Fantasma == "Clyde":
         ImgClyde.rect.x = x
         ImgClyde.rect.y = y
@@ -292,6 +298,7 @@ def ActualizaFantasma(Fantasma,x,y,direccion):
 
     ImgGroupFantasmas.add(ImgBlinky)
     ImgGroupFantasmas.add(ImgPinky)
+    ImgGroupFantasmas.add(ImgInky)
     ImgGroupFantasmas.add(ImgClyde)
     
 

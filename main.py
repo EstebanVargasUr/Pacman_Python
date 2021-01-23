@@ -5,7 +5,7 @@ import Movimiento.MovPacMan as MovPacMan
 import CreaNivel.LecturaEscritura as RW
 import Grafo.Grafo as GR
 import threading
-
+import random
 
 class Juego():
 
@@ -63,15 +63,23 @@ class Juego():
         self.VerticePinky = ''
         self.FilaPinky = 9
         self.ColPinky = 12
-        
+
         #Clyde
         self.RecorridoClyde = []
         self.ContCasillasClyde = 0
         self.VerticeClyde = ''
         self.FilaClyde = 11
         self.ColClyde = 12
-        
 
+        #Inky
+        self.RecorridoInky = []
+        self.ContCasillasInky = 0
+        self.VerticeInky = ''
+        self.FilaInky = 11
+        self.ColInky = 8
+
+        self.numRand=random.randint(1, 60)
+        self.posicion= str(self.numRand)
     def LimpiarPantalla(self):
         self.ventana.fill((0,0,0)) # LIMPIA PANTALLA
     
@@ -93,6 +101,13 @@ class Juego():
         self.FilaPinky = 9
         self.ColPinky = 12
         Imagen.ActualizaFantasma("Pinky",413,311,"abajo")
+        #Inky
+        self.RecorridoInky = []
+        self.ContCasillasInky = 0
+        self.VerticeInky = ''
+        self.FilaInky = 11
+        self.ColInky = 8
+        Imagen.ActualizaFantasma("Inky",277,379,"abajo")
         #Clyde
         self.RecorridoClyde = []
         self.ContCasillasClyde = 0
@@ -382,6 +397,14 @@ class Juego():
                     break
             self.RecorridoPinky = GR.Dijsktra(self.GrafoNivel,self.VerticePinky,self.UltimoVerticePacMan)
 
+            #Inky
+            self.VerticeInky = self.MatrizVertice[11][8]
+            for i in range(10, 20):
+                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
+                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
+                    break
+            self.RecorridoInky = GR.Dijsktra(self.GrafoNivel,self.VerticeInky,self.UltimoVerticePacMan)
+
             #Clyde
             self.VerticeClyde = self.MatrizVertice[11][12]
             for i in range(10, 20):
@@ -556,7 +579,7 @@ class Juego():
                 self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,1,"abajo")
             elif self.RecorridoPinky[0] == 'arriba':
                 self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky","Dijsktra",self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,-1,"arriba")
-        
+       
         #Clyde
         if self.VerticeClyde != self.UltimoVerticePacMan:
             if len(self.RecorridoClyde) == 0:
@@ -570,6 +593,23 @@ class Juego():
             elif self.RecorridoClyde[0] == 'arriba':
                 self.RecorridoClyde, self.ContCasillasClyde , self.FilaClyde , self.ColClyde , self.VerticeClyde = MovPacMan.MovimientoFantasma(Imagen.ImgClyde,"Clyde","Dijsktra",self.ContCasillasClyde,self.FilaClyde,self.ColClyde,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticeClyde,self.GrafoNivel,self.RecorridoClyde,0,-1,"arriba")
 
+        #Inky
+        if self.VerticeInky != self.UltimoVerticePacMan:
+            if self.VerticeInky==self.posicion:
+                self.numRand=random.randint(0, 60)
+                self.InkyLista=[str(self.numRand),self.VerticeBlinky,self.VerticePinky,self.VerticeClyde,self.UltimoVerticePacMan]
+                self.rand=random.randint(0, 4)
+                self.posicion= self.InkyLista[self.rand]
+            if len(self.RecorridoInky) == 0:
+                self.RecorridoInky = MovPacMan.DeterminaAlgoritmo("Dijsktra",self.GrafoNivel,self.VerticeInky,self.UltimoVerticePacMan)
+            if self.RecorridoInky[0] == 'derecha':
+                self.RecorridoInky, self.ContCasillasInky , self.FilaInky , self.ColInky , self.VerticeInky = MovPacMan.MovimientoFantasma(Imagen.ImgInky,"Inky","Dijsktra",self.ContCasillasInky,self.FilaInky,self.ColInky,self.MatrizVertice,self.posicion,self.VerticeInky,self.GrafoNivel,self.RecorridoInky,1,0,"derecha")
+            elif self.RecorridoInky[0] == 'izquierda':
+                self.RecorridoInky, self.ContCasillasInky , self.FilaInky , self.ColInky , self.VerticeInky = MovPacMan.MovimientoFantasma(Imagen.ImgInky,"Inky","Dijsktra",self.ContCasillasInky,self.FilaInky,self.ColInky,self.MatrizVertice,self.posicion,self.VerticeInky,self.GrafoNivel,self.RecorridoInky,-1,0,"izquierda")
+            elif self.RecorridoInky[0] == 'abajo':
+                self.RecorridoInky, self.ContCasillasInky , self.FilaInky , self.ColInky , self.VerticeInky = MovPacMan.MovimientoFantasma(Imagen.ImgInky,"Inky","Dijsktra",self.ContCasillasInky,self.FilaInky,self.ColInky,self.MatrizVertice,self.posicion,self.VerticeInky,self.GrafoNivel,self.RecorridoInky,0,1,"abajo")
+            elif self.RecorridoInky[0] == 'arriba':
+                self.RecorridoInky, self.ContCasillasInky , self.FilaInky , self.ColInky , self.VerticeInky = MovPacMan.MovimientoFantasma(Imagen.ImgInky,"Inky","Dijsktra",self.ContCasillasInky,self.FilaInky,self.ColInky,self.MatrizVertice,self.posicion,self.VerticeInky,self.GrafoNivel,self.RecorridoInky,0,-1,"arriba")
 
 
 #Inicializa el programa
