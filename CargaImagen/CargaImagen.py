@@ -125,6 +125,34 @@ ImgGroupMenu.add(btnSalir)
 ImgGroupMenu.add(TituloInicial)
 ImgGroupMenu.add(IconoTitulo)
 
+#GAME OVER
+TituloGameOver = CargaImagen("imagenes/TituloGameOver.png",0,0,420,70,False)
+IconoTit = CargaImagen("imagenes/iconoTitulo.png",500,500,350,-60,True)
+Puntos = CargaImagen("imagenes/Puntos.png",0,0,370,250,False)
+Vidas = CargaImagen("imagenes/Vidas.png",0,0,370,325,False)
+btnAbandonar = CargaImagen("imagenes/btnAbandonar.png",280,80,490,530,True)
+
+ImgGroupGameOver = pygame.sprite.Group()
+ImgGroupGameOver.add(TituloGameOver)
+ImgGroupGameOver.add(IconoTit)
+ImgGroupGameOver.add(Puntos)
+ImgGroupGameOver.add(Vidas)
+ImgGroupGameOver.add(btnAbandonar)
+
+# #AJUSTES
+# TituloAjustes = CargaImagen("imagenes/TituloAjustes.png",0,0,500,70,False)
+# IconoTitu = CargaImagen("imagenes/iconoTitulo.png",500,500,350,-90,True)
+# Cambia = CargaImagen("imagenes/CambiarNombre.png",0,0,460,220,False)
+# ElijaDificultad = CargaImagen("imagenes/CambioDifi.png",0,0,410,380,False)
+# Facil = CargaImagen("imagenes/btnSeguir.png",280,80,490,440,True)
+# Medio = CargaImagen("imagenes/btnSeguir.png",280,80,490,440,True)
+# Dificil = CargaImagen("imagenes/btnAbandonar.png",280,80,490,550,True)
+# ImgGroupAjustes = pygame.sprite.Group()
+# ImgGroupAjustes.add(TituloAjustes)
+# ImgGroupAjustes.add(IconoTitu)
+# ImgGroupAjustes.add(Cambia)
+# ImgGroupAjustes.add(ElijaDificultad)
+
 # MENU SELECTOR PARTIDA
 btnNuevaPartida = CargaImagen("imagenes/btnNuevaPartida.png",250,60,490,300,True)
 btnCargarPartida = CargaImagen("imagenes/btnCargarPartida.png",250,60,490,380,True)
