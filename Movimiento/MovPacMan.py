@@ -64,7 +64,7 @@ def MovimientoFantasma(ImagenF,Fantasma,Algoritmo,ContCasillas,Fila,Columna,Matr
         if SumaY == -1:
             Fila -=1
 
-        if Fantasma != "Clyde" or Fantasma == "Clyde" and len(Recorrido)==0:
+        if Fantasma != "Clyde" or Fantasma == "Clyde" and len(Recorrido)==1:
             if MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
                 VerticeFantasma = MatrizV[Fila][Columna]
                 Recorrido = DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltimoVerticePacMan)

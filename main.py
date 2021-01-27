@@ -18,6 +18,7 @@ class Juego():
         pygame.display.set_caption('PAC-MAN')
 
         self.niveles = list()
+        self.NumNivel= ""
         self.MatrizVertice = []
         self.MatrizTunel = []
         self.GrafoNivel = GR.Graph() 
@@ -81,6 +82,8 @@ class Juego():
 
         self.numRand=random.randint(1, 60)
         self.posicion= str(self.numRand)
+
+
     def LimpiarPantalla(self):
         self.ventana.fill((0,0,0)) # LIMPIA PANTALLA
     
@@ -125,14 +128,72 @@ class Juego():
         self.Permitido = False
         self.FilaPacMan = 13 # FILA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
         self.ColPacMan = 10  # COLUMNA DE LA MATRIZ EN DONDE SE ENCUENTRA PAC MAN
-        self.PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
-        self.PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+        self.PosXPacMan = 343  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+        self.PosYPacMan = 445  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+        Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
         self.UltimoVerticePacMan = ''
         self.SigVerticePacMan = ''
         self.ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
         self.Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
         self.NivelSeleccionado = False
         self.LimpiarFantasmas()
+        
+    def IniciarFantasmas(self):
+        #Blinky
+            self.VerticeBlinky = self.MatrizVertice[9][8]
+            for i in range(10, 20):
+                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
+                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
+                    break
+            self.RecorridoBlinky = GR.Dijsktra(self.GrafoNivel,self.VerticeBlinky,self.UltimoVerticePacMan)
+
+            #Pinky
+            self.VerticePinky = self.MatrizVertice[9][12]
+            for i in range(10, 20):
+                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
+                    self.SigVerticePacMan = self.MatrizVertice[13][i]
+                    break
+            self.RecorridoPinky = GR.Dijsktra(self.GrafoNivel,self.VerticePinky,self.SigVerticePacMan)
+
+            #Inky
+            self.VerticeInky = self.MatrizVertice[11][8]
+            for i in range(10, 20):
+                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
+                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
+                    break
+            self.RecorridoInky = GR.Dijsktra(self.GrafoNivel,self.VerticeInky,self.UltimoVerticePacMan)
+
+            #Clyde
+            self.VerticeClyde = self.MatrizVertice[11][12]
+            for i in range(10, 20):
+                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
+                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
+                    break
+            self.RecorridoClyde = GR.floyd_warshall(self.GrafoNivel,self.VerticeClyde)
+
+    #VERIFICA SI UN FANTASMA TOCA A PACMAN Y LE RESTA UNA VIDA
+    def ComprobarDerrota(self):
+        if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan:
+            self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
+            self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.LimpiarNivel()
+            self.IniciarFantasmas()
+        elif self.FilaClyde == self.FilaPacMan and self.ColClyde == self.ColPacMan:
+            self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
+            self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.LimpiarNivel()
+            self.IniciarFantasmas()
+        elif self.FilaInky == self.FilaPacMan and self.ColInky == self.ColPacMan:
+            self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
+            self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.LimpiarNivel()
+            self.IniciarFantasmas()
+        elif self.FilaPinky == self.FilaPacMan and self.ColPinky == self.ColPacMan:
+            self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
+            self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.LimpiarNivel()
+            self.IniciarFantasmas()
+
 
     def DeterminaRecorridosIguales(self):
         if len(self.RecorridoPinky) == 0:
@@ -341,11 +402,11 @@ class Juego():
                         self.PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
                         self.ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
                     if self.Escena=='Nivel10':
-                        NumNivel='10'
+                        self.NumNivel='10'
                     else:
-                        NumNivel = self.Escena[5]
+                        self.NumNivel = self.Escena[5]
                     if event.key == pygame.K_UP or event.key == pygame.K_w:
-                        if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
+                        if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
                             if self.ContCasillas <= 17:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "derecha":
@@ -362,7 +423,7 @@ class Juego():
                             self.Permitido = True
                         
                     if event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                        if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
+                        if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
                             if self.ContCasillas <= 17:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "derecha":
@@ -379,7 +440,7 @@ class Juego():
                             self.Permitido = True
 
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d: 
-                        if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
+                        if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
                             if self.ContCasillas <= 17:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "arriba":
@@ -396,7 +457,7 @@ class Juego():
                             self.Permitido = True
                         
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                        if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
+                        if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
                             if self.ContCasillas <= 17:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "derecha":
@@ -419,37 +480,7 @@ class Juego():
         if self.ClickBtnNivel == True:
             self.ClickBtnNivel = False
 
-            #Blinky
-            self.VerticeBlinky = self.MatrizVertice[9][8]
-            for i in range(10, 20):
-                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
-                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
-                    break
-            self.RecorridoBlinky = GR.Dijsktra(self.GrafoNivel,self.VerticeBlinky,self.UltimoVerticePacMan)
-
-            #Pinky
-            self.VerticePinky = self.MatrizVertice[9][12]
-            for i in range(10, 20):
-                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
-                    self.SigVerticePacMan = self.MatrizVertice[13][i]
-                    break
-            self.RecorridoPinky = GR.Dijsktra(self.GrafoNivel,self.VerticePinky,self.SigVerticePacMan)
-
-            #Inky
-            self.VerticeInky = self.MatrizVertice[11][8]
-            for i in range(10, 20):
-                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
-                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
-                    break
-            self.RecorridoInky = GR.Dijsktra(self.GrafoNivel,self.VerticeInky,self.UltimoVerticePacMan)
-
-            #Clyde
-            self.VerticeClyde = self.MatrizVertice[11][12]
-            for i in range(10, 20):
-                if self.MatrizVertice[13][i] != " " and self.MatrizVertice[13][i] != "#":
-                    self.UltimoVerticePacMan = self.MatrizVertice[13][i]
-                    break
-            self.RecorridoClyde = GR.floyd_warshall(self.GrafoNivel,self.VerticeClyde)
+            self.IniciarFantasmas()
 
         if self.Escena == "MenuPrincipal":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
@@ -522,13 +553,13 @@ class Juego():
 
     def Movimientos(self):
         if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
-            
+            self.ComprobarDerrota()
             if self.Escena=='Nivel10':
-                NumNivel='10'
+                self.NumNivel='10'
             else:
-                NumNivel = self.Escena[5]
-            self.MatrizTunel = self.niveles[int(NumNivel)-1]
-            if self.Permitido == True and MovPacMan.VerificaMovimiento(self.DireccionPacman2,self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan):
+                self.NumNivel = self.Escena[5]
+            self.MatrizTunel = self.niveles[int(self.NumNivel)-1]
+            if self.Permitido == True and MovPacMan.VerificaMovimiento(self.DireccionPacman2,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                 self.DireccionPacman = self.DireccionPacman2
                 self.DireccionPacman2 = ""
                 self.Permitido = False
@@ -546,50 +577,50 @@ class Juego():
                 self.MatrizTunel[self.FilaPacMan][self.ColPacMan]=='$'
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
             if self.DireccionPacman == "derecha":
-                if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan):
+                if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan+1]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.ColPacMan+=1
                         self.ContCasillas = 0
                     else:
                         self.PosXPacMan = self.PosXPacMan+2
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
-                Imagen.ActualizaPts(int(NumNivel),self.niveles)
+                Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             if self.DireccionPacman == "izquierda":
-                if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan):
+                if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan-1]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.ColPacMan-=1
                         self.ContCasillas = 0
                     else:
                         self.PosXPacMan = self.PosXPacMan-2
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
-                Imagen.ActualizaPts(int(NumNivel),self.niveles)
+                Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             if self.DireccionPacman == "arriba":
-                if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan):
+                if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan-1][self.ColPacMan]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.FilaPacMan-=1
                         self.ContCasillas = 0
                     else:
                         self.PosYPacMan = self.PosYPacMan-2
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
-                Imagen.ActualizaPts(int(NumNivel),self.niveles)
+                Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             if self.DireccionPacman == "abajo":
-                if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan):
+                if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan+1][self.ColPacMan]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.FilaPacMan+=1
                         self.ContCasillas = 0
                         
@@ -597,7 +628,7 @@ class Juego():
                         self.PosYPacMan = self.PosYPacMan+2
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
-                Imagen.ActualizaPts(int(NumNivel),self.niveles)
+                Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             #Actualiza el ultimo vertice que ha visitado el PacMan en el tablero    
             if self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != "#" and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " ":
                 self.UltimoVerticePacMan = self.MatrizVertice[self.FilaPacMan][self.ColPacMan]
