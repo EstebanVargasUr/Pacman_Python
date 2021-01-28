@@ -20,6 +20,7 @@ class Juego():
 
         self.niveles = list()
         self.NumNivel= ""
+        self.datosJugador= list()
         self.MatrizVertice = []
         self.MatrizTunel = []
         self.GrafoNivel = GR.Graph() 
@@ -28,6 +29,7 @@ class Juego():
         self.cont = 0
         self.PoderPellet = False
         self.ConteoActivo = False
+        self.Vidas = 0
 
         self.CuadroTexto = pygame.Rect(500, 360, 200, 42)
         self.color_inactive = pygame.Color('white')
@@ -36,10 +38,14 @@ class Juego():
         self.active = False
         self.NombreJugador = ''
         self.font = pygame.font.Font(None, 42)
+        self.font2 = pygame.font.Font(None, 57)
         self.TituloJugador =""
         self.LblJugador =""
         self.TituloPuntos=""
         self.LblPuntos=""
+        self.TituloVidas=""
+        self.LblVidas=""
+
 
         self.DireccionPacman = "inicio"
         self.DireccionPacman2 = ""
@@ -187,21 +193,25 @@ class Juego():
         if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan:
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
         elif self.FilaClyde == self.FilaPacMan and self.ColClyde == self.ColPacMan:
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
         elif self.FilaInky == self.FilaPacMan and self.ColInky == self.ColPacMan:
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
         elif self.FilaPinky == self.FilaPacMan and self.ColPinky == self.ColPacMan:
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
+            self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
 
@@ -249,6 +259,9 @@ class Juego():
                 if len(self.niveles)!=0:
                     for i in range(10):
                         RW.fileWrite(self.niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
+                    self.datosJugador[1]=self.Puntos
+                    self.datosJugador[2]=self.Vidas
+                    RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                 sys.exit()
             
             if event.type == pygame.MOUSEBUTTONDOWN: #CLICK
@@ -264,12 +277,15 @@ class Juego():
                             if len(self.niveles)!=0:
                                 for i in range(10):
                                     RW.fileWrite(self.niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
+                                self.datosJugador[1]=self.Puntos
+                                RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                             sys.exit()
                     elif self.Escena == "SelectorPartida":
                         if Imagen.btnNuevaPartida.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena = "RegistraNombre"
                             self.NombreJugador=""
                             self.Puntos=0
+                            self.Vidas=6
                             self.niveles.clear()
                             for i in range(10):
                                 self.niveles.append(Nivel.laberinto(10,10))
@@ -278,7 +294,14 @@ class Juego():
                         if Imagen.btnCargarPartida.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             for i in range(10):
                                 self.niveles.append(RW.fileRead("CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt"))
-                            self.Escena = "SelectorNivel"
+                            self.datosJugador=RW.fileRead("CreaNivel/DatosJugador/jugador.txt")
+                            self.NombreJugador= self.datosJugador[0]
+                            self.Puntos= int(self.datosJugador[1])
+                            self.Vidas= int(self.datosJugador[2])
+                            if self.Vidas==0:
+                                self.Escena='GameOver'
+                            else:
+                                self.Escena = "SelectorNivel"
 
                     elif self.Escena == "RegistraNombre":
                         # If the user clicked on the input_box rect.
@@ -289,6 +312,9 @@ class Juego():
                             self.active = False
                             # Change the current color of the input box.
                             self.color = self.color_active if self.active else self.color_inactive
+                    elif self.Escena == "GameOver":
+                        if Imagen.btnAbandonar.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                            self.Escena='MenuPrincipal'
                     elif self.Escena == "SelectorNivel":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena = "MenuPrincipal"
@@ -395,6 +421,10 @@ class Juego():
                     if self.active:
                         if event.key == pygame.K_RETURN:
                             self.Escena = "SelectorNivel"
+                            self.datosJugador.append(str(self.NombreJugador))
+                            self.datosJugador.append(self.Puntos)
+                            self.datosJugador.append(self.Vidas)
+                            RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                         elif event.key == pygame.K_BACKSPACE:
                             self.NombreJugador = self.NombreJugador[:-1]
                         else:
@@ -533,6 +563,14 @@ class Juego():
             self.ventana.blit(Imagen.ImgFondoNivel9, [0,0])
         if self.Escena == "Nivel10":
             self.ventana.blit(Imagen.ImgFondoNivel10, [0,0])
+        if self.Escena == "GameOver":
+            self.ventana.blit(Imagen.ImgFondoMenu, [0,0])
+            Imagen.ImgGroupGameOver.draw(self.ventana)
+            self.LblPuntos = self.font2.render(str(self.Puntos), True, 'white')
+            self.LblVidas = self.font2.render('0', True, 'white')
+            self.ventana.blit(self.LblPuntos, (550, 257))
+            self.ventana.blit(self.LblVidas, (550, 325))
+
 
 
     def CalcualarSigVerticePacMan(self):
@@ -588,13 +626,24 @@ class Juego():
                 self.MatrizTunel[self.FilaPacMan][20]=' '
                 self.MatrizTunel[self.FilaPacMan][self.ColPacMan]=='$'
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
+            #PARA CUANDO PIERDE
+            if self.Vidas==0:
+                self.DireccionPacman = "inicio"
+                self.PosXPacMan = 0  # POSCION EN X DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+                self.PosYPacMan = 0  # POSCION EN Y DE LA PANTALLA DONDE SE ENCUNETRA PAC MAN
+                self.ContCasillas = 0 # CONTADOR QUE PERMITE IDENTIFICAR CUANDO PAC MAN AVANZA A UNA NUEVA CASILLA
+                self.datosJugador[0]=self.NombreJugador
+                self.datosJugador[1]=self.Puntos
+                self.datosJugador[2]=self.Vidas
+                RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
+                self.LimpiarNivel()
+                self.Escena='GameOver'
             if self.DireccionPacman == "derecha":
                 if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan+1]=='.':
-                            self.Puntos+=1
+                            self.Puntos+=10
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
-                        
                         self.ColPacMan+=1
                         self.ContCasillas = 0
                     else:
@@ -606,9 +655,8 @@ class Juego():
                 if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan-1]=='.':
-                            self.Puntos+=1
+                            self.Puntos+=10
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
-                       
                         self.ColPacMan-=1
                         self.ContCasillas = 0
                     else:
@@ -620,9 +668,8 @@ class Juego():
                 if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan-1][self.ColPacMan]=='.':
-                            self.Puntos+=1
+                            self.Puntos+=10
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
-                        
                         self.FilaPacMan-=1
                         self.ContCasillas = 0
                     else:
@@ -634,9 +681,8 @@ class Juego():
                 if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan+1][self.ColPacMan]=='.':
-                            self.Puntos+=1
+                            self.Puntos+=10
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
-                       
                         self.FilaPacMan+=1
                         self.ContCasillas = 0
                         
@@ -674,10 +720,14 @@ class Juego():
             self.ventana.blit(self.LblJugador, (930, 20))
 
             self.TituloPuntos = self.font.render("Puntos: ", True, 'white')
-            self.ventana.blit(self.TituloPuntos, (800, 50))
+            self.ventana.blit(self.TituloPuntos, (800, 60))
             self.LblPuntos = self.font.render(str(self.Puntos), True, 'white')
-            self.ventana.blit(self.LblPuntos, (920, 50))
+            self.ventana.blit(self.LblPuntos, (920, 60))
 
+            self.TituloVidas = self.font.render("Vidas: ", True, 'white')
+            self.ventana.blit(self.TituloVidas, (800, 100))
+            self.LblVidas = self.font.render(str(self.Vidas), True, 'white')
+            self.ventana.blit(self.LblVidas, (900, 100))
         RecorridoIgual = False
         #Movimiento del Fantasma
         if self.RecorridoPinky == self.RecorridoBlinky and self.ContCasillasPinky == 0 and self.ContCasillasBlinky == 0:
