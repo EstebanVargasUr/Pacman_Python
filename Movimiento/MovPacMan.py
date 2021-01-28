@@ -9,31 +9,50 @@ def Movimiento(Direccion,Laberinto,x,y):
     #     print("")
         
     if Direccion == "arriba":
-        if Laberinto[x-1][y] == ' ' or Laberinto[x-1][y] == "." or Laberinto[x-1][y] == "O":
+        if Laberinto[x-1][y] == ' ' or Laberinto[x-1][y] == ".":
             Laberinto[x-1][y] = '$'
             Laberinto[x][y] = ' '
-            return True
-        else: return False     
+            return False
+
+        elif Laberinto[x-1][y] == "O": 
+            Laberinto[x-1][y] = '$'
+            Laberinto[x][y] = ' '
+            return True    
+
     elif Direccion == "abajo":
-        if Laberinto[x+1][y] == " " or Laberinto[x+1][y] == "." or Laberinto[x+1][y] == "O":
+        if Laberinto[x+1][y] == " " or Laberinto[x+1][y] == ".":
             Laberinto[x+1][y] = '$'
             Laberinto[x][y] = ' '
-            return True
-        else: return False
+            return False
+
+        elif Laberinto[x+1][y] == "O": 
+            Laberinto[x+1][y] = '$'
+            Laberinto[x][y] = ' '
+            return True 
+
     if Direccion == "derecha":
-        if Laberinto[x][y+1] == ' ' or Laberinto[x][y+1] == '.' or Laberinto[x][y+1] == 'O':
+        if Laberinto[x][y+1] == ' ' or Laberinto[x][y+1] == '.':
             Laberinto[x][y+1] = '$'
             Laberinto[x][y] = ' '
-            return True
-        else: return False
+            return False
+
+        elif Laberinto[x][y+1] == "O": 
+            Laberinto[x][y+1] = '$'
+            Laberinto[x][y] = ' '
+            return True 
+
     elif Direccion == "izquierda":
-        if Laberinto[x][y-1] == " " or Laberinto[x][y-1] == "." or Laberinto[x][y-1] == "O":
+        if Laberinto[x][y-1] == " " or Laberinto[x][y-1] == ".":
             Laberinto[x][y-1] = '$'
             Laberinto[x][y] = ' '
-            return True
-        else: return False
-    else:
-        return False
+            return False
+            
+        elif Laberinto[x][y-1] == "O": 
+            Laberinto[x][y-1] = '$'
+            Laberinto[x][y] = ' '
+            return True 
+            
+    return False
 
 def VerificaMovimiento(Direccion,Laberinto,x,y):
     if Direccion == "arriba":

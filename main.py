@@ -6,6 +6,7 @@ import CreaNivel.LecturaEscritura as RW
 import Grafo.Grafo as GR
 import threading
 import random
+import time
 
 class Juego():
 
@@ -24,6 +25,9 @@ class Juego():
         self.GrafoNivel = GR.Graph() 
         self.Escena = "MenuPrincipal"
         self.Puntos = 0
+        self.cont = 0
+        self.PoderPellet = False
+        self.ConteoActivo = False
 
         self.CuadroTexto = pygame.Rect(500, 360, 200, 42)
         self.color_inactive = pygame.Color('white')
@@ -120,7 +124,14 @@ class Juego():
         self.ColClyde = 12
         Imagen.ActualizaFantasma("Clyde",413,379,"abajo")
 
-
+    #CUENTA EL TIEMPO DE 10 SEGUNDOS DE INMUNIDAD AL COMERSE UN POWER PELLET
+    def contador(self):
+        self.cont = 0
+        while self.cont < 10: 
+            time.sleep(1)
+            print(self.cont)
+            self.cont +=1
+        self.ConteoActivo = False
 
     def LimpiarNivel(self):
         self.DireccionPacman = "inicio"
@@ -553,7 +564,8 @@ class Juego():
 
     def Movimientos(self):
         if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
-            self.ComprobarDerrota()
+            if not self.ConteoActivo:
+                self.ComprobarDerrota()
             if self.Escena=='Nivel10':
                 self.NumNivel='10'
             else:
@@ -581,7 +593,8 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan+1]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        
                         self.ColPacMan+=1
                         self.ContCasillas = 0
                     else:
@@ -594,7 +607,8 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan-1]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                       
                         self.ColPacMan-=1
                         self.ContCasillas = 0
                     else:
@@ -607,7 +621,8 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan-1][self.ColPacMan]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        
                         self.FilaPacMan-=1
                         self.ContCasillas = 0
                     else:
@@ -620,7 +635,8 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan+1][self.ColPacMan]=='.':
                             self.Puntos+=1
-                        MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                        self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
+                       
                         self.FilaPacMan+=1
                         self.ContCasillas = 0
                         
@@ -633,6 +649,18 @@ class Juego():
             if self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != "#" and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " ":
                 self.UltimoVerticePacMan = self.MatrizVertice[self.FilaPacMan][self.ColPacMan]
                 self.CalcualarSigVerticePacMan()
+
+            #INICIA EL CONTEO PARA COMERSE A LOS FANTASMAS DESPUES DE CONSUMIR UN POWER PELLET
+            if self.ConteoActivo == False and self.PoderPellet == True:
+                print("inicio conteo")
+                self.ConteoActivo = True
+                self.PoderPellet = False
+                x = threading.Thread(target=self.contador,)
+                x.start() 
+            if self.ConteoActivo == True and self.PoderPellet == True:
+                self.PoderPellet = False
+                self.cont = 0
+
 
             Imagen.mover.draw(self.ventana)
             Imagen.mover.update(0.1,self.DireccionPacman)
