@@ -107,6 +107,17 @@ icono_ventana = pygame.image.load("imagenes/icono_ventana.png")
 ImgFondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")  
 ImgFondoMenu = pygame.transform.scale(ImgFondoMenu, (1200, 720))
 btnAtras = CargaImagen("imagenes/btnDevolver.png",100,40,1080,670,True)
+
+#VICTORIA
+btnHome = CargaImagen("imagenes/btnHome.png",80,80,220,180,True)
+btnNiveles = CargaImagen("imagenes/btnNiveles.png",80,80,320,180,True)
+btnSiguiente = CargaImagen("imagenes/btnSiguiente.png",80,80,420,180,True)
+ImgGroupVictoria = pygame.sprite.Group()
+ImgGroupVictoria.add(btnHome)
+ImgGroupVictoria.add(btnNiveles)
+ImgGroupVictoria.add(btnSiguiente)
+
+
 Jugador = pacman(0,0)
 # MENU PRINCIPAL
 TituloInicial = CargaImagen("imagenes/tituloPacMan.png",0,0,420,30,False)
