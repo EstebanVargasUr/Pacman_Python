@@ -352,6 +352,16 @@ class Juego():
                             self.Dificultad = "Medio"
                         if Imagen.btnDificil.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Dificultad = "Dificil"
+                    elif self.Escena == "Jugador":
+                        if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                            self.Escena = "MenuPrincipal"
+                        if Imagen.btnTop.rect.collidepoint(pygame.mouse.get_pos()):
+                            self.Escena= "Top"
+                        if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                            self.Escena = "MenuPrincipal"
+                    elif self.Escena == "Top":
+                        if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                            self.Escena = "MenuPrincipal"
                     elif self.Escena == "SelectorNivel":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena = "MenuPrincipal"
@@ -472,6 +482,9 @@ class Juego():
                 if self.Escena == "Ajustes":
                     if event.key == pygame.K_ESCAPE:
                         self.Escena = "MenuPrincipal"
+                if self.Escena == "Jugador":
+                    if event.key == pygame.K_ESCAPE:
+                        self.Escena = "MenuPrincipal"
                 if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
                     if event.key == pygame.K_ESCAPE:
                         self.LimpiarNivel()
@@ -563,6 +576,12 @@ class Juego():
         if self.Escena == "Ajustes":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupAjustes.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
+        if self.Escena == "Jugador":
+            self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
+            Imagen.ImgGroupEstadisiticas.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
+        if self.Escena == "Top":
+            self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
+            Imagen.ImgGroupTop.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
         if self.Escena == "MenuPrincipal":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupMenu.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
