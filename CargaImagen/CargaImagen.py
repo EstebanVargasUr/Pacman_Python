@@ -78,28 +78,36 @@ class pacman(pygame.sprite.Sprite):
                 self.image=self.spritesAtras[int(self.spriteActual)]
                 self.image = pygame.transform.scale(self.image, (30, 30))
 class Fantasma(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y,rutaAbajo,rutaArriba,rutaIzquierda,rutaDerecha):
+    def __init__(self, pos_x, pos_y,rutaAbajo,rutaArriba,rutaIzquierda,rutaDerecha,peligro,regreso):
         super().__init__()
         self.sprites=[]
         self.sprites.append(pygame.image.load(rutaAbajo))
         self.sprites.append(pygame.image.load(rutaArriba))
         self.sprites.append(pygame.image.load(rutaIzquierda))
         self.sprites.append(pygame.image.load(rutaDerecha))
+        self.sprites.append(pygame.image.load(peligro))
+        self.sprites.append(pygame.image.load(regreso))
         self.image= self.sprites[0]
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect= self.image.get_rect()
         self.rect.topleft= [pos_x, pos_y]
     def update(self, direccion):
-        if direccion=="derecha":
+        if direccion=="regreso":
+            self.image=self.sprites[5]
+            self.image = pygame.transform.scale(self.image, (30, 30))
+        elif direccion=="peligro":
+            self.image=self.sprites[4]
+            self.image = pygame.transform.scale(self.image, (30, 30))
+        elif direccion=="derecha":
             self.image=self.sprites[3]
             self.image = pygame.transform.scale(self.image, (30, 30))
-        if direccion=="izquierda":
+        elif direccion=="izquierda":
             self.image=self.sprites[2]
             self.image = pygame.transform.scale(self.image, (30, 30))
-        if direccion=="arriba":
+        elif direccion=="arriba":
             self.image=self.sprites[1]
             self.image = pygame.transform.scale(self.image, (30, 30))
-        if direccion=="abajo":
+        elif direccion=="abajo":
             self.image=self.sprites[0]
             self.image = pygame.transform.scale(self.image, (30, 30))
 
@@ -284,10 +292,10 @@ ImgPower = pygame.image.load("imagenes/ImgNiveles/PowerPelletNiv2.png")
 
 #Fantasmas
 ImgGroupFantasmas=pygame.sprite.Group()
-ImgBlinky = Fantasma(277,311,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png' )
-ImgPinky = Fantasma(413,311,'imagenes/PinkyAbajo.png','imagenes/PinkyArriba.png','imagenes/PinkyIzquierda.png', 'imagenes/PinkyDerecha.png' )
-ImgInky = Fantasma(277,379,'imagenes/InkyAbajo.png','imagenes/InkyArriba.png','imagenes/InkyIzquierda.png', 'imagenes/InkyDerecha.png' )
-ImgClyde = Fantasma(413,379,'imagenes/ClydeAbajo.png','imagenes/ClydeArriba.png','imagenes/ClydeIzquierda.png', 'imagenes/ClydeDerecha.png' )
+ImgBlinky = Fantasma(277,311,'imagenes/BlinkyAbajo.png','imagenes/BlinkyArriba.png','imagenes/BlinkyIzquierda.png', 'imagenes/BlinkyDerecha.png', "imagenes/Fantasmapeligro.png", "imagenes/ojosArriba.png")
+ImgPinky = Fantasma(413,311,'imagenes/PinkyAbajo.png','imagenes/PinkyArriba.png','imagenes/PinkyIzquierda.png', 'imagenes/PinkyDerecha.png', "imagenes/Fantasmapeligro.png", "imagenes/ojosArriba.png" )
+ImgInky = Fantasma(277,379,'imagenes/InkyAbajo.png','imagenes/InkyArriba.png','imagenes/InkyIzquierda.png', 'imagenes/InkyDerecha.png', "imagenes/Fantasmapeligro.png", "imagenes/ojosArriba.png" )
+ImgClyde = Fantasma(413,379,'imagenes/ClydeAbajo.png','imagenes/ClydeArriba.png','imagenes/ClydeIzquierda.png', 'imagenes/ClydeDerecha.png', "imagenes/Fantasmapeligro.png", "imagenes/ojosArriba.png" )
 
 ImgGroupFantasmas.add(ImgBlinky)
 ImgGroupFantasmas.add(ImgPinky)

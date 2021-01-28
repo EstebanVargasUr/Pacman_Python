@@ -141,7 +141,7 @@ class Juego():
         self.cont = 0
         while self.cont < 10: 
             time.sleep(1)
-            print(self.cont)
+            #print(self.cont)
             self.cont +=1
         self.ConteoActivo = False
 
@@ -649,6 +649,9 @@ class Juego():
         return False        
      
     def MovimientoBlinky(self):
+        if len(self.RecorridoBlinky) < 14 and self.ConteoActivo:
+            self.UltimoVerticePacMan = str(random.randint(1, len(self.GrafoNivel.nodes)))
+
         if self.AlgoritmosFantasmas[0] == "Floyd" or self.VerticeBlinky != self.SigVerticePacMan:
             if self.RecorridoBlinky == None and self.AlgoritmosFantasmas[0] == "Floyd" or len(self.RecorridoBlinky) == 0 and self.VerticeBlinky != '':
                 self.RecorridoBlinky = MovPacMan.DeterminaAlgoritmo(self.AlgoritmosFantasmas[0],self.GrafoNivel,self.VerticeBlinky,self.UltimoVerticePacMan,self.MatrizDistancias,self.MatrizCaminos)
@@ -663,6 +666,9 @@ class Juego():
                     self.RecorridoBlinky, self.ContCasillasBlinky , self.FilaBlinky , self.ColBlinky , self.VerticeBlinky = MovPacMan.MovimientoFantasma(Imagen.ImgBlinky,"Blinky",self.AlgoritmosFantasmas[0],self.ContCasillasBlinky,self.FilaBlinky,self.ColBlinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticeBlinky,self.GrafoNivel,self.RecorridoBlinky,0,-1,"arriba",self.MatrizDistancias,self.MatrizCaminos)
 
     def MovimientoPinky(self,RecorridoIgual):
+        if len(self.RecorridoPinky) < 14 and self.ConteoActivo:
+            self.SigVerticePacMan = str(random.randint(1, len(self.GrafoNivel.nodes)))
+
         if self.AlgoritmosFantasmas[1] == "Floyd" or self.VerticePinky != self.SigVerticePacMan:
             if self.RecorridoPinky == None and self.AlgoritmosFantasmas[1] == "Floyd" or len(self.RecorridoPinky) == 0 and self.VerticePinky != '':
                 self.RecorridoPinky = MovPacMan.DeterminaAlgoritmo(self.AlgoritmosFantasmas[1],self.GrafoNivel,self.VerticePinky,self.UltimoVerticePacMan,self.MatrizDistancias,self.MatrizCaminos)
@@ -678,7 +684,7 @@ class Juego():
                     self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmosFantasmas[1],self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,1,"abajo",self.MatrizDistancias,self.MatrizCaminos)
                 elif self.AlgoritmosFantasmas[1] == "Dijsktra" and self.RecorridoPinky[0] == 'arriba' or self.AlgoritmosFantasmas[1] == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'arriba':
                     self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmosFantasmas[1],self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,self.UltimoVerticePacMan,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,-1,"arriba",self.MatrizDistancias,self.MatrizCaminos)
-    
+
     def MovimientoInky(self):
         if self.VerticeInky != self.UltimoVerticePacMan:
             if self.VerticeInky==self.posicion:
@@ -806,15 +812,17 @@ class Juego():
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
                 Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             #Actualiza el ultimo vertice que ha visitado el PacMan en el tablero    
-            if self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != "#" and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " ":
+            if self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != "#" and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and not self.ConteoActivo:
                 self.UltimoVerticePacMan = self.MatrizVertice[self.FilaPacMan][self.ColPacMan]
                 self.CalcualarSigVerticePacMan()
 
             #INICIA EL CONTEO PARA COMERSE A LOS FANTASMAS DESPUES DE CONSUMIR UN POWER PELLET
             if self.ConteoActivo == False and self.PoderPellet == True:
-                print("inicio conteo")
+                #print("inicio conteo")
                 self.ConteoActivo = True
                 self.PoderPellet = False
+                self.SigVerticePacMan = str(random.randint(1, len(self.GrafoNivel.nodes)))
+                self.UltimoVerticePacMan = str(random.randint(1, len(self.GrafoNivel.nodes)))
                 x = threading.Thread(target=self.contador,)
                 x.start() 
             if self.ConteoActivo == True and self.PoderPellet == True:
@@ -870,8 +878,14 @@ class Juego():
             if self.Victoria == True:
                 Imagen.ImgGroupVictoria.draw(self.ventana)
 
+        self.peligroFantasmas()
 
-
+    def peligroFantasmas(self):
+        if self.ConteoActivo:
+            Imagen.ActualizaFantasma("Inky",Imagen.ImgInky.rect.x,Imagen.ImgInky.rect.y,"peligro")
+            Imagen.ActualizaFantasma("Pinky",Imagen.ImgPinky.rect.x,Imagen.ImgPinky.rect.y,"peligro")
+            Imagen.ActualizaFantasma("Clyde",Imagen.ImgClyde.rect.x,Imagen.ImgClyde.rect.y,"peligro")
+            Imagen.ActualizaFantasma("Blinky",Imagen.ImgBlinky.rect.x,Imagen.ImgBlinky.rect.y,"peligro")
         
         
 
