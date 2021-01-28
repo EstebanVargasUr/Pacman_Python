@@ -1,5 +1,27 @@
 import Grafo.Grafo as GR
 import CargaImagen.CargaImagen as Imagen
+
+def Camino(P, u, v):                        #Camino u⤳v dado por Floyd-Warshall
+    lista = [v]                             #El camino termina en v
+    while v != u:                           #Hasta no llegar a u
+        v = P[u, v]                         #…retrocedemos un paso
+        lista.append(v)                     
+    lista.reverse()                         #Enlistamos el recorrido en reversa
+    return lista
+
+def RecorridoFloyd(Grafo,D,P,inicial,destino):
+    Recorrido = list()
+    for u in Grafo.nodes:
+        for v in Grafo.nodes:
+            if u != v and D[u, v] < float('inf'):
+                lista = Camino(P, v, u)
+                if str(lista[len(lista)-1]) == str(inicial) and str(lista[0]) == str(destino):
+                    for i in range(len(lista)):
+                        #print(lista[i],end=" ")
+                        if i+1 <len(lista):
+                            Recorrido.append(Grafo.direcciones[(lista[i],lista[i+1])])
+                    return Recorrido
+
 def Movimiento(Direccion,Laberinto,x,y):
     
     # print("-----------------------------------")
@@ -72,7 +94,7 @@ def VerificaMovimiento(Direccion,Laberinto,x,y):
             return True
         else: return False
 
-def MovimientoFantasma(ImagenF,Fantasma,Algoritmo,ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,VerticeFantasma,GrafoNivel,Recorrido,SumaX,SumaY,Direccion):
+def MovimientoFantasma(ImagenF,Fantasma,Algoritmo,ContCasillas,Fila,Columna,MatrizV,UltimoVerticePacMan,VerticeFantasma,GrafoNivel,Recorrido,SumaX,SumaY,Direccion,D,P):
     if ContCasillas == 33:    
         if SumaX == 1:
             Columna += 1
@@ -83,10 +105,10 @@ def MovimientoFantasma(ImagenF,Fantasma,Algoritmo,ContCasillas,Fila,Columna,Matr
         if SumaY == -1:
             Fila -=1
 
-        if Fantasma != "Clyde" or Fantasma == "Clyde" and len(Recorrido)==1:
+        if Fantasma != "Clyde" or Fantasma == "Clyde" and len(Recorrido)==0 or Algoritmo == "Dijsktra":
             if MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
                 VerticeFantasma = MatrizV[Fila][Columna]
-                Recorrido = DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltimoVerticePacMan)
+                Recorrido = DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltimoVerticePacMan,D,P)
         elif MatrizV[Fila][Columna] !='#' and MatrizV[Fila][Columna] !=' ':
             Recorrido.pop(len(Recorrido)-1)
             VerticeFantasma = MatrizV[Fila][Columna]
@@ -97,10 +119,11 @@ def MovimientoFantasma(ImagenF,Fantasma,Algoritmo,ContCasillas,Fila,Columna,Matr
     Imagen.ActualizaFantasma(Fantasma,ImagenF.rect.x+SumaX,ImagenF.rect.y+SumaY,Direccion)
     return Recorrido, ContCasillas, Fila , Columna , VerticeFantasma
 
-def DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,UltVertPacMan):
+def DeterminaAlgoritmo(Algoritmo,GrafoNivel,VerticeFantasma,Destino,D,P):
     if Algoritmo == "Dijsktra":
-        Recorrido = GR.Dijsktra(GrafoNivel,VerticeFantasma,UltVertPacMan)
+        Recorrido = GR.Dijsktra(GrafoNivel,VerticeFantasma,Destino)
         return Recorrido
     if Algoritmo == "Floyd":
-        Recorrido = GR.floyd_warshall(GrafoNivel,VerticeFantasma)
+        Recorrido = RecorridoFloyd(GrafoNivel,D,P,VerticeFantasma,Destino)
         return Recorrido
+

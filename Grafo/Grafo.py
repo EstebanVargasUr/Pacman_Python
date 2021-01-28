@@ -111,7 +111,7 @@ def camino(P, u, v):                        #Camino u⤳v dado por Floyd-Warshal
     lista.reverse()                         #Enlistamos el recorrido en reversa
     return lista
 
-def floyd_warshall(G,inicial):
+def floyd_warshall(G):
     D, P = dict(), dict()                   #Matrices de distancias y caminos
     for u in G.nodes:                             #Inicializar caminos
         for v in G.nodes:
@@ -128,14 +128,14 @@ def floyd_warshall(G,inicial):
                     D[u, v] = atajo         #Actualizar distancias
                     P[u, v] = P[k, v]       #Actualizar caminos
     
+    return D, P
     Recorrido = list()
-    Destino = random.randint(1, len(G.nodes))
-
+    
     for u in G.nodes:
         for v in G.nodes:
             if u != v and D[u, v] < float('inf'):
                 lista = camino(P, v, u)
-                if str(lista[len(lista)-1]) == str(inicial) and str(lista[0]) == str(Destino):
+                if str(lista[len(lista)-1]) == str(inicial) and str(lista[0]) == str(destino):
                     for i in range(len(lista)):
                         #print(lista[i],end=" ")
                         if i+1 <len(lista):
