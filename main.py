@@ -116,6 +116,17 @@ class Juego():
         self.Partida8=0
         self.Partida9=0
         self.Partida10=0
+        self.Puntos1=0
+        self.Puntos2=0
+        self.Puntos3=0
+        self.Puntos4=0
+        self.Puntos5=0
+        self.Puntos6=0
+        self.Puntos7=0
+        self.Puntos8=0
+        self.Puntos9=0
+        self.Puntos10=0
+        self.Top10= list()
     def LimpiarPantalla(self):
         self.ventana.fill((0,0,0)) # LIMPIA PANTALLA
     
@@ -374,7 +385,27 @@ class Juego():
                                 else:
                                     self.RecorridoPinky[0] = 'arriba'
                                 return self.VerticePinky
-                        
+    def determinaNivelPuntaje(self):
+        if self.Escena=='Nivel1':
+            self.Puntos1=self.Puntos1+10
+        if self.Escena=='Nivel2':
+            self.Puntos2=self.Puntos2+10
+        if self.Escena=='Nivel3':   
+            self.Puntos3=self.Puntos3+10
+        if self.Escena=='Nivel4':    
+            self.Puntos4=self.Puntos4+10
+        if self.Escena=='Nivel5': 
+            self.Puntos5=self.Puntos5+10
+        if self.Escena=='Nivel6':     
+            self.Puntos6=self.Puntos6+10
+        if self.Escena=='Nivel7':   
+            self.Puntos7=self.Puntos7+10
+        if self.Escena=='Nivel8':   
+            self.Puntos8=self.Puntos8+10
+        if self.Escena=='Nivel9':  
+            self.Puntos9=self.Puntos9+10
+        if self.Escena=='Nivel10':    
+            self.Puntos10=self.Puntos10+10
     def Eventos(self):
         for event in pygame.event.get(): #EVENTOS
             if event.type == pygame.QUIT: #CIERRA VENTANA
@@ -396,6 +427,16 @@ class Juego():
                     self.datosJugador[12]=self.Partida8
                     self.datosJugador[13]=self.Partida9
                     self.datosJugador[14]=self.Partida10
+                    self.datosJugador[15]=self.Puntos1
+                    self.datosJugador[16]=self.Puntos2
+                    self.datosJugador[17]=self.Puntos3
+                    self.datosJugador[18]=self.Puntos4
+                    self.datosJugador[19]=self.Puntos5
+                    self.datosJugador[20]=self.Puntos6
+                    self.datosJugador[21]=self.Puntos7
+                    self.datosJugador[22]=self.Puntos8
+                    self.datosJugador[23]=self.Puntos9
+                    self.datosJugador[24]=self.Puntos10
                     RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                 sys.exit()
             
@@ -426,6 +467,16 @@ class Juego():
                                 self.datosJugador[12]=self.Partida8
                                 self.datosJugador[13]=self.Partida9
                                 self.datosJugador[14]=self.Partida10
+                                self.datosJugador[15]=self.Puntos1
+                                self.datosJugador[16]=self.Puntos2
+                                self.datosJugador[17]=self.Puntos3
+                                self.datosJugador[18]=self.Puntos4
+                                self.datosJugador[19]=self.Puntos5
+                                self.datosJugador[20]=self.Puntos6
+                                self.datosJugador[21]=self.Puntos7
+                                self.datosJugador[22]=self.Puntos8
+                                self.datosJugador[23]=self.Puntos9
+                                self.datosJugador[24]=self.Puntos10
                                 RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                             sys.exit()
                     elif self.Escena == "SelectorPartida":
@@ -435,6 +486,26 @@ class Juego():
                             self.Puntos=0
                             self.Vidas=6
                             self.NivelesDesbloqueados=False
+                            self.Partida1=0
+                            self.Partida2=0
+                            self.Partida3=0
+                            self.Partida4=0
+                            self.Partida5=0
+                            self.Partida6=0
+                            self.Partida7=0
+                            self.Partida8=0
+                            self.Partida9=0
+                            self.Partida10=0
+                            self.Puntos1=0
+                            self.Puntos2=0
+                            self.Puntos3=0
+                            self.Puntos4=0
+                            self.Puntos5=0
+                            self.Puntos6=0
+                            self.Puntos7=0
+                            self.Puntos8=0
+                            self.Puntos9=0
+                            self.Puntos10=0
                             self.niveles.clear()
                             for i in range(10):
                                 self.niveles.append(Nivel.laberinto(10,10))
@@ -459,6 +530,18 @@ class Juego():
                             self.Partida8=int(self.datosJugador[12])
                             self.Partida9=int(self.datosJugador[13])
                             self.Partida10=int(self.datosJugador[14])
+                            self.Puntos1=int(self.datosJugador[15])
+                            self.Puntos2=int(self.datosJugador[16])
+                            self.Puntos3=int(self.datosJugador[17])
+                            self.Puntos4=int(self.datosJugador[18])
+                            self.Puntos5=int(self.datosJugador[19])
+                            self.Puntos6=int(self.datosJugador[20])
+                            self.Puntos7=int(self.datosJugador[21])
+                            self.Puntos8=int(self.datosJugador[22])
+                            self.Puntos9=int(self.datosJugador[23])
+                            self.Puntos10=int(self.datosJugador[24])
+                            print(self.Puntos1)
+                            print(self.Puntos2)
                             if self.Vidas==0:
                                 self.Escena='GameOver'
                             else:
@@ -513,6 +596,16 @@ class Juego():
                             self.datosJugador[12]=self.Partida8
                             self.datosJugador[13]=self.Partida9
                             self.datosJugador[14]=self.Partida10
+                            self.datosJugador[15]=self.Puntos1
+                            self.datosJugador[16]=self.Puntos2
+                            self.datosJugador[17]=self.Puntos3
+                            self.datosJugador[18]=self.Puntos4
+                            self.datosJugador[19]=self.Puntos5
+                            self.datosJugador[20]=self.Puntos6
+                            self.datosJugador[21]=self.Puntos7
+                            self.datosJugador[22]=self.Puntos8
+                            self.datosJugador[23]=self.Puntos9
+                            self.datosJugador[24]=self.Puntos10
                             RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                             self.Escena = "MenuPrincipal"
                         if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
@@ -521,30 +614,39 @@ class Juego():
                         if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 1500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(2)
+                                self.Partida2=self.Partida2+1
                         if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 2500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(3)
+                                self.Partida3=self.Partida3+1
                         if Imagen.btnSelecNiv4.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 3500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(4)
+                                self.Partida4=self.Partida4+1
                         if Imagen.btnSelecNiv5.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 4500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(5)
+                                self.Partida5=self.Partida5+1
                         if Imagen.btnSelecNiv6.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 5500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(6)
+                                self.Partida6=self.Partida6+1
                         if Imagen.btnSelecNiv7.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 6500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(7)
+                                self.Partida7=self.Partida7+1
                         if Imagen.btnSelecNiv8.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 7500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(8)
+                                self.Partida8=self.Partida8+1
                         if Imagen.btnSelecNiv9.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 8500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(9)
+                                self.Partida9=self.Partida9+1
                         if Imagen.btnSelecNiv10.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 9500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(10)
+                                self.Partida10=self.Partida10+1
                     elif self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.LimpiarNivel()
@@ -590,6 +692,16 @@ class Juego():
                                 self.datosJugador.append(self.Partida8)
                                 self.datosJugador.append(self.Partida9)
                                 self.datosJugador.append(self.Partida10)
+                                self.datosJugador.append(self.Puntos1)
+                                self.datosJugador.append(self.Puntos2)
+                                self.datosJugador.append(self.Puntos3)
+                                self.datosJugador.append(self.Puntos4)
+                                self.datosJugador.append(self.Puntos5)
+                                self.datosJugador.append(self.Puntos6)
+                                self.datosJugador.append(self.Puntos7)
+                                self.datosJugador.append(self.Puntos8)
+                                self.datosJugador.append(self.Puntos9)
+                                self.datosJugador.append(self.Puntos10)
                                 RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                         elif event.key == pygame.K_BACKSPACE:
                             self.NombreJugador = self.NombreJugador[:-1]
@@ -709,16 +821,36 @@ class Juego():
             partida8= self.font.render(str(self.Partida8), True, 'white')
             partida9= self.font.render(str(self.Partida9), True, 'white')
             partida10= self.font.render(str(self.Partida10), True, 'white')
-            self.ventana.blit(partida1, (180, 395))
-            self.ventana.blit(partida2, (380, 395))
-            self.ventana.blit(partida3, (580, 395))
-            self.ventana.blit(partida4, (780, 395))
-            self.ventana.blit(partida5, (980, 395))
-            self.ventana.blit(partida6, (180, 555))
-            self.ventana.blit(partida7, (380, 555))
-            self.ventana.blit(partida8, (580, 555))
-            self.ventana.blit(partida9, (780, 555))
-            self.ventana.blit(partida10, (980, 555))
+            self.ventana.blit(partida1, (170, 395))
+            self.ventana.blit(partida2, (360, 395))
+            self.ventana.blit(partida3, (560, 395))
+            self.ventana.blit(partida4, (760, 395))
+            self.ventana.blit(partida5, (960, 395))
+            self.ventana.blit(partida6, (160, 555))
+            self.ventana.blit(partida7, (360, 555))
+            self.ventana.blit(partida8, (560, 555))
+            self.ventana.blit(partida9, (760, 555))
+            self.ventana.blit(partida10, (960, 555))
+            puntos1= self.font.render(str(self.Puntos1), True, 'white')
+            puntos2= self.font.render(str(self.Puntos2), True, 'white')
+            puntos3= self.font.render(str(self.Puntos3), True, 'white')
+            puntos4= self.font.render(str(self.Puntos4), True, 'white')
+            puntos5= self.font.render(str(self.Puntos5), True, 'white')
+            puntos6= self.font.render(str(self.Puntos6), True, 'white')
+            puntos7= self.font.render(str(self.Puntos7), True, 'white')
+            puntos8= self.font.render(str(self.Puntos8), True, 'white')
+            puntos9= self.font.render(str(self.Puntos9), True, 'white')
+            puntos10= self.font.render(str(self.Puntos10), True, 'white')
+            self.ventana.blit(puntos1, (170, 355))
+            self.ventana.blit(puntos2, (360, 355))
+            self.ventana.blit(puntos3, (560, 355))
+            self.ventana.blit(puntos4, (760, 355))
+            self.ventana.blit(puntos5, (960, 355))
+            self.ventana.blit(puntos6, (170, 515))
+            self.ventana.blit(puntos7, (360, 515))
+            self.ventana.blit(puntos8, (560, 515))
+            self.ventana.blit(puntos9, (760, 515))
+            self.ventana.blit(puntos10, (960, 515))
         if self.Escena == "Top":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupTop.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
@@ -977,6 +1109,7 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan+1]=='.':
                             self.Puntos+=10
+                            self.determinaNivelPuntaje()
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.ColPacMan+=1
                         self.ContCasillas = 0
@@ -990,6 +1123,7 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan-1]=='.':
                             self.Puntos+=10
+                            self.determinaNivelPuntaje()
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.ColPacMan-=1
                         self.ContCasillas = 0
@@ -1003,6 +1137,7 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan-1][self.ColPacMan]=='.':
                             self.Puntos+=10
+                            self.determinaNivelPuntaje()
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.FilaPacMan-=1
                         self.ContCasillas = 0
@@ -1016,6 +1151,7 @@ class Juego():
                     if self.ContCasillas == 17:
                         if self.MatrizTunel[self.FilaPacMan+1][self.ColPacMan]=='.':
                             self.Puntos+=10
+                            self.determinaNivelPuntaje()
                         self.PoderPellet = MovPacMan.Movimiento(self.DireccionPacman,self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan)
                         self.FilaPacMan+=1
                         self.ContCasillas = 0
