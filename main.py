@@ -418,6 +418,37 @@ class Juego():
             self.Puntos9=self.Puntos9+10
         if self.Escena=='Nivel10':    
             self.Puntos10=self.Puntos10+10
+
+    def CargaEstadisticas(self):
+        for i in range(10):
+            self.niveles.append(RW.fileRead("CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt"))
+        self.datosJugador=RW.fileRead("CreaNivel/DatosJugador/jugador.txt")
+        self.NombreJugador= self.datosJugador[0]
+        self.Puntos= int(self.datosJugador[1])
+        self.Vidas= int(self.datosJugador[2])
+        self.NivelesDesbloqueados= self.datosJugador[3]
+        self.PuntajeSinPerder= self.datosJugador[4]
+        self.Partida1=int(self.datosJugador[5])
+        self.Partida2=int(self.datosJugador[6])
+        self.Partida3=int(self.datosJugador[7])
+        self.Partida4=int(self.datosJugador[8])
+        self.Partida5=int(self.datosJugador[9])
+        self.Partida6=int(self.datosJugador[10])
+        self.Partida7=int(self.datosJugador[11])
+        self.Partida8=int(self.datosJugador[12])
+        self.Partida9=int(self.datosJugador[13])
+        self.Partida10=int(self.datosJugador[14])
+        self.Puntos1=int(self.datosJugador[15])
+        self.Puntos2=int(self.datosJugador[16])
+        self.Puntos3=int(self.datosJugador[17])
+        self.Puntos4=int(self.datosJugador[18])
+        self.Puntos5=int(self.datosJugador[19])
+        self.Puntos6=int(self.datosJugador[20])
+        self.Puntos7=int(self.datosJugador[21])
+        self.Puntos8=int(self.datosJugador[22])
+        self.Puntos9=int(self.datosJugador[23])
+        self.Puntos10=int(self.datosJugador[24])
+
     def Eventos(self):
         for event in pygame.event.get(): #EVENTOS
             if event.type == pygame.QUIT: #CIERRA VENTANA
@@ -524,36 +555,7 @@ class Juego():
                                 RW.fileWrite(self.niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
                                 
                         if Imagen.btnCargarPartida.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            for i in range(10):
-                                self.niveles.append(RW.fileRead("CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt"))
-                            self.datosJugador=RW.fileRead("CreaNivel/DatosJugador/jugador.txt")
-                            self.NombreJugador= self.datosJugador[0]
-                            self.Puntos= int(self.datosJugador[1])
-                            self.Vidas= int(self.datosJugador[2])
-                            self.NivelesDesbloqueados= self.datosJugador[3]
-                            self.PuntajeSinPerder= self.datosJugador[4]
-                            self.Partida1=int(self.datosJugador[5])
-                            self.Partida2=int(self.datosJugador[6])
-                            self.Partida3=int(self.datosJugador[7])
-                            self.Partida4=int(self.datosJugador[8])
-                            self.Partida5=int(self.datosJugador[9])
-                            self.Partida6=int(self.datosJugador[10])
-                            self.Partida7=int(self.datosJugador[11])
-                            self.Partida8=int(self.datosJugador[12])
-                            self.Partida9=int(self.datosJugador[13])
-                            self.Partida10=int(self.datosJugador[14])
-                            self.Puntos1=int(self.datosJugador[15])
-                            self.Puntos2=int(self.datosJugador[16])
-                            self.Puntos3=int(self.datosJugador[17])
-                            self.Puntos4=int(self.datosJugador[18])
-                            self.Puntos5=int(self.datosJugador[19])
-                            self.Puntos6=int(self.datosJugador[20])
-                            self.Puntos7=int(self.datosJugador[21])
-                            self.Puntos8=int(self.datosJugador[22])
-                            self.Puntos9=int(self.datosJugador[23])
-                            self.Puntos10=int(self.datosJugador[24])
-                            print(self.Puntos1)
-                            print(self.Puntos2)
+                            game.CargaEstadisticas()
                             if self.Vidas==0:
                                 self.Escena='GameOver'
                             else:
@@ -1296,6 +1298,7 @@ class Juego():
 #Inicializa el programa
 game = Juego()   
 game.__init__()
+game.CargaEstadisticas()
 
 while True:
 
