@@ -99,6 +99,7 @@ class Juego():
         self.numRand=random.randint(1, 60)
         self.posicion= str(self.numRand)
 
+        self.NivelesDesbloqueados= False
 
     def LimpiarPantalla(self):
         self.ventana.fill((0,0,0)) # LIMPIA PANTALLA
@@ -161,7 +162,6 @@ class Juego():
         self.Jugador = Imagen.Jugador # PERMITE OBTENER LA UBICACION
         self.NivelSeleccionado = False
         self.LimpiarFantasmas()
-        
     def IniciarFantasmas(self):
 
         if self.ClickBtnNivel == True:
@@ -341,6 +341,7 @@ class Juego():
                         RW.fileWrite(self.niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
                     self.datosJugador[1]=self.Puntos
                     self.datosJugador[2]=self.Vidas
+                    self.datosJugador[3]=self.NivelesDesbloqueados
                     RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                 sys.exit()
             
@@ -358,6 +359,8 @@ class Juego():
                                 for i in range(10):
                                     RW.fileWrite(self.niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
                                 self.datosJugador[1]=self.Puntos
+                                self.datosJugador[2]=self.Vidas
+                                self.datosJugador[3]=self.NivelesDesbloqueados
                                 RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                             sys.exit()
                     elif self.Escena == "SelectorPartida":
@@ -366,6 +369,7 @@ class Juego():
                             self.NombreJugador=""
                             self.Puntos=0
                             self.Vidas=6
+                            self.NivelesDesbloqueados=False
                             self.niveles.clear()
                             for i in range(10):
                                 self.niveles.append(Nivel.laberinto(10,10))
@@ -378,6 +382,7 @@ class Juego():
                             self.NombreJugador= self.datosJugador[0]
                             self.Puntos= int(self.datosJugador[1])
                             self.Vidas= int(self.datosJugador[2])
+                            self.NivelesDesbloqueados= self.datosJugador[3]
                             if self.Vidas==0:
                                 self.Escena='GameOver'
                             else:
@@ -398,6 +403,12 @@ class Juego():
                     elif self.Escena == "Ajustes":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena = "MenuPrincipal"
+                        if Imagen.btnDesbloquea.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                            self.NivelesDesbloqueados=True
+                            self.datosJugador[1]=self.Puntos
+                            self.datosJugador[2]=self.Vidas
+                            self.datosJugador[3]=self.NivelesDesbloqueados
+                            RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                         if Imagen.btnMedio.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Dificultad = "Medio"
                         if Imagen.btnDificil.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
@@ -418,23 +429,32 @@ class Juego():
                         if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.IniciaNivel(1)
                         if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(2)
+                            if self.Puntos >= 1500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(2)
                         if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(3)
+                            if self.Puntos >= 2500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(3)
                         if Imagen.btnSelecNiv4.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(4)
+                            if self.Puntos >= 3500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(4)
                         if Imagen.btnSelecNiv5.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(5)
+                            if self.Puntos >= 4500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(5)
                         if Imagen.btnSelecNiv6.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(6)
+                            if self.Puntos >= 5500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(6)
                         if Imagen.btnSelecNiv7.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(7)
+                            if self.Puntos >= 6500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(7)
                         if Imagen.btnSelecNiv8.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(8)
+                            if self.Puntos >= 7500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(8)
                         if Imagen.btnSelecNiv9.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(9)
+                            if self.Puntos >= 8500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(9)
                         if Imagen.btnSelecNiv10.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
-                            self.IniciaNivel(10)
+                            if self.Puntos >= 9500 or self.NivelesDesbloqueados ==True:
+                                self.IniciaNivel(10)
                     elif self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.LimpiarNivel()
@@ -463,11 +483,13 @@ class Juego():
                 if self.Escena == "RegistraNombre":
                     if self.active:
                         if event.key == pygame.K_RETURN:
-                            self.Escena = "SelectorNivel"
-                            self.datosJugador.append(str(self.NombreJugador))
-                            self.datosJugador.append(self.Puntos)
-                            self.datosJugador.append(self.Vidas)
-                            RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
+                            if self.NombreJugador != '':
+                                self.Escena = "SelectorNivel"
+                                self.datosJugador.append(str(self.NombreJugador))
+                                self.datosJugador.append(self.Puntos)
+                                self.datosJugador.append(self.Vidas)
+                                self.datosJugador.append(self.NivelesDesbloqueados)
+                                RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                         elif event.key == pygame.K_BACKSPACE:
                             self.NombreJugador = self.NombreJugador[:-1]
                         else:
@@ -569,6 +591,10 @@ class Juego():
         if self.Escena == "Jugador":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupEstadisiticas.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
+            self.LblPuntos = self.font.render(str(self.Puntos), True, 'white')
+            self.ventana.blit(self.LblPuntos, (400, 150))
+            self.LblVidas= self.font.render(str(6-self.Vidas), True, 'white')
+            self.ventana.blit(self.LblVidas, (1100, 155))
         if self.Escena == "Top":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupTop.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
@@ -619,7 +645,6 @@ class Juego():
             self.LblVidas = self.font2.render('0', True, 'white')
             self.ventana.blit(self.LblPuntos, (550, 257))
             self.ventana.blit(self.LblVidas, (550, 325))
-
 
 
     def CalcualarSigVerticePacMan(self):
