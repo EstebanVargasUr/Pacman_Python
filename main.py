@@ -809,7 +809,7 @@ class Juego():
             self.LblVidas= self.font.render(str(6-self.Vidas), True, 'white')
             self.ventana.blit(self.LblVidas, (1100, 155))
             puntajeSinPerder= self.font.render(str(self.PuntajeSinPerder), True, 'white')
-            self.ventana.blit(puntajeSinPerder, (640, 240))
+            self.ventana.blit(puntajeSinPerder, (440, 240))
 
             partida1= self.font.render(str(self.Partida1), True, 'white')
             partida2= self.font.render(str(self.Partida2), True, 'white')
@@ -826,7 +826,7 @@ class Juego():
             self.ventana.blit(partida3, (560, 395))
             self.ventana.blit(partida4, (760, 395))
             self.ventana.blit(partida5, (960, 395))
-            self.ventana.blit(partida6, (160, 555))
+            self.ventana.blit(partida6, (170, 555))
             self.ventana.blit(partida7, (360, 555))
             self.ventana.blit(partida8, (560, 555))
             self.ventana.blit(partida9, (760, 555))
