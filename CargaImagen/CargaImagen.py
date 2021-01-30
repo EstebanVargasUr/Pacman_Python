@@ -115,6 +115,9 @@ icono_ventana = pygame.image.load("imagenes/icono_ventana.png")
 ImgFondoMenu = pygame.image.load("imagenes/FondoMenu.jpg")  
 ImgFondoMenu = pygame.transform.scale(ImgFondoMenu, (1200, 720))
 btnAtras = CargaImagen("imagenes/btnDevolver.png",100,40,1080,670,True)
+btnPoder = CargaImagen("imagenes/SuperVelocidad.png",100,100,1090,550,True)
+btnPoderG = pygame.sprite.Group()
+btnPoderG.add(btnPoder)
 
 #VICTORIA
 btnHome = CargaImagen("imagenes/btnHome.png",80,80,220,180,True)

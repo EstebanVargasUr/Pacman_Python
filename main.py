@@ -31,6 +31,10 @@ class Juego():
         self.ConteoActivo = False
         self.Vidas = 0
         self.Victoria = False
+        self.PoderAdquirido = False
+        self.contPoder = 0
+        self.PoderActivo = False
+        self.PoderFinalizado = False
 
         self.Dificultad = "Dificil"
         self.AlgoritmosFantasmas = ["","","",""]
@@ -51,6 +55,8 @@ class Juego():
         self.LblPuntos=""
         self.TituloVidas=""
         self.LblVidas=""
+        self.VelocidadPacMan = 1
+        self.LimiteCasillasPacMan = 34
 
 
         self.DireccionPacman = "inicio"
@@ -185,6 +191,14 @@ class Juego():
             self.cont +=1
         self.ConteoActivo = False
 
+    def ContadorPoder(self):
+        self.contPoder = 0
+        while self.contPoder < 6: 
+            time.sleep(1)
+            self.contPoder +=1
+        self.PoderFinalizado = True
+        
+        
     def LimpiarNivel(self):
         self.Victoria = False
         self.DireccionPacman = "inicio"
@@ -277,6 +291,22 @@ class Juego():
                     self.Victoria = True
             if self.Victoria == False:
                 break      
+
+    def CompruebaPoder(self):
+        cont = 0
+        if self.BlinkyMuerto:
+            cont +=1
+        if self.PinkyMuerto:
+            cont +=1
+        if self.InkyMuerto:
+            cont +=1
+        if self.ClydeMuerto:
+            cont +=1
+
+        if cont > 1:
+            self.PoderAdquirido = True
+            
+
 
     #VERIFICA SI UN FANTASMA TOCA A PACMAN Y LE RESTA UNA VIDA
     def ComprobarDerrota(self):
@@ -453,6 +483,7 @@ class Juego():
         for event in pygame.event.get(): #EVENTOS
             if event.type == pygame.QUIT: #CIERRA VENTANA
                 self.cont = 10
+                self.contPoder = 6
                 if len(self.niveles)!=0:
                     for i in range(10):
                         RW.fileWrite(self.niveles[i],"CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt")
@@ -683,8 +714,10 @@ class Juego():
                                 self.NumNivel = str(1+int(self.Escena[5]))
                                 self.Escena = "Nivel"+self.NumNivel
                                 self.IniciaNivel(int(self.NumNivel))
+                        if Imagen.btnPoder.rect.collidepoint(pygame.mouse.get_pos()) and self.PoderAdquirido == True: #CLICK DENTRO DEL SPRITE
+                            self.PoderAdquirido = False
+                            self.PoderActivo = True
                             
-
             if event.type == pygame.KEYDOWN: # EVENTOS DE TECLADO
                 if self.Escena == "RegistraNombre":
                     if self.active:
@@ -740,14 +773,14 @@ class Juego():
                         self.NumNivel = self.Escena[5]
                     if event.key == pygame.K_UP or event.key == pygame.K_w:
                         if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
-                            if self.ContCasillas <= 17:
+                            if self.ContCasillas <= self.LimiteCasillasPacMan:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "derecha":
-                                        self.PosXPacMan -=2
+                                        self.PosXPacMan -=self.VelocidadPacMan
                                     if self.DireccionPacman == "izquierda":
-                                        self.PosXPacMan +=2
+                                        self.PosXPacMan +=self.VelocidadPacMan
                                     if self.DireccionPacman == "abajo":
-                                        self.PosYPacMan -=2
+                                        self.PosYPacMan -=self.VelocidadPacMan
                             if self.DireccionPacman != "arriba":
                                 self.DireccionPacman = "arriba"
                                 self.ContCasillas = 0
@@ -757,14 +790,14 @@ class Juego():
                         
                     if event.key == pygame.K_DOWN or event.key == pygame.K_s:
                         if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
-                            if self.ContCasillas <= 17:
+                            if self.ContCasillas <= self.LimiteCasillasPacMan:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "derecha":
-                                        self.PosXPacMan -=2
+                                        self.PosXPacMan -=self.VelocidadPacMan
                                     if self.DireccionPacman == "izquierda":
-                                        self.PosXPacMan +=2
+                                        self.PosXPacMan +=self.VelocidadPacMan
                                     if self.DireccionPacman == "arriba":
-                                        self.PosYPacMan +=2
+                                        self.PosYPacMan +=self.VelocidadPacMan
                             if self.DireccionPacman != "abajo":
                                 self.DireccionPacman = "abajo"
                                 self.ContCasillas = 0
@@ -774,14 +807,14 @@ class Juego():
 
                     if event.key == pygame.K_RIGHT or event.key == pygame.K_d: 
                         if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
-                            if self.ContCasillas <= 17:
+                            if self.ContCasillas <= self.LimiteCasillasPacMan:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "arriba":
-                                        self.PosYPacMan +=2
+                                        self.PosYPacMan +=self.VelocidadPacMan
                                     if self.DireccionPacman == "izquierda":
-                                        self.PosXPacMan +=2
+                                        self.PosXPacMan +=self.VelocidadPacMan
                                     if self.DireccionPacman == "abajo":
-                                        self.PosYPacMan -=2
+                                        self.PosYPacMan -=self.VelocidadPacMan
                             if self.DireccionPacman != "derecha":
                                 self.DireccionPacman = "derecha"
                                 self.ContCasillas = 0
@@ -791,22 +824,25 @@ class Juego():
                         
                     if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                         if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan): 
-                            if self.ContCasillas <= 17:
+                            if self.ContCasillas <= self.LimiteCasillasPacMan:
                                 for i in range(self.ContCasillas):
                                     if self.DireccionPacman == "derecha":
-                                        self.PosXPacMan -=2
+                                        self.PosXPacMan -=self.VelocidadPacMan
                                     if self.DireccionPacman == "arriba":
-                                        self.PosYPacMan +=2
+                                        self.PosYPacMan +=self.VelocidadPacMan
                                     if self.DireccionPacman == "abajo":
-                                        self.PosYPacMan -=2
+                                        self.PosYPacMan -=self.VelocidadPacMan
                             if self.DireccionPacman != "izquierda":
                                 self.DireccionPacman = "izquierda"
                                 self.ContCasillas = 0
                         else:
                             self.DireccionPacman2 = "izquierda"
-                            self.Permitido = True        
+                            self.Permitido = True   
 
-
+                    if event.key == pygame.K_f and self.PoderAdquirido == True:
+                        self.PoderAdquirido = False
+                        self.PoderActivo = True
+                   
 
     def CargarGraficaNivel(self):
         if self.ClickBtnNivel == True:
@@ -1008,7 +1044,6 @@ class Juego():
                 self.RecorridoPinky = MovPacMan.DeterminaAlgoritmo(self.AlgoritmoPinky,self.GrafoNivel,self.VerticePinky,Aux,self.MatrizDistancias,self.MatrizCaminos)
             
             if not self.PinkyMuerto and RecorridoIgual == True and not self.ConteoActivo:
-                #print(RecorridoIgual)
                 self.DeterminaRecorridosIguales()
                 RecorridoIgual = False
 
@@ -1104,10 +1139,23 @@ class Juego():
 
     def Movimientos(self):
         if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
+            if self.PoderActivo == True and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and self.ContCasillas == 0:
+                self.PoderActivo = False
+                self.VelocidadPacMan = 2
+                self.LimiteCasillasPacMan = 17
+                ThreadContPoder = threading.Thread(target=self.ContadorPoder,)
+                ThreadContPoder.start()
+            if self.PoderFinalizado == True and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and self.ContCasillas == 0:
+                self.PoderFinalizado = False
+                self.VelocidadPacMan = 1
+                self.LimiteCasillasPacMan = 34
+            
             if not self.ConteoActivo:
                 self.ComprobarDerrota()
             else:
                 self.ComerFantasma()
+                if self.PoderActivo == False and self.VelocidadPacMan == 1:
+                    self.CompruebaPoder()
 
             if self.Escena=='Nivel10':
                 self.NumNivel='10'
@@ -1150,7 +1198,7 @@ class Juego():
                 self.PuntajeSinPerder= self.Puntos
             if self.DireccionPacman == "derecha" and self.Victoria == False:
                 if MovPacMan.VerificaMovimiento("derecha",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
-                    if self.ContCasillas == 17:
+                    if self.ContCasillas == self.LimiteCasillasPacMan:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan+1]=='.':
                             self.Puntos+=10
                             self.determinaNivelPuntaje()
@@ -1158,13 +1206,13 @@ class Juego():
                         self.ColPacMan+=1
                         self.ContCasillas = 0
                     else:
-                        self.PosXPacMan = self.PosXPacMan+2
+                        self.PosXPacMan = self.PosXPacMan+self.VelocidadPacMan
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
                 Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             if self.DireccionPacman == "izquierda" and self.Victoria == False:
                 if MovPacMan.VerificaMovimiento("izquierda",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
-                    if self.ContCasillas == 17:
+                    if self.ContCasillas == self.LimiteCasillasPacMan:
                         if self.MatrizTunel[self.FilaPacMan][self.ColPacMan-1]=='.':
                             self.Puntos+=10
                             self.determinaNivelPuntaje()
@@ -1172,13 +1220,13 @@ class Juego():
                         self.ColPacMan-=1
                         self.ContCasillas = 0
                     else:
-                        self.PosXPacMan = self.PosXPacMan-2
+                        self.PosXPacMan = self.PosXPacMan-self.VelocidadPacMan
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
                 Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             if self.DireccionPacman == "arriba" and self.Victoria == False:
                 if MovPacMan.VerificaMovimiento("arriba",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
-                    if self.ContCasillas == 17:
+                    if self.ContCasillas == self.LimiteCasillasPacMan:
                         if self.MatrizTunel[self.FilaPacMan-1][self.ColPacMan]=='.':
                             self.Puntos+=10
                             self.determinaNivelPuntaje()
@@ -1186,13 +1234,13 @@ class Juego():
                         self.FilaPacMan-=1
                         self.ContCasillas = 0
                     else:
-                        self.PosYPacMan = self.PosYPacMan-2
+                        self.PosYPacMan = self.PosYPacMan-self.VelocidadPacMan
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
                 Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
             if self.DireccionPacman == "abajo" and self.Victoria == False:
                 if MovPacMan.VerificaMovimiento("abajo",self.niveles[int(self.NumNivel)-1],self.FilaPacMan,self.ColPacMan):
-                    if self.ContCasillas == 17:
+                    if self.ContCasillas == self.LimiteCasillasPacMan:
                         if self.MatrizTunel[self.FilaPacMan+1][self.ColPacMan]=='.':
                             self.Puntos+=10
                             self.determinaNivelPuntaje()
@@ -1201,7 +1249,7 @@ class Juego():
                         self.ContCasillas = 0
                         
                     else:
-                        self.PosYPacMan = self.PosYPacMan+2
+                        self.PosYPacMan = self.PosYPacMan+self.VelocidadPacMan
                         self.ContCasillas += 1
                 Imagen.ActualizaPacMan(self.Jugador,self.PosXPacMan,self.PosYPacMan)
                 Imagen.ActualizaPts(int(self.NumNivel),self.niveles)
@@ -1245,6 +1293,9 @@ class Juego():
             self.LblVidas = self.font.render(str(self.Vidas), True, 'white')
             self.ventana.blit(self.LblVidas, (900, 100))
 
+            if self.PoderAdquirido == True:
+                Imagen.btnPoderG.draw(self.ventana)
+
             #Movimiento del Fantasma
             if self.Victoria == False and self.Vidas != 0:
                 RecorridoIgual = False
@@ -1257,8 +1308,6 @@ class Juego():
                     RecorridoIgual = True
                 if self.RecorridoPinky == self.RecorridoBlinky and self.ContCasillasPinky == 0 and self.ContCasillasBlinky == 0:
                     RecorridoIgual = True
-
-                
 
                 #Blinky
                 if not self.CargandoBlinky:
