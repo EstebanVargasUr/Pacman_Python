@@ -137,7 +137,10 @@ class Juego():
         self.Puntos8=0
         self.Puntos9=0
         self.Puntos10=0
+        self.tiempoJugado=0
+        self.tiempoBandera= False
         self.Top10= list()
+        self.BanderaPuntajeTop=False
     def LimpiarPantalla(self):
         self.ventana.fill((0,0,0)) # LIMPIA PANTALLA
     
@@ -190,6 +193,12 @@ class Juego():
             #print(self.cont)
             self.cont +=1
         self.ConteoActivo = False
+    
+    def tiempoTranscurrido(self):
+        while self.tiempoBandera!=False: 
+            time.sleep(1)
+            self.tiempoJugado +=1
+
 
     def ContadorPoder(self):
         self.contPoder = 0
@@ -495,7 +504,26 @@ class Juego():
         self.Puntos8=int(self.datosJugador[22])
         self.Puntos9=int(self.datosJugador[23])
         self.Puntos10=int(self.datosJugador[24])
+        self.tiempoJugado=int(self.datosJugador[25])
 
+    def SelectionSort(self,lista):
+        for i in range(10,20): 
+            minimo = i 
+            for j in range(i+1, len(lista)): 
+                if lista[minimo] <= lista[j]: 
+                    minimo = j        
+            lista[i], lista[minimo] = lista[minimo], lista[i]
+            lista[i-10], lista[minimo-10] = lista[minimo-10], lista[i-10]  
+    def entraTop(self):
+        for i in range(10,20): 
+            if int(self.Top10[i]) <= self.Puntos:
+                self.BanderaPuntajeTop=True
+    def verificaNombres(self):
+        for i in range(0,10): 
+            if str(self.Top10[i]) == self.NombreJugador:
+                self.Top10[i+10]=self.Puntos
+                self.Top10[i]=self.NombreJugador
+                return True
     def Eventos(self):
         for event in pygame.event.get(): #EVENTOS
             if event.type == pygame.QUIT: #CIERRA VENTANA
@@ -528,7 +556,9 @@ class Juego():
                     self.datosJugador[22]=self.Puntos8
                     self.datosJugador[23]=self.Puntos9
                     self.datosJugador[24]=self.Puntos10
+                    self.datosJugador[25]=self.tiempoJugado
                     RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
+                self.tiempoBandera=False
                 sys.exit()
             
             if event.type == pygame.MOUSEBUTTONDOWN: #CLICK
@@ -568,7 +598,11 @@ class Juego():
                                 self.datosJugador[22]=self.Puntos8
                                 self.datosJugador[23]=self.Puntos9
                                 self.datosJugador[24]=self.Puntos10
+                                self.datosJugador[25]=self.tiempoJugado
                                 RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
+                            self.tiempoBandera=False
+                            self.cont=10
+                            #self.contPoder=6
                             sys.exit()
                     elif self.Escena == "SelectorPartida":
                         if Imagen.btnNuevaPartida.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
@@ -597,6 +631,7 @@ class Juego():
                             self.Puntos8=0
                             self.Puntos9=0
                             self.Puntos10=0
+                            self.tiempoJugado=0
                             self.niveles.clear()
                             for i in range(10):
                                 self.niveles.append(Nivel.laberinto(10,10))
@@ -637,6 +672,14 @@ class Juego():
                             self.Escena = "MenuPrincipal"
                         if Imagen.btnTop.rect.collidepoint(pygame.mouse.get_pos()):
                             self.Escena= "Top"
+                            self.Top10=RW.fileRead("CreaNivel/DatosJugador/top10.txt")
+                            self.entraTop()
+                            if self.BanderaPuntajeTop == True:
+                                if self.verificaNombres() != True:
+                                    self.Top10[9]=self.NombreJugador
+                                    self.Top10[19]=self.Puntos
+                                self.SelectionSort(self.Top10)
+                                RW.fileWrite(self.Top10,"CreaNivel/DatosJugador/top10.txt")
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena = "MenuPrincipal"
                     elif self.Escena == "Top":
@@ -668,6 +711,7 @@ class Juego():
                             self.datosJugador[22]=self.Puntos8
                             self.datosJugador[23]=self.Puntos9
                             self.datosJugador[24]=self.Puntos10
+                            self.datosJugador[25]=self.tiempoJugado
                             RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                             self.Escena = "MenuPrincipal"
                         if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
@@ -766,6 +810,7 @@ class Juego():
                                 self.datosJugador.append(self.Puntos8)
                                 self.datosJugador.append(self.Puntos9)
                                 self.datosJugador.append(self.Puntos10)
+                                self.datosJugador.append(self.tiempoJugado)
                                 RW.fileWrite(self.datosJugador,"CreaNivel/DatosJugador/jugador.txt")
                         elif event.key == pygame.K_BACKSPACE:
                             self.NombreJugador = self.NombreJugador[:-1]
@@ -877,7 +922,8 @@ class Juego():
             self.ventana.blit(self.LblVidas, (1100, 155))
             puntajeSinPerder= self.font.render(str(self.PuntajeSinPerder), True, 'white')
             self.ventana.blit(puntajeSinPerder, (440, 240))
-
+            tiempo= self.font.render(str(self.tiempoJugado), True, 'white')
+            self.ventana.blit(tiempo, (1070, 240))
             partida1= self.font.render(str(self.Partida1), True, 'white')
             partida2= self.font.render(str(self.Partida2), True, 'white')
             partida3= self.font.render(str(self.Partida3), True, 'white')
@@ -921,6 +967,46 @@ class Juego():
         if self.Escena == "Top":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupTop.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
+            jugador1= self.font.render(str(self.Top10[0]), True, 'white')
+            jugador2= self.font.render(str(self.Top10[1]), True, 'white')
+            jugador3= self.font.render(str(self.Top10[2]), True, 'white')
+            jugador4= self.font.render(str(self.Top10[3]), True, 'white')
+            jugador5= self.font.render(str(self.Top10[4]), True, 'white')
+            jugador6= self.font.render(str(self.Top10[5]), True, 'white')
+            jugador7= self.font.render(str(self.Top10[6]), True, 'white')
+            jugador8= self.font.render(str(self.Top10[7]), True, 'white')
+            jugador9= self.font.render(str(self.Top10[8]), True, 'white')
+            jugador10= self.font.render(str(self.Top10[9]), True, 'white')
+            self.ventana.blit(jugador1, (470, 120))
+            self.ventana.blit(jugador2, (470, 180))
+            self.ventana.blit(jugador3, (470, 240))
+            self.ventana.blit(jugador4, (470, 300))
+            self.ventana.blit(jugador5, (470, 360))
+            self.ventana.blit(jugador6, (470, 420))
+            self.ventana.blit(jugador7, (470, 480))
+            self.ventana.blit(jugador8, (470, 540))
+            self.ventana.blit(jugador9, (470, 600))
+            self.ventana.blit(jugador10, (470, 660))
+            pts1= self.font.render(str(self.Top10[10]), True, 'white')
+            pts2= self.font.render(str(self.Top10[11]), True, 'white')
+            pts3= self.font.render(str(self.Top10[12]), True, 'white')
+            pts4= self.font.render(str(self.Top10[13]), True, 'white')
+            pts5= self.font.render(str(self.Top10[14]), True, 'white')
+            pts6= self.font.render(str(self.Top10[15]), True, 'white')
+            pts7= self.font.render(str(self.Top10[16]), True, 'white')
+            pts8= self.font.render(str(self.Top10[17]), True, 'white')
+            pts9= self.font.render(str(self.Top10[18]), True, 'white')
+            pts10= self.font.render(str(self.Top10[19]), True, 'white')
+            self.ventana.blit(pts1, (670, 120))
+            self.ventana.blit(pts2, (670, 180))
+            self.ventana.blit(pts3, (670, 240))
+            self.ventana.blit(pts4, (670, 300))
+            self.ventana.blit(pts5, (670, 360))
+            self.ventana.blit(pts6, (670, 420))
+            self.ventana.blit(pts7, (670, 480))
+            self.ventana.blit(pts8, (670, 540))
+            self.ventana.blit(pts9, (670, 600))
+            self.ventana.blit(pts10, (670, 660))
         if self.Escena == "MenuPrincipal":
             self.ventana.blit(Imagen.ImgFondoMenu,[0,0]) # PARA EL FONDO
             Imagen.ImgGroupMenu.draw(self.ventana) # DIBUJA TODOS LOS SPRITES
@@ -1374,6 +1460,9 @@ class Juego():
 game = Juego()   
 game.__init__()
 game.CargaEstadisticas()
+game.tiempoBandera=True
+Thread= threading.Thread(target=game.tiempoTranscurrido,)
+Thread.start()
 
 while True:
 
