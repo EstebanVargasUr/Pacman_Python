@@ -120,14 +120,15 @@ btnPoderG = pygame.sprite.Group()
 btnPoderG.add(btnPoder)
 
 #VICTORIA
-btnHome = CargaImagen("imagenes/btnHome.png",80,80,220,180,True)
-btnNiveles = CargaImagen("imagenes/btnNiveles.png",80,80,320,180,True)
-btnSiguiente = CargaImagen("imagenes/btnSiguiente.png",80,80,420,180,True)
+btnHome = CargaImagen("imagenes/btnHome.png",80,80,390,315,True)
+btnNiveles = CargaImagen("imagenes/btnNiveles.png",80,80,490,315,True)
+btnSiguiente = CargaImagen("imagenes/btnSiguiente.png",80,80,590,315,True)
+barraVictoria = CargaImagen("imagenes/BarraVictoria.png",441,120,350,300,True)
 ImgGroupVictoria = pygame.sprite.Group()
+ImgGroupVictoria.add(barraVictoria)
 ImgGroupVictoria.add(btnHome)
 ImgGroupVictoria.add(btnNiveles)
 ImgGroupVictoria.add(btnSiguiente)
-
 
 Jugador = pacman(0,0)
 # MENU PRINCIPAL

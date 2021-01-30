@@ -1,16 +1,9 @@
 import CreaNivel.MapRand as Nivel
-import random
 from collections import defaultdict
 
 class Graph():
     def __init__(self):
-        """
-        self.edges is a dict of all possible next nodes
-        e.g. {'X': ['A', 'B', 'C', 'E'], ...}
-        self.weights has all the weights between two nodes,
-        with the two nodes as a tuple as the key
-        e.g. {('X', 'A'): 7, ('X', 'B'): 2, ...}
-        """
+      
         self.edges = defaultdict(list)
         self.weights = {}
         self.direcciones = {}
@@ -29,34 +22,6 @@ class Graph():
         self.weights[(to_node, from_node)] = weight
         self.direcciones[(from_node, to_node)] = direccion
         self.direcciones[(to_node, from_node)] = direccion2
-
-    def floyd_warshall(self):
-        nodes = list(self.nodes)
-
-        for i in nodes:
-            dict_i = {}
-            for j in nodes:
-                if i == j:
-                    dict_i[j] = 0
-                    continue
-                try:
-                    dict_i[j] = self.weights[i][j]#['weight']
-                except:
-                    dict_i[j] = float("inf")
-
-            self.distances[i] = dict_i
-
-        for i in nodes:
-            for j in nodes:
-                for k in nodes:
-                    ij = self.distances[i][j]
-                    ik = self.distances[i][k]
-                    kj = self.distances[k][j]
-
-                    if ij > ik + kj:
-                        self.distances[i][j] = ik + kj
-
-        return self.distances
     
 def Dijsktra(graph, initial, end):
     # shortest paths is a dict of nodes
@@ -129,25 +94,7 @@ def floyd_warshall(G):
                     P[u, v] = P[k, v]       #Actualizar caminos
     
     return D, P
-    Recorrido = list()
-    
-    for u in G.nodes:
-        for v in G.nodes:
-            if u != v and D[u, v] < float('inf'):
-                lista = camino(P, v, u)
-                if str(lista[len(lista)-1]) == str(inicial) and str(lista[0]) == str(destino):
-                    for i in range(len(lista)):
-                        #print(lista[i],end=" ")
-                        if i+1 <len(lista):
-                            Recorrido.append(G.direcciones[(lista[i],lista[i+1])])
-                    return Recorrido
-                #     if i+1 < len(lista):
-                #         print(G.direcciones[(lista[i],lista[i+1])],end='─►')
-                #         #return G.direcciones[(lista[i],lista[i+1])]
-                # print("|",end="")
-                # print()
-                # print('─►'.join(camino(P, u, v)), ':', D[u, v])
-                #print()
+
 
 def CreaGrafo(MatrizO):
     Grafo = Graph()
