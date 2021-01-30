@@ -1,1 +1,1 @@
-["Adrian", "Esteban", "Jose", "Freddy", "Tono", "Johan", "Bryan", "xd", "Hola", "Daniel", 9000, 8000, 7000, 6000, 5000, 4000, 3000, 2400, 370, 220]
+["Adrian", "Esteban", "Jose", "Freddy", "Tono", "Johan", "Bryan", "Thanos", "xd", "Kenneth", 9000, 8000, 7000, 6000, 5000, 4000, 3000, 2610, 2400, 2040]

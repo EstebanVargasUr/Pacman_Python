@@ -711,6 +711,7 @@ class Juego():
                             self.Escena = "MenuPrincipal"
                     elif self.Escena == "SelectorNivel":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
+                            self.datosJugador[0]=self.NombreJugador
                             self.datosJugador[1]=self.Puntos
                             self.datosJugador[2]=self.Vidas
                             self.datosJugador[3]=self.NivelesDesbloqueados
