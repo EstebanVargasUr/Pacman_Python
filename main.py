@@ -291,6 +291,18 @@ class Juego():
                     self.Victoria = True
             if self.Victoria == False:
                 break      
+        if self.Victoria:
+            if self.NumNivel == "1": self.Puntos += 100
+            elif self.NumNivel == "2": self.Puntos += 200
+            elif self.NumNivel == "3": self.Puntos += 300
+            elif self.NumNivel == "4": self.Puntos += 400
+            elif self.NumNivel == "5": self.Puntos += 500
+            elif self.NumNivel == "6": self.Puntos += 600
+            elif self.NumNivel == "7": self.Puntos += 700
+            elif self.NumNivel == "8": self.Puntos += 800
+            elif self.NumNivel == "9": self.Puntos += 900
+            elif self.NumNivel == "10": self.Puntos += 1000
+
 
     def CompruebaPoder(self):
         cont = 0
@@ -336,14 +348,18 @@ class Juego():
             self.IniciarFantasmas()
 
     def ComerFantasma(self):
-        if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan:
+        if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan and not self.BlinkyMuerto:
             self.BlinkyMuerto = True
-        if self.FilaClyde == self.FilaPacMan and self.ColClyde == self.ColPacMan:
+            self.Puntos += 300
+        if self.FilaClyde == self.FilaPacMan and self.ColClyde == self.ColPacMan and not self.ClydeMuerto:
             self.ClydeMuerto = True
-        if self.FilaInky == self.FilaPacMan and self.ColInky == self.ColPacMan:
+            self.Puntos += 300
+        if self.FilaInky == self.FilaPacMan and self.ColInky == self.ColPacMan and not self.InkyMuerto:
             self.InkyMuerto = True
-        if self.FilaPinky == self.FilaPacMan and self.ColPinky == self.ColPacMan:
+            self.Puntos += 300
+        if self.FilaPinky == self.FilaPacMan and self.ColPinky == self.ColPacMan and not self.PinkyMuerto:
             self.PinkyMuerto = True
+            self.Puntos += 300
 
     def ReiniciaNivel(self):
         if self.Escena=='Nivel10':
@@ -450,6 +466,7 @@ class Juego():
             self.Puntos10=self.Puntos10+10
 
     def CargaEstadisticas(self):
+        self.create_sound()
         for i in range(10):
             self.niveles.append(RW.fileRead("CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt"))
         self.datosJugador=RW.fileRead("CreaNivel/DatosJugador/jugador.txt")
