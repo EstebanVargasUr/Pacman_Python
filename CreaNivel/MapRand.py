@@ -1,12 +1,5 @@
 import random
 import copy
-# Crear un laberinto aleatorio en Python3 usando el algoritmo de
-# recorrido en profundidad. El propósito de este programa es mostrar las
-# características del lenguaje.
-# 
-# Autor: Mario Abarca
-# Fecha: 2017/09/07
-
 from random import shuffle, randint     # Números pseudoaleatorios
 from itertools import product           # Producto cartesiano
 

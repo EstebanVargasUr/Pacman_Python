@@ -1,3 +1,4 @@
+from sonidos.ControlSonidos import SonidoComerFantasma, SonidoIniciar, SonidoMuerte, SonidoVictoria, crearSonido
 import pygame, sys
 import CargaImagen.CargaImagen as Imagen
 import CreaNivel.MapRand as Nivel
@@ -17,7 +18,15 @@ class Juego():
 
         pygame.display.set_icon(Imagen.icono_ventana)
         pygame.display.set_caption('PAC-MAN')
-        
+
+        #APARTADO DE SONIDOS DEL JUEGO
+        self.SonidoIniciar = False
+        self.SonidoVictoria = False
+        self.MusicaMenu = crearSonido("Aniversario40.wav")
+        self.MusicaMenu.set_volume(0.03)
+        self.MusicaMenu.play()
+
+        self.Victoria = True
         self.niveles = list()
         self.NumNivel= ""
         self.datosJugador= RW.fileRead("CreaNivel/DatosJugador/jugador.txt")
@@ -209,6 +218,8 @@ class Juego():
         
         
     def LimpiarNivel(self):
+        self.LblJugador = ""
+        self.SonidoIniciar = True
         self.Victoria = False
         self.DireccionPacman = "inicio"
         self.DireccionPacman2 = ""
@@ -298,6 +309,7 @@ class Juego():
                     break
                 else:
                     self.Victoria = True
+                    self.SonidoVictoria = True
             if self.Victoria == False:
                 break      
         if self.Victoria:
@@ -332,24 +344,28 @@ class Juego():
     #VERIFICA SI UN FANTASMA TOCA A PACMAN Y LE RESTA UNA VIDA
     def ComprobarDerrota(self):
         if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan and not self.BlinkyMuerto:
+            SonidoMuerte()
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
             self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
         elif self.FilaClyde == self.FilaPacMan and self.ColClyde == self.ColPacMan and not self.ClydeMuerto:
+            SonidoMuerte()
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
             self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
         elif self.FilaInky == self.FilaPacMan and self.ColInky == self.ColPacMan and not self.InkyMuerto:
+            SonidoMuerte()
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
             self.Vidas=self.Vidas-1
             self.LimpiarNivel()
             self.IniciarFantasmas()
         elif self.FilaPinky == self.FilaPacMan and self.ColPinky == self.ColPacMan and not self.PinkyMuerto:
+            SonidoMuerte()
             self.niveles[int(self.NumNivel)-1][self.FilaPacMan][self.ColPacMan] = " "
             self.niveles[int(self.NumNivel)-1][13][10] = "$"
             self.Vidas=self.Vidas-1
@@ -357,18 +373,26 @@ class Juego():
             self.IniciarFantasmas()
 
     def ComerFantasma(self):
-        if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan and not self.BlinkyMuerto:
+        if self.FilaBlinky == self.FilaPacMan and self.ColBlinky == self.ColPacMan and not self.BlinkyMuerto: 
             self.BlinkyMuerto = True
             self.Puntos += 300
+            ThreadClyde = threading.Thread(target=SonidoComerFantasma,)
+            ThreadClyde.start()  
         if self.FilaClyde == self.FilaPacMan and self.ColClyde == self.ColPacMan and not self.ClydeMuerto:
             self.ClydeMuerto = True
             self.Puntos += 300
+            ThreadClyde = threading.Thread(target=SonidoComerFantasma,)
+            ThreadClyde.start() 
         if self.FilaInky == self.FilaPacMan and self.ColInky == self.ColPacMan and not self.InkyMuerto:
             self.InkyMuerto = True
             self.Puntos += 300
+            ThreadClyde = threading.Thread(target=SonidoComerFantasma,)
+            ThreadClyde.start() 
         if self.FilaPinky == self.FilaPacMan and self.ColPinky == self.ColPacMan and not self.PinkyMuerto:
             self.PinkyMuerto = True
             self.Puntos += 300
+            ThreadClyde = threading.Thread(target=SonidoComerFantasma,)
+            ThreadClyde.start() 
 
     def ReiniciaNivel(self):
         if self.Escena=='Nivel10':
@@ -655,6 +679,7 @@ class Juego():
                     elif self.Escena == "GameOver":
                         if Imagen.btnAbandonar.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena='MenuPrincipal'
+                            self.MusicaMenu.play()
                     elif self.Escena == "Ajustes":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.Escena = "MenuPrincipal"
@@ -716,59 +741,83 @@ class Juego():
                         if Imagen.btnSelecNiv1.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.IniciaNivel(1)
                             self.Partida1=self.Partida1+1
+                            self.SonidoIniciar = True
+                            self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv2.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 1500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(2)
                                 self.Partida2=self.Partida2+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv3.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 2500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(3)
                                 self.Partida3=self.Partida3+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv4.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 3500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(4)
                                 self.Partida4=self.Partida4+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv5.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 4500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(5)
                                 self.Partida5=self.Partida5+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv6.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 5500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(6)
                                 self.Partida6=self.Partida6+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv7.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 6500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(7)
                                 self.Partida7=self.Partida7+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv8.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 7500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(8)
                                 self.Partida8=self.Partida8+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv9.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 8500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(9)
                                 self.Partida9=self.Partida9+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                         if Imagen.btnSelecNiv10.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             if self.Puntos >= 9500 or self.NivelesDesbloqueados ==True:
                                 self.IniciaNivel(10)
                                 self.Partida10=self.Partida10+1
+                                self.SonidoIniciar = True
+                                self.MusicaMenu.stop()
                     elif self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
                         if Imagen.btnAtras.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.LimpiarNivel()
                             self.Escena = "SelectorNivel"
+                            self.MusicaMenu.play()
                         if Imagen.btnHome.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.ReiniciaNivel()
                             self.LimpiarNivel()
                             self.Escena = "MenuPrincipal"
+                            self.MusicaMenu.play()
                         if Imagen.btnNiveles.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.ReiniciaNivel()
                             self.LimpiarNivel()
                             self.Escena = "SelectorNivel"
+                            self.MusicaMenu.play()
                         if Imagen.btnSiguiente.rect.collidepoint(pygame.mouse.get_pos()): #CLICK DENTRO DEL SPRITE
                             self.ReiniciaNivel()
                             self.LimpiarNivel()
                             if self.Escena=='Nivel10':
                                 self.Escena = "SelectorNivel"
+                                self.MusicaMenu.play()
                                 self.IniciaNivel(10)
                             else:
                                 self.NumNivel = str(1+int(self.Escena[5]))
@@ -828,6 +877,7 @@ class Juego():
                     if event.key == pygame.K_ESCAPE:
                         self.LimpiarNivel()
                         self.Escena = "SelectorNivel"
+                        self.MusicaMenu.play()
                     if self.Escena=='Nivel10':
                         self.NumNivel='10'
                     else:
@@ -1125,39 +1175,34 @@ class Juego():
         if self.RecorridoPinky != None:
             if len(self.RecorridoPinky) < 14 and self.ConteoActivo:
                 self.SigVerticePacMan = str(random.randint(1, len(self.GrafoNivel.nodes)))
-
+        
         Aux = ""
         if self.PinkyMuerto == True:
-            if self.MatrizVertice[self.FilaPinky][self.ColPinky] != " " and  self.MatrizVertice[self.FilaPinky][self.ColPinky] != "#" and self.ContCasillasPinky == 0:
-                self.AlgoritmoPinky = "Dijsktra"
-                if self.RecorridoPinky != None:
-                    self.RecorridoPinky.clear()
-            
             Aux = self.MatrizVertice[9][10]
+            if self.ContCasillasPinky == 0:
+                self.AlgoritmoPinky = "Dijsktra"
         else:
             Aux = self.SigVerticePacMan
-            if self.AlgoritmoPinky != self.AlgoritmosFantasmas[1] and self.ContCasillasPinky == 0:
-                self.AlgoritmoPinky = self.AlgoritmosFantasmas[1]
-                if self.RecorridoPinky != None:
-                    self.RecorridoPinky.clear()
-
-        if self.AlgoritmoPinky == "Floyd" and self.VerticePinky != Aux or self.VerticePinky != Aux:
-            if self.RecorridoPinky == None and self.AlgoritmoPinky == "Floyd" or self.RecorridoPinky != None and len(self.RecorridoPinky) == 0 and self.VerticePinky != '':
-                self.RecorridoPinky = MovPacMan.DeterminaAlgoritmo(self.AlgoritmoPinky,self.GrafoNivel,self.VerticePinky,Aux,self.MatrizDistancias,self.MatrizCaminos)
-            
+            if self.ContCasillasPinky == 0:
+                self.AlgoritmoPinky = self.AlgoritmosFantasmas[0]
+        if not self.PinkyMuerto and RecorridoIgual == True and not self.ConteoActivo:
+            self.DeterminaRecorridosIguales()
+            RecorridoIgual = False
+        if self.AlgoritmosFantasmas[0] == "Floyd" and self.VerticePinky != Aux or self.VerticePinky != Aux:
+            if self.RecorridoPinky == None and self.AlgoritmosFantasmas[0] == "Floyd" or len(self.RecorridoPinky) == 0 and self.VerticePinky != '':
+                self.RecorridoPinky = MovPacMan.DeterminaAlgoritmo(self.AlgoritmosFantasmas[0],self.GrafoNivel,self.VerticePinky,Aux,self.MatrizDistancias,self.MatrizCaminos)
             if not self.PinkyMuerto and RecorridoIgual == True and not self.ConteoActivo:
                 self.DeterminaRecorridosIguales()
                 RecorridoIgual = False
-
-            if self.RecorridoPinky != None and len(self.RecorridoPinky) != 0: 
-                if self.AlgoritmoPinky == "Dijsktra" and self.RecorridoPinky[0] == 'derecha' or self.AlgoritmoPinky == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'derecha':
-                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmoPinky,self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,1,0,"derecha",self.MatrizDistancias,self.MatrizCaminos)
-                elif self.AlgoritmoPinky == "Dijsktra" and self.RecorridoPinky[0] == 'izquierda' or self.AlgoritmoPinky == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'izquierda':
-                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmoPinky,self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,-1,0,"izquierda",self.MatrizDistancias,self.MatrizCaminos)
-                elif self.AlgoritmoPinky == "Dijsktra" and self.RecorridoPinky[0] == 'abajo' or self.AlgoritmoPinky == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'abajo':
-                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmoPinky,self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,1,"abajo",self.MatrizDistancias,self.MatrizCaminos)
-                elif self.AlgoritmoPinky == "Dijsktra" and self.RecorridoPinky[0] == 'arriba' or self.AlgoritmoPinky == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'arriba':
-                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmoPinky,self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,-1,"arriba",self.MatrizDistancias,self.MatrizCaminos)
+            if self.RecorridoPinky != None and len(self.RecorridoPinky)!=0: 
+                if self.AlgoritmosFantasmas[0] == "Dijsktra" and self.RecorridoPinky[0] == 'derecha' or self.AlgoritmosFantasmas[0] == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'derecha':
+                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmosFantasmas[0],self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,1,0,"derecha",self.MatrizDistancias,self.MatrizCaminos)
+                elif self.AlgoritmosFantasmas[0] == "Dijsktra" and self.RecorridoPinky[0] == 'izquierda' or self.AlgoritmosFantasmas[0] == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'izquierda':
+                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmosFantasmas[0],self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,-1,0,"izquierda",self.MatrizDistancias,self.MatrizCaminos)
+                elif self.AlgoritmosFantasmas[0] == "Dijsktra" and self.RecorridoPinky[0] == 'abajo' or self.AlgoritmosFantasmas[0] == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'abajo':
+                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmosFantasmas[0],self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,1,"abajo",self.MatrizDistancias,self.MatrizCaminos)
+                elif self.AlgoritmosFantasmas[0] == "Dijsktra" and self.RecorridoPinky[0] == 'arriba' or self.AlgoritmosFantasmas[0] == "Floyd" and self.VerticePinky != '' and self.RecorridoPinky[len(self.RecorridoPinky)-1] == 'arriba':
+                    self.RecorridoPinky, self.ContCasillasPinky , self.FilaPinky , self.ColPinky , self.VerticePinky = MovPacMan.MovimientoFantasma(Imagen.ImgPinky,"Pinky",self.AlgoritmosFantasmas[0],self.ContCasillasPinky,self.FilaPinky,self.ColPinky,self.MatrizVertice,Aux,self.VerticePinky,self.GrafoNivel,self.RecorridoPinky,0,-1,"arriba",self.MatrizDistancias,self.MatrizCaminos)
         
         self.CargandoPinky = False
 
@@ -1241,6 +1286,10 @@ class Juego():
 
     def Movimientos(self):
         if self.Escena == "Nivel1" or self.Escena == "Nivel2" or self.Escena == "Nivel3" or self.Escena == "Nivel4" or self.Escena == "Nivel5" or self.Escena == "Nivel6" or self.Escena == "Nivel7" or self.Escena == "Nivel8" or self.Escena == "Nivel9" or self.Escena == "Nivel10":
+            if self.SonidoIniciar  and self.LblJugador != "":
+                SonidoIniciar()
+                self.SonidoIniciar = False
+                
             if self.PoderActivo == True and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and self.MatrizVertice[self.FilaPacMan][self.ColPacMan] != " " and self.ContCasillas == 0:
                 self.PoderActivo = False
                 self.VelocidadPacMan = 2
@@ -1431,6 +1480,9 @@ class Juego():
                 self.EvaluarVictoria()
 
             if self.Victoria == True:
+                if self.SonidoVictoria:
+                    SonidoVictoria()
+                    self.SonidoVictoria = False
                 Imagen.ImgGroupVictoria.draw(self.ventana)
 
         self.peligroFantasmas()
@@ -1457,7 +1509,6 @@ class Juego():
 
 #Inicializa el programa
 game = Juego()   
-game.__init__()
 game.CargaEstadisticas()
 game.tiempoBandera=True
 Thread= threading.Thread(target=game.tiempoTranscurrido,)

@@ -1,5 +1,8 @@
+from sonidos.ControlSonidos import SonidoMover
 import Grafo.Grafo as GR
 import CargaImagen.CargaImagen as Imagen
+import threading
+
 
 def Camino(P, u, v):                        #Camino u⤳v dado por Floyd-Warshall
     lista = [v]                             #El camino termina en v
@@ -29,7 +32,8 @@ def Movimiento(Direccion,Laberinto,x,y):
     #     for j in range(21):
     #         print(Laberinto[i][j],end="")
     #     print("")
-        
+    ThreadClyde = threading.Thread(target=SonidoMover,)
+    ThreadClyde.start()    
     if Direccion == "arriba":
         if Laberinto[x-1][y] == ' ' or Laberinto[x-1][y] == ".":
             Laberinto[x-1][y] = '$'
