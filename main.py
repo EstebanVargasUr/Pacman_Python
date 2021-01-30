@@ -475,7 +475,6 @@ class Juego():
             self.Puntos10=self.Puntos10+10
 
     def CargaEstadisticas(self):
-        self.create_sound()
         for i in range(10):
             self.niveles.append(RW.fileRead("CreaNivel/ListasNiveles/Nivel"+str(i+1)+".txt"))
         self.datosJugador=RW.fileRead("CreaNivel/DatosJugador/jugador.txt")
